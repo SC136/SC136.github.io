@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+body {
+	text-align: center;
+	background-image: linear-gradient(to right, #00b0f4, #0059ff);
+	color: white;
+	font-family: 'Poppins';
+}
+
+.avatar {
+	border-radius: 50px;
+	margin-top: 30px;
+}
+
+.fab {
+  padding: 20px;
+  font-size: 30px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50%;
+  color: white;
+}
+
+.fa-discord:hover {
+	color: #7289da;
+}
+.fa-youtube:hover {
+	color: red;
+}
+.fa-twitch:hover {
+	color: purple;
+}
