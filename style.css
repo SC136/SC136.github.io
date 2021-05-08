@@ -75,6 +75,7 @@ body {
 .avatar {
 	border-radius: 100px;
 	margin-top: 30px;
+  cursor: pointer;
 }
 
 .fab {
@@ -88,7 +89,7 @@ body {
 }
 
 .fa-discord:hover {
-	color: #7289da;
+	color: #2c2f33;
 }
 .fa-youtube:hover {
 	color: red;
@@ -96,25 +97,49 @@ body {
 .fa-twitch:hover {
 	color: purple;
 }
+.fa-github:hover {
+  color: black;
+}
+.fa-reddit:hover {
+  color: #ff4500;
+}
+.fa-spotify:hover {
+  color: #1ed760;
+}
+.fa-steam:hover {
+  color: #0b1c4a;
+}
+
+.fa-chevron-down {
+  font-size: 50px;
+  text-decoration: none;
+  color: white;
+  width: 30px;
+}
+.fa-chevron-down:hover {
+  color: wheat;
+}
+
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 13px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #0059ff;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: white;
+  border-radius: 50px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #2c2f33;
 }
 
 a {
