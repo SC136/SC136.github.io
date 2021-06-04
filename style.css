@@ -24,6 +24,7 @@
   background-color: white;
   height: 100%;
   width: 6px;
+  border-radius: 50px;
   display: inline-block;
   
   -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
@@ -114,7 +115,7 @@ body {
   font-size: 50px;
   text-decoration: none;
   color: white;
-  width: 30px;
+  width: 35px;
 }
 .fa-chevron-down:hover {
   color: wheat;
@@ -123,7 +124,7 @@ body {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 13px;
+  width: 22px;
 }
 
 /* Track */
@@ -135,11 +136,12 @@ body {
 ::-webkit-scrollbar-thumb {
   background: white;
   border-radius: 50px;
+  border: 5px solid #0059ff;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #2c2f33;
+  background: #d4d4d4;
 }
 
 a {
@@ -150,4 +152,10 @@ a {
   text-decoration: none;
   color: white;
   margin-top: 33px;
+  width: auto;
+}
+
+::selection {
+  color: #00b0f4;
+  background: white;
 }
