@@ -190,6 +190,16 @@ hr {
   color: wheat;
 }
 
+.OpenIcon {
+  opacity: 30%;
+  margin-top: 6px;
+  transition: all 0.3s ease-out;
+}
+
+.OpenIcon:hover {
+  opacity: 100%;
+}
+
 
 /* width */
 ::-webkit-scrollbar {
@@ -198,14 +208,14 @@ hr {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #192e7d;
+  background: black;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: white;
-  border-radius: 50px;
-  border: 5px solid #192e7d;
+  border-radius: 8px;
+  border: 5px solid black;
 }
 
 /* Handle on hover */
@@ -227,8 +237,8 @@ a {
 }
 
 ::selection {
-  color: #00b0f4;
-  background: white;
+  color: #0055ff;
+  background: #0000003d;
 }
 
 @media only screen and (max-width: 530px) {
