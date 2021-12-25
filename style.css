@@ -203,19 +203,19 @@ hr {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 22px;
+  width: 15px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: black;
+  background: linear-gradient(to top, rgb(0 0 0 / 0%), #0055ff);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: white;
-  border-radius: 8px;
-  border: 5px solid black;
+  border-radius: 5px;
+  /*border: 5px solid black;*/
 }
 
 /* Handle on hover */
