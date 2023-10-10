@@ -11,22 +11,22 @@
 }
 
 .spinner {
-	position: absolute;
-	top: 48%;
-	left: 48%;
+  position: absolute;
+  top: 48%;
+  left: 48%;
   width: 50px;
   height: 40px;
   text-align: center;
   font-size: 10px;
 }
 
-.spinner > div {
+.spinner>div {
   background-color: white;
   height: 100%;
   width: 6px;
   border-radius: 50px;
   display: inline-block;
-  
+
   -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
   animation: sk-stretchdelay 1.2s infinite ease-in-out;
 }
@@ -52,31 +52,44 @@
 }
 
 @-webkit-keyframes sk-stretchdelay {
-  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
-  20% { -webkit-transform: scaleY(1.0) }
+
+  0%,
+  40%,
+  100% {
+    -webkit-transform: scaleY(0.4)
+  }
+
+  20% {
+    -webkit-transform: scaleY(1.0)
+  }
 }
 
 @keyframes sk-stretchdelay {
-  0%, 40%, 100% { 
+
+  0%,
+  40%,
+  100% {
     transform: scaleY(0.4);
     -webkit-transform: scaleY(0.4);
-  }  20% { 
+  }
+
+  20% {
     transform: scaleY(1.0);
     -webkit-transform: scaleY(1.0);
   }
 }
 
 body {
-	text-align: center;
+  text-align: center;
   background-color: black;
-	/*background-image: linear-gradient(to right, #00b0f4, #0059ff);*/
+  /*background-image: linear-gradient(to right, #00b0f4, #0059ff);*/
   background-image: linear-gradient(to top, rgb(0 0 0 / 0%), #0055ff), url(https://e26f693ee9e6b65c.demo.carrd.co/assets/images/bg.svg?v=57cfe102);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: 0% 0%, bottom;
-	color: white;
-	font-family: 'Poppins';
+  color: white;
+  font-family: 'Poppins';
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,10 +102,10 @@ body {
   margin-top: 100px;
   border-radius: 10px;
   box-shadow: 1px 1px 25px 5px black;
-/*background: rgba( 255, 255, 255, 0 );*/
-/*box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );*/
-/*backdrop-filter: blur( 20px );*/
-/*-webkit-backdrop-filter: blur( 20px );*/
+  /*background: rgba( 255, 255, 255, 0 );*/
+  /*box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );*/
+  /*backdrop-filter: blur( 20px );*/
+  /*-webkit-backdrop-filter: blur( 20px );*/
 }
 
 .banner {
@@ -105,8 +118,8 @@ body {
 }
 
 .avatar {
-	border-radius: 100px;
-	margin-top: 133px;
+  border-radius: 100px;
+  margin-top: 133px;
   border: 10px solid #232529;
   background-color: #232529;
   cursor: pointer;
@@ -138,14 +151,15 @@ hr {
 .connection {
   height: 44px;
   width: 200px;
-  border: 1px solid hsla(0,0%,100%,0.06);
+  border: 1px solid hsla(0, 0%, 100%, 0.06);
   border-radius: 10px;
   margin: 20px 20px 0 20px;
   display: flex;
   align-items: center;
 }
 
-.fab {
+.fab,
+.fa-solid {
   padding: 10px;
   font-size: 25px;
   /*width: 30px;*/
@@ -153,33 +167,43 @@ hr {
   text-decoration: none;
   border-radius: 50%;
 }
+
 .fa-discord {
   color: #5865F2;
 }
+
 .fa-discord:hover {
-	color: #7289da;
+  color: #7289da;
 }
-.fa-youtube {
-  color: #FF0000;
+
+.fa-list {
+  color: #02a9ff;
 }
-.fa-youtube:hover {
-	color: red;
+
+.fa-list:hover {
+  color: #0b1622;
 }
+
 .fa-twitch:hover {
-	color: purple;
+  color: purple;
 }
+
 .fa-github:hover {
   color: black;
 }
+
 .fa-reddit {
   color: #FF4500;
 }
+
 .fa-reddit:hover {
   color: #ff4500;
 }
+
 .fa-spotify:hover {
   color: #1ed760;
 }
+
 .fa-steam:hover {
   color: #0b1c4a;
 }
@@ -190,6 +214,7 @@ hr {
   color: white;
   width: 35px;
 }
+
 .fa-chevron-down:hover {
   color: wheat;
 }
@@ -249,6 +274,7 @@ a {
   .main {
     width: 345px;
   }
+
   .banner {
     width: 345px;
   }
@@ -258,6 +284,7 @@ a {
   .main {
     width: 309px;
   }
+
   .banner {
     width: 309px;
   }
@@ -267,6 +294,7 @@ a {
   .main {
     width: 250px;
   }
+
   .banner {
     width: 250px;
   }
