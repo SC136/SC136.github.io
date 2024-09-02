@@ -133,6 +133,20 @@ body {
   padding: 0px 10px 0px 10px;
 }
 
+.links {
+  display: flex;
+  gap: 10px;
+}
+
+.links a {
+  color: #00b0f4;
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid #00b0f4;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
 hr {
   background-color: white;
   border: 1px solid white;
