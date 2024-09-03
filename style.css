@@ -83,7 +83,7 @@ body {
   text-align: center;
   background-color: black;
   /*background-image: linear-gradient(to right, #00b0f4, #0059ff);*/
-  background-image: linear-gradient(to top, rgb(0 0 0 / 0%), #0055ff), url(https://e26f693ee9e6b65c.demo.carrd.co/assets/images/bg.svg?v=57cfe102);
+  background-image: linear-gradient(to top, rgb(0 0 0 / 0%), #0055ff), url(bg.svg);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -136,6 +136,9 @@ body {
 .links {
   display: flex;
   gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 16px 0;
 }
 
 .links a {
@@ -145,6 +148,12 @@ body {
   border: 1px solid #00b0f4;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
+}
+
+.links a:hover{
+  background-color: #00b0f4;
+  color: white;
+  text-decoration: none;
 }
 
 hr {
