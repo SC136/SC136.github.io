@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <title>SC | Projects</title>
+
+  <meta name="description" content="Check out my projects!" />
+  <meta name="author" content="SC" />
+
+  <meta property="og:title" content="SC | Projects" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="Check out my projects!" />
+  <meta property="og:image" content="https://sc.is-a.dev/domainexpansion.gif" />
+  <meta property="og:url" content="https://sc.is-a.dev/projects" />
+  <meta name="theme-color" content="#00b0f4" />
+
+  <link rel="stylesheet" href="Styles/projects.css" />
+
+  <link rel="preload" fetchpriority="high" as="image" href="https://sc.is-a.dev/sukunarui.webp" type="image/webp" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <script src="https://kit.fontawesome.com/63c261036d.js" crossorigin="anonymous"></script>
+
+  <link rel="shortcut icon" href="https://sc.is-a.dev/Favicon.gif" />
+
+  <meta name="google-site-verification" content="c6jykhAv3JuMx7Bs4UjVxfbOBfSdUls9AEdxOLyInsw" />
+</head>
+
+<body>
+
+  <div class="main">
+    <img fetchpriority="high" class="avatar" src="https://sc.is-a.dev/sukunarui.webp" alt="SC Avatar" width="150"
+      height="150" draggable="false" onclick="location.href='/'">
+    <h1 class="name">My Projects</h1>
+    <hr />
+    <div class="projects" id="projects"></div>
+    <a class="back" href="/">← Back</a>
+  </div>
+
+  <a class="©️" href="https://sc.is-a.dev">©️ 2024 SC</a>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="repoImages.js"></script>
+  <script src="repoLinks.js"></script>
+  <script>
+
+    const excludedRepos = ["Test1", "Test2", "Test3", "register", "js.org", "sc136-package", "SimpleMusicBot", "projects"]; // Add repository names to exclude
+
+    async function fetchRepositories() {
+      const response = await fetch('https://api.github.com/users/SC136/repos');
+      const repos = await response.json();
+      const projectsContainer = document.getElementById('projects');
+      repos
+        .filter(repo => !excludedRepos.includes(repo.name)) // Filter out excluded repositories
+        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)) // Sort by latest update date
+        .forEach(repo => {
+          const imageUrl = repoImages[repo.name] || 'https://via.placeholder.com/100'; // Use placeholder if no image is found
+          const projectUrl = repoLinks[repo.name] || repo.html_url; // Use '#' if no project URL is found
+          console.log(`Repo: ${repo.name}, Image URL: ${imageUrl}, Project URL: ${projectUrl}`); // Log repo name, image URL, and project URL
+          const projectDiv = document.createElement('div');
+          projectDiv.classList.add('project');
+          projectDiv.innerHTML = `
+            <div class="banner1" style="background-image: url(${imageUrl});"></div>
+            <p class="project-name">${repo.name}</p>
+            <p class="project-description">${repo.description || 'No description available'}</p>
+            <div class="project-links">
+              <a href="${projectUrl}" target="_blank">View Project</a>
+              <a href="${repo.html_url}" target="_blank">View Repository</a>
+            </div>
+          `;
+          projectsContainer.appendChild(projectDiv);
+        });
+    }
+    fetchRepositories();
+  </script>
+</body>
+
+</html>

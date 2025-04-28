@@ -83,7 +83,7 @@ body {
   text-align: center;
   background-color: black;
   /*background-image: linear-gradient(to right, #00b0f4, #0059ff);*/
-  background-image: linear-gradient(to top, rgb(0 0 0 / 0%), #0055ff), url(bg.svg);
+  background-image: linear-gradient(to top, rgb(0 0 0 / 0%), #0055ff), url(../Assets/bg.svg);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -111,7 +111,7 @@ body {
 .banner {
   height: 200px;
   width: 500px;
-  background-image: url(domainexpansion.gif);
+  background-image: url(../Banners/domainexpansion.gif);
   background-size: cover;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -291,6 +291,72 @@ a {
 ::selection {
   color: #0055ff;
   background: #0000003d;
+}
+
+/* Hidden connections and show more button styles */
+.hidden-connection {
+  display: flex;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-10px);
+  transition: all 0.5s ease-out;
+  margin: 0;
+}
+
+.hidden-connection.show {
+  max-height: 100px;
+  opacity: 1;
+  transform: translateY(0);
+  margin: 20px 20px 0 20px;
+}
+
+.show-more-container {
+  margin-top: 20px;
+}
+
+.show-more-btn {
+  background-color: transparent;
+  color: #00b0f4;
+  border: 1px solid #00b0f4;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.show-more-btn:hover {
+  background-color: #00b0f4;
+  color: white;
+}
+
+.hidden-connection.show {
+  max-height: 50px;
+  opacity: 1;
+  transform: translateY(0);
+  margin: 20px 20px 0 20px;
+}
+
+.show-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.show-more-btn {
+  background-color: transparent;
+  color: #00b0f4;
+  border: 1px solid #00b0f4;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-family: 'Poppins';
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.show-more-btn:hover {
+  background-color: #00b0f4;
+  color: white;
 }
 
 @media only screen and (max-width: 530px) {

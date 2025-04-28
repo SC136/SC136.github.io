@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Discord",
+    "icon": "fab fa-discord",
+    "url": "https://discord.gg/7THB7fgjpv",
+    "externalUrl": "https://discord.gg/UVWjuAh",
+    "paddingRight": "58px",
+    "visible": true
+  },
+  {
+    "name": "AniList",
+    "icon": "fa-solid fa-list",
+    "url": "https://anilist.co/user/SC136",
+    "externalUrl": "https://anilist.co/user/SC136",
+    "paddingRight": "73px",
+    "visible": true
+  },
+  {
+    "name": "GitHub",
+    "icon": "fab fa-github",
+    "url": "https://github.com/SC136",
+    "externalUrl": "https://github.com/sc136",
+    "paddingRight": "70px",
+    "visible": true
+  },
+  {
+    "name": "Twitter",
+    "icon": "fab fa-twitter",
+    "url": "https://twitter.com/SC_136",
+    "externalUrl": "https://twitter.com/SC136_",
+    "paddingRight": "75px",
+    "visible": true
+  },
+  {
+    "name": "reddit",
+    "icon": "fab fa-reddit",
+    "url": "https://www.reddit.com/u/SC-136",
+    "externalUrl": "https://reddit.com/u/sc-136",
+    "paddingRight": "75px",
+    "visible": false
+  },
+  {
+    "name": "YouTube",
+    "icon": "fab fa-youtube",
+    "url": "https://www.youtube.com/@SCSmartTech",
+    "externalUrl": "https://www.youtube.com/@SC136",
+    "paddingRight": "65px",
+    "visible": false
+  },
+  {
+    "name": "Twitch",
+    "icon": "fab fa-twitch",
+    "url": "https://www.twitch.tv/sc_136",
+    "externalUrl": "https://www.twitch.tv/sc136_",
+    "paddingRight": "75px",
+    "visible": false
+  },
+  {
+    "name": "Spotify",
+    "icon": "fab fa-spotify",
+    "url": "https://open.spotify.com/user/sc136",
+    "externalUrl": "https://open.spotify.com/user/sc136",
+    "paddingRight": "70px",
+    "visible": false
+  }
+]
