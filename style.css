@@ -11,22 +11,22 @@
 }
 
 .spinner {
-  position: absolute;
-  top: 48%;
-  left: 48%;
+	position: absolute;
+	top: 48%;
+	left: 48%;
   width: 50px;
   height: 40px;
   text-align: center;
   font-size: 10px;
 }
 
-.spinner>div {
+.spinner > div {
   background-color: white;
   height: 100%;
   width: 6px;
   border-radius: 50px;
   display: inline-block;
-
+  
   -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
   animation: sk-stretchdelay 1.2s infinite ease-in-out;
 }
@@ -52,181 +52,61 @@
 }
 
 @-webkit-keyframes sk-stretchdelay {
-
-  0%,
-  40%,
-  100% {
-    -webkit-transform: scaleY(0.4)
-  }
-
-  20% {
-    -webkit-transform: scaleY(1.0)
-  }
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  20% { -webkit-transform: scaleY(1.0) }
 }
 
 @keyframes sk-stretchdelay {
-
-  0%,
-  40%,
-  100% {
+  0%, 40%, 100% { 
     transform: scaleY(0.4);
     -webkit-transform: scaleY(0.4);
-  }
-
-  20% {
+  }  20% { 
     transform: scaleY(1.0);
     -webkit-transform: scaleY(1.0);
   }
 }
 
 body {
-  text-align: center;
-  background-color: black;
-  /*background-image: linear-gradient(to right, #00b0f4, #0059ff);*/
-  background-image: linear-gradient(to top, rgb(0 0 0 / 0%), #0055ff), url(bg.svg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: 0% 0%, bottom;
-  color: white;
-  font-family: 'Poppins';
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.main {
-  width: 500px;
-  background-color: #232529;
-  margin-top: 100px;
-  border-radius: 10px;
-  box-shadow: 1px 1px 25px 5px black;
-  /*background: rgba( 255, 255, 255, 0 );*/
-  /*box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );*/
-  /*backdrop-filter: blur( 20px );*/
-  /*-webkit-backdrop-filter: blur( 20px );*/
-}
-
-.banner {
-  height: 200px;
-  width: 500px;
-  background-image: url(domainexpansion.gif);
-  background-size: cover;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+	text-align: center;
+	background-image: linear-gradient(to right, #00b0f4, #0059ff);
+	color: white;
+	font-family: 'Poppins';
 }
 
 .avatar {
-  border-radius: 100px;
-  margin-top: 133px;
-  border: 10px solid #232529;
-  background-color: #232529;
+	border-radius: 100px;
+	margin-top: 30px;
   cursor: pointer;
 }
 
-.name {
-  margin: 100px 0 0 0;
-}
-
-.abtme {
-  padding: 0px 10px 0px 10px;
-}
-
-.links {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
-  margin: 0 0 16px 0;
-}
-
-.links a {
-  color: #00b0f4;
-  text-decoration: none;
-  padding: 5px 10px;
-  border: 1px solid #00b0f4;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.links a:hover{
-  background-color: #00b0f4;
-  color: white;
-  text-decoration: none;
-}
-
-hr {
-  background-color: white;
-  border: 1px solid white;
-  border-radius: 1px;
-  margin: 0 15px 0 15px;
-  opacity: 10%;
-}
-
-.connections {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  text-align: initial;
-}
-
-.connection {
-  height: 44px;
-  width: 200px;
-  border: 1px solid hsla(0, 0%, 100%, 0.06);
-  border-radius: 10px;
-  margin: 20px 20px 0 20px;
-  display: flex;
-  align-items: center;
-}
-
-.fab,
-.fa-solid {
-  padding: 10px;
-  font-size: 25px;
-  /*width: 30px;*/
-  /*text-align: center;*/
+.fab {
+  padding: 20px;
+  font-size: 30px;
+  width: 30px;
+  text-align: center;
   text-decoration: none;
   border-radius: 50%;
-}
-
-.fa-discord {
-  color: #5865F2;
+  color: white;
 }
 
 .fa-discord:hover {
-  color: #7289da;
+	color: #2c2f33;
 }
-
-.fa-list {
-  color: #02a9ff;
+.fa-youtube:hover {
+	color: red;
 }
-
-.fa-list:hover {
-  color: #0b1622;
-}
-
 .fa-twitch:hover {
-  color: purple;
+	color: purple;
 }
-
 .fa-github:hover {
   color: black;
 }
-
-.fa-reddit {
-  color: #FF4500;
-}
-
 .fa-reddit:hover {
   color: #ff4500;
 }
-
 .fa-spotify:hover {
   color: #1ed760;
 }
-
 .fa-steam:hover {
   color: #0b1c4a;
 }
@@ -237,37 +117,26 @@ hr {
   color: white;
   width: 35px;
 }
-
 .fa-chevron-down:hover {
   color: wheat;
-}
-
-.OpenIcon {
-  opacity: 30%;
-  margin-top: 6px;
-  transition: all 0.3s ease-out;
-}
-
-.OpenIcon:hover {
-  opacity: 100%;
 }
 
 
 /* width */
 ::-webkit-scrollbar {
-  width: 15px;
+  width: 22px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: linear-gradient(to top, rgb(0 0 0 / 0%), #0055ff);
+  background: #0059ff;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: white;
-  border-radius: 5px;
-  /*border: 5px solid black;*/
+  border-radius: 50px;
+  border: 5px solid #0059ff;
 }
 
 /* Handle on hover */
@@ -276,49 +145,17 @@ hr {
 }
 
 a {
-  text-decoration: none;
-  color: white;
+  display: block;
 }
 
 .©️ {
   text-decoration: none;
   color: white;
-  margin: 33px 0 10px 0;
+  margin-top: 33px;
   width: auto;
-  text-shadow: 0px 0px 2px black;
 }
 
 ::selection {
-  color: #0055ff;
-  background: #0000003d;
-}
-
-@media only screen and (max-width: 530px) {
-  .main {
-    width: 345px;
-  }
-
-  .banner {
-    width: 345px;
-  }
-}
-
-@media only screen and (max-width: 376px) {
-  .main {
-    width: 309px;
-  }
-
-  .banner {
-    width: 309px;
-  }
-}
-
-@media only screen and (max-width: 326px) {
-  .main {
-    width: 250px;
-  }
-
-  .banner {
-    width: 250px;
-  }
+  color: #00b0f4;
+  background: white;
 }
