@@ -2310,6 +2310,17 @@
         setText('serverMembers', d.approximate_member_count.toLocaleString() + ' members');
     }).catch(() => {});
 
+    // The animated art is almost 1 MB, so the still frame shows until the card is nearly on screen
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+        new IntersectionObserver((entries, io) => {
+            if (!entries[0].isIntersecting) return;
+            io.disconnect();
+            const art = new Image();
+            art.onload = () => { $('serverCard').style.backgroundImage = 'url("assets/red-grin.webp")'; };
+            art.src = 'assets/red-grin.webp';
+        }, { rootMargin: '400px 0px' }).observe($('serverCard'));
+    }
+
     // ---------- keyboard shortcuts ----------
     const keysDialog = $('keysDialog');
     function toggleKeys(open) {
