@@ -2180,7 +2180,7 @@
         video.volume = 0.6;
         const start = () => {
             // WebM (VP9) is a little smaller; Safari gets the MP4
-            if (!video.src) video.src = video.dataset.src + (video.canPlayType('video/webm; codecs="vp9, opus"') ? '.webm' : '.mp4') + '?v=2'; // bump when the clip changes
+            if (!video.src) video.src = video.dataset.src + (video.canPlayType('video/webm; codecs="vp9, opus"') ? '.webm' : '.mp4') + '?v=3'; // bump when the clip changes
             video.currentTime = 0;
             tile.classList.add('is-playing');
             video.muted = false;
