@@ -618,6 +618,10 @@
         .tip-banner.brand { display: grid; place-items: center; overflow: hidden; background: linear-gradient(135deg, var(--tip-accent), color-mix(in oklab, var(--tip-accent) 50%, #000)); }
         .tip-banner.brand > i, .tip-banner.brand > .ms { font-size: 76px; color: rgba(255, 255, 255, 0.92); rotate: -12deg; translate: 60px 6px; }
         .tip-banner.top img { object-position: center 18%; }
+        /* memes keep their whole shape so the joke reads */
+        .tip-banner.full { height: auto; }
+        .tip-banner.full img { height: auto; }
+        .tip-banner.full::after { background: linear-gradient(180deg, transparent 75%, var(--surface-highest)); }
         /* the platform badge sits over the banner's bottom edge, like a profile picture */
         .tip-banner + .tip-head > i, .tip-banner + .tip-head > .ms { position: relative; margin-top: -34px; border: 3px solid var(--surface-highest); }
         .tip-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
@@ -2381,28 +2385,30 @@
 
     // Setup: a hover card for each part, with the details that don't fit on the tile
     const SPECS = [
-        ['laptop_windows', 'laptop', 'asus zenbook 14', '#1f5fae', [['badge', 'model ux3405ca'], ['computer', 'windows 11 home + wsl2'], ['monitor', '14″ 3k oled at 120hz']], ['ultrabook', 'oled']],
-        ['memory', 'processor', 'intel core ultra 5 225h', '#0071c5', [['grid_view', '14 cores, 14 threads'], ['speed', 'boosts up to 4.9 ghz'], ['videogame_asset', 'intel arc 130t graphics']], ['arrow lake', 'intel']],
-        ['developer_board', 'memory', '16 gb lpddr5x', '#7c4dff', [['bolt', 'running at 8533 mt/s'], ['share', 'shared with the arc graphics']], ['lpddr5x']],
-        ['hard_drive', 'storage', '1 tb nvme ssd', '#00897b', [['save', 'micron nvme drive'], ['folder', 'windows, wsl and every side project']], ['nvme']],
-        ['monitor', 'display', '3k oled · 120hz', '#d81b60', [['aspect_ratio', '2880 × 1800, 16:10'], ['contrast', 'oled: true blacks'], ['animation', '120hz for smooth scrolling']], ['oled', '120hz']],
-        ['keyboard', 'keyboard', 'urx core 75', '#ef8a17', [['keyboard', '75% layout'], ['edit_note', 'where all of this gets typed']], ['75%']],
+        ['laptop_windows', 'laptop', 'asus zenbook 14', '#1f5fae', 'laptop.webp', [['badge', 'model ux3405ca'], ['computer', 'windows 11 home + wsl2'], ['monitor', '14″ 3k oled at 120hz']], ['ultrabook', 'oled']],
+        ['memory', 'processor', 'intel core ultra 5 225h', '#0071c5', 'cpu.webp', [['grid_view', '14 cores, 14 threads'], ['speed', 'boosts up to 4.9 ghz'], ['videogame_asset', 'intel arc 130t graphics']], ['arrow lake', 'intel']],
+        ['developer_board', 'memory', '16 gb lpddr5x', '#7c4dff', 'full:ram-meme.webp', [['bolt', 'running at 8533 mt/s'], ['share', 'shared with the arc graphics']], ['lpddr5x']],
+        ['hard_drive', 'storage', '1 tb nvme ssd', '#00897b', 'full:ssd-meme.webp', [['save', 'micron nvme drive'], ['folder', 'windows, wsl and every side project']], ['nvme']],
+        ['monitor', 'display', '3k oled · 120hz', '#d81b60', 'display.webp', [['aspect_ratio', '2880 × 1800, 16:10'], ['contrast', 'asus lumina oled: true blacks'], ['animation', '120hz for smooth scrolling']], ['oled', '120hz']],
+        ['keyboard', 'keyboard', 'urx core 75', '#ef8a17', 'keyboard.webp', [['layers', 'gasket + top mount, fr4 plate'], ['keyboard', 'zen switches, doubleshot pbt keycaps'], ['graphic_eq', '5 layers of sound dampening'], ['bluetooth', 'trimode: wired, 2.4g, bluetooth'], ['tune', 'qmk / via / vial, 50+ rgb effects']], ['75%', 'mechanical']],
     ];
     document.querySelectorAll('.spec').forEach((el, i) => {
         const spec = SPECS[i];
         if (!spec) return;
-        const [icon, kind, name, colour, lines, chips] = spec;
+        const [icon, kind, name, colour, picture, lines, chips] = spec;
+        const [mode, file] = picture.startsWith('full:') ? ['full', picture.slice(5)] : ['', picture];
+        socialPictures.push('assets/setup/' + file);
         el.tabIndex = 0;
         tipContent.set(el, {
             accent: colour,
-            content: `<div class="tip-banner brand"><span class="ms">${icon}</span></div>
+            content: `<div class="tip-banner ${mode}"><img src="assets/setup/${file}" alt="" onload="this.classList.add('is-loaded')"></div>
                 <div class="tip-head"><span class="ms">${icon}</span><div><p class="tip-meta">${kind}</p><p class="tip-title">${name}</p></div></div>
                 ${lines.map(([ic, text]) => line(ic, text)).join('')}<div class="tip-chips">${chips.map((c) => `<span>${c}</span>`).join('')}</div>`,
         });
     });
 
     // Banner pictures load the first time someone points at the socials, so they're ready by the hover card
-    document.querySelector('.t-find').addEventListener('pointerenter', () => socialPictures.forEach((src) => { new Image().src = src; }), { once: true });
+    ['.t-find', '.t-setup'].forEach((sel) => document.querySelector(sel).addEventListener('pointerenter', () => socialPictures.forEach((src) => { new Image().src = src; }), { once: true }));
 
     // ---------- keyboard shortcuts ----------
     const keysDialog = $('keysDialog');
