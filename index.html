@@ -1495,11 +1495,11 @@
             <div class="shape-icon" style="--shape-a: var(--shape-clover4); --shape-b: var(--shape-cookie9);"><span class="ms">alternate_email</span></div>
             <h2 class="card-title" id="findTitle">where to find me</h2>
             <ul class="list">
-                <li><a class="row" data-glow="#a371f7" href="https://github.com/SC136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-github"></i></span><span class="row-text"><span class="row-title">SC136</span><span class="row-sub">GitHub</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#6e7681" href="https://github.com/SC136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-github"></i></span><span class="row-text"><span class="row-title">SC136</span><span class="row-sub">GitHub</span></span><span class="ms row-trail">open_in_new</span></a></li>
                 <li><a class="row" data-glow="#0a66c2" href="https://www.linkedin.com/in/swarchuri" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-linkedin-in"></i></span><span class="row-text"><span class="row-title">swarchuri</span><span class="row-sub">LinkedIn</span></span><span class="ms row-trail">open_in_new</span></a></li>
-                <li><a class="row" data-glow="#e1306c" href="https://www.instagram.com/sc_136_" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-instagram"></i></span><span class="row-text"><span class="row-title">sc_136_</span><span class="row-sub">Instagram</span></span><span class="ms row-trail">open_in_new</span></a></li>
-                <li><a class="row" data-glow="#1d9bf0" href="https://x.com/SC_136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-x-twitter"></i></span><span class="row-text"><span class="row-title">SC_136</span><span class="row-sub">X</span></span><span class="ms row-trail">open_in_new</span></a></li>
-                <li><a class="row" data-glow="#ff0033" href="https://www.youtube.com/@SCSmartTech" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-youtube"></i></span><span class="row-text"><span class="row-title">@SCSmartTech</span><span class="row-sub">YouTube</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#d62976" href="https://www.instagram.com/sc_136_" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-instagram"></i></span><span class="row-text"><span class="row-title">sc_136_</span><span class="row-sub">Instagram</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#71767b" href="https://x.com/SC_136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-x-twitter"></i></span><span class="row-text"><span class="row-title">SC_136</span><span class="row-sub">X</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#ff0000" href="https://www.youtube.com/@SCSmartTech" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-youtube"></i></span><span class="row-text"><span class="row-title">@SCSmartTech</span><span class="row-sub">YouTube</span></span><span class="ms row-trail">open_in_new</span></a></li>
                 <li><a class="row" data-glow="#5865f2" href="https://discord.com/users/594504468931018752" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-discord"></i></span><span class="row-text"><span class="row-title">SC</span><span class="row-sub">Discord</span></span><span class="ms row-trail">open_in_new</span></a></li>
                 <li><a class="row" data-glow="#66c0f4" href="https://steamcommunity.com/id/SC136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-steam"></i></span><span class="row-text"><span class="row-title">SC136</span><span class="row-sub">Steam</span></span><span class="ms row-trail">open_in_new</span></a></li>
                 <li><a class="row" data-glow="#9146ff" href="https://www.twitch.tv/SC_136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-twitch"></i></span><span class="row-text"><span class="row-title">SC_136</span><span class="row-sub">Twitch</span></span><span class="ms row-trail">open_in_new</span></a></li>
@@ -2366,23 +2366,23 @@
     const live = (id) => { const v = ($(id) || {}).textContent; return v && v !== '–' ? v : ''; };
     const line = (icon, text) => (text ? `<p class="tip-line"><span class="ms">${icon}</span>${esc(text)}</p>` : '');
     const SOCIALS = {
-        'github.com/SC136': ['fa-brands fa-github', 'github', 'SC136', '#a371f7', 'assets/socials/github-banner.webp', () =>
+        'github.com/SC136': ['fa-brands fa-github', 'github', 'SC136', '#24292f', 'assets/socials/github-banner.webp', () =>
             line('folder_open', live('ghRepos') && `${live('ghRepos')} public repos · ★ ${live('ghStars')}`) + line('group', live('ghFollowers') && `${live('ghFollowers')} followers`) + line('commit', live('pushRepo') && `last pushed to ${live('pushRepo')} ${live('pushWhen')}`), ['code', 'projects']],
         'linkedin.com/in/swarchuri': ['fa-brands fa-linkedin-in', 'linkedin', 'swarchuri', '#0a66c2', '', () =>
             line('school', 'computer engineering student, mumbai') + line('work', 'the place for internships and work stuff'), ['work', 'resume']],
         'instagram.com/sc_136_': ['fa-brands fa-instagram', 'instagram', 'sc_136_', '#e1306c', '', () =>
             line('photo_camera', 'photos and whatever i\'m up to'), ['life', 'photos']],
-        'x.com/SC_136': ['fa-brands fa-x-twitter', 'x', '@SC_136', '#1d9bf0', '', () =>
+        'x.com/SC_136': ['fa-brands fa-x-twitter', 'x', '@SC_136', '#000000', '', () =>
             line('forum', 'thoughts, tech and the odd meme'), ['posts']],
-        'youtube.com/@SCSmartTech': ['fa-brands fa-youtube', 'youtube', '@SCSmartTech', '#ff0033', 'assets/socials/youtube-banner.webp', () =>
+        'youtube.com/@SCSmartTech': ['fa-brands fa-youtube', 'youtube', '@SCSmartTech', '#ff0000', 'assets/socials/youtube-banner.webp', () =>
             line('smart_display', 'my tech channel') + line('notifications', 'subscribe, it helps'), ['videos', 'tech']],
         'discord.com/users': ['fa-brands fa-discord', 'discord', 'sc136', '#5865f2', 'assets/server-banner.webp', () =>
             line('circle', live('discordStatus')) + line('bolt', [live('discordWhat'), live('discordDetail')].filter(Boolean).join(' · ')) + line('groups', live('serverMembers') && `my server has ${live('serverMembers')}`), ['live']],
-        'steamcommunity.com/id/SC136': ['fa-brands fa-steam', 'steam', 'SC136', '#66c0f4', 'https://cdn.cloudflare.steamstatic.com/steam/apps/730/library_hero.jpg', () =>
+        'steamcommunity.com/id/SC136': ['fa-brands fa-steam', 'steam', 'SC136', '#171a21', 'https://cdn.cloudflare.steamstatic.com/steam/apps/730/library_hero.jpg', () =>
             line('sports_esports', live('steamTop') && `most played: ${live('steamTop')}`) + line('schedule', live('steamHours')) + line('circle', live('steamState').replace('most played on steam · ', '')), ['games']],
         'twitch.tv/SC_136': ['fa-brands fa-twitch', 'twitch', 'SC_136', '#9146ff', '', () =>
             line('videocam', 'the occasional stream') + line('sports_esports', 'mostly games'), ['streams']],
-        'reddit.com/user/SC-136': ['fa-brands fa-reddit-alien', 'reddit', 'u/SC-136', '#ff4500', '', () =>
+        'reddit.com/user/SC-136': ['fa-brands fa-reddit-alien', 'reddit', 'u/SC-136', '#ff4500', 'top:assets/socials/reddit-banner.webp', () =>
             line('forum', 'lurking in tech and anime subs'), ['lurker']],
         'anilist.co/user/SC136': ['ms live_tv', 'anilist', 'SC136', '#02a9ff', 'top:assets/socials/anilist-banner.webp', () =>
             line('live_tv', live('alCount') && `${live('alCount')} anime watched`) + line('schedule', live('alHours') && `${live('alHours')} hours · ${live('alEpisodes')} episodes`) + line('star', live('alScore') && `mean score ${live('alScore')}`), ['anime']],
@@ -2395,12 +2395,15 @@
         const badge = icon.startsWith('ms ') ? `<span class="ms">${icon.slice(3)}</span>` : `<i class="${icon}"></i>`;
         const [crop, src] = picture.startsWith('top:') ? ['top', picture.slice(4)] : ['', picture];
         if (src) socialPictures.push(src);
+        // Instagram's colour is a gradient, so its badge and banner are painted with it
+        const paint = site === 'instagram' ? 'background: linear-gradient(45deg, #feda75, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5)' : '';
         const banner = src
             ? `<div class="tip-banner ${crop}"><img src="${src}" alt="" onload="this.classList.add('is-loaded')"></div>`
-            : `<div class="tip-banner brand">${badge}</div>`;
+            : `<div class="tip-banner brand" style="${paint}">${badge}</div>`;
+        const head = paint ? badge.replace(/^<(i|span)/, `<$1 style="${paint}"`) : badge;
         tipContent.set(row, {
             accent: colour,
-            content: () => `${banner}<div class="tip-head">${badge}<div><p class="tip-meta">${site}</p><p class="tip-title">${esc(handle)}</p></div></div>
+            content: () => `${banner}<div class="tip-head">${head}<div><p class="tip-meta">${site}</p><p class="tip-title">${esc(handle)}</p></div></div>
                 ${body()}<div class="tip-chips">${chips.map((c) => `<span>${c}</span>`).join('')}</div>`,
         });
     });
