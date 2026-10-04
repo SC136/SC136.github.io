@@ -758,14 +758,15 @@
             gap: 20px;
             min-height: 168px;
             padding: 28px;
-            background: var(--surface-low) center / cover no-repeat;
+            /* the whole picture on the right, its black edges melting into the card */
+            background: #0a0102 url("assets/server-banner.webp") right center / auto 125% no-repeat;
             color: #fff;
         }
-        .t-server::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10, 10, 18, 0.88) 30%, rgba(10, 10, 18, 0.55)); }
+        .t-server::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #0a0102 calc(100% - 400px), rgba(10, 1, 2, 0) calc(100% - 270px)); }
         .t-server > * { position: relative; }
         .server-icon { flex: none; width: 84px; height: 84px; border-radius: 26px; object-fit: cover; background: #5865f2; transition: border-radius 0.35s var(--ease); }
         .t-server:hover .server-icon { border-radius: 42px; }
-        .server-text { flex: 1; min-width: 0; }
+        .server-text { flex: 0 1 auto; min-width: 0; }
         .server-kicker { margin: 0 0 2px; font-size: 0.8rem; color: rgba(255, 255, 255, 0.72); }
         .server-name { margin: 0 0 8px; font-size: 1.6rem; font-weight: 500; line-height: 1.2; }
         .server-counts { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.88rem; color: rgba(255, 255, 255, 0.85); }
@@ -773,11 +774,12 @@
         .server-counts .online::before { background: #23a55a; }
         .server-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
         .server-tags span { padding: 3px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.14); font-size: 0.76rem; }
-        .t-server .btn.filled { flex: none; background: #5865f2; color: #fff; }
+        .t-server .btn.filled { flex: none; margin: 0 auto 0 20px; background: #e0262f; color: #fff; } /* stays on the dark side, clear of the art */
         @media (max-width: 600px) {
             .t-server { flex-wrap: wrap; padding: 22px; }
             .server-icon { width: 64px; height: 64px; border-radius: 20px; }
-            .t-server .btn.filled { width: 100%; justify-content: center; }
+            .t-server .btn.filled { width: 100%; margin: 0; justify-content: center; }
+            .t-server::before { background: linear-gradient(90deg, #0a0102 45%, rgba(10, 1, 2, 0.55)); }
         }
 
         /* Backloggd: a shelf across the full width, the numbers on the left and favourites on the right */
@@ -1440,7 +1442,7 @@
             </div>
         </section>
 
-        <section class="card t-server span-4" id="serverCard" data-glow="#5865f2" aria-labelledby="serverName">
+        <section class="card t-server span-4" id="serverCard" data-glow="#d4202a" aria-labelledby="serverName">
             <img class="server-icon" id="serverIcon" alt="" width="84" height="84">
             <div class="server-text">
                 <p class="server-kicker">my discord server</p>
@@ -2304,7 +2306,6 @@
         if (!g) return;
         setText('serverName', g.name);
         if (g.icon) $('serverIcon').src = `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.webp?size=256`;
-        if (g.banner) $('serverCard').style.backgroundImage = `url("https://cdn.discordapp.com/banners/${g.id}/${g.banner}.webp?size=1024")`;
         setText('serverOnline', d.approximate_presence_count.toLocaleString() + ' online');
         setText('serverMembers', d.approximate_member_count.toLocaleString() + ' members');
     }).catch(() => {});
