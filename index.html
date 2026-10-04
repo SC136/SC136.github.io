@@ -349,11 +349,16 @@
             bottom: -26px;
             width: min(300px, 40%);
             height: auto;
-            cursor: help;
+            aspect-ratio: 1;
+            object-fit: contain;
+            object-position: bottom right;
+            cursor: pointer;
             filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.35));
             transition: translate 0.8s var(--spring), rotate 0.8s var(--spring), scale 0.5s var(--spring);
         }
         .intro:hover .mascot { translate: -6px -8px; rotate: -3deg; }
+        /* Swapping: the old one pops away, the new one springs in */
+        .intro .mascot.is-swapping { scale: 0.4; rotate: 18deg; opacity: 0; transition: scale 0.18s var(--ease), rotate 0.18s var(--ease), opacity 0.18s var(--ease); }
         .intro .mascot:hover, .intro .mascot:focus-visible { scale: 1.06; rotate: -7deg; }
         .mascot:focus-visible { outline: none; filter: drop-shadow(0 0 4px var(--primary)) drop-shadow(0 0 4px var(--primary)) drop-shadow(0 12px 24px rgba(0, 0, 0, 0.35)); }
 
@@ -1062,7 +1067,22 @@
             <span class="chip">mech keyboards</span>
             <span class="chip">photography</span>
         </div>
-        <img class="mascot" id="mascot" data-glow="#d0263f" tabindex="0" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/717.png" alt="Yveltal, my favourite Pokémon" width="475" height="475" loading="lazy">
+        <!-- Yveltal or one of my stickers: a different one on every visit, theme change and tap -->
+        <img class="mascot" id="mascot" data-glow="#d0263f" tabindex="0" alt="Yveltal, my favourite Pokémon" width="475" height="475">
+        <script>
+            (function () {
+                var list = ['https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/717.png', 'assets/stickers/lucky-cat.webp', 'assets/stickers/eva-01.webp', 'assets/stickers/gojo.webp'];
+                var last = -1;
+                try { var saved = localStorage.getItem('sc136-mascot'); if (saved !== null) last = +saved; } catch (e) {}
+                var pick = Math.floor(Math.random() * (list.length - (last >= 0 ? 1 : 0)));
+                if (last >= 0 && pick >= last) pick++; // never the same one twice in a row
+                try { localStorage.setItem('sc136-mascot', pick); } catch (e) {}
+                var img = document.getElementById('mascot');
+                img.dataset.index = pick;
+                img.src = list[pick];
+            })();
+        </script>
+        <noscript><img class="mascot" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/717.png" alt="Yveltal, my favourite Pokémon" width="475" height="475"></noscript>
     </section>
 
     <div class="bento">
@@ -1321,6 +1341,7 @@
     }
     function setTheme(theme) {
         root.dataset.theme = theme;
+        if (window.__nextMascot) window.__nextMascot();
         try { localStorage.setItem('theme', theme); } catch (e) {}
         paintThemeIcon();
         $('nowPlaying').src = nowPlayingSrc();
@@ -1350,6 +1371,7 @@
     }
     function setPalette(name) {
         if (name === 'coral') delete root.dataset.palette; else root.dataset.palette = name;
+        if (window.__nextMascot) window.__nextMascot();
         try { localStorage.setItem('sc136-palette', name); } catch (e) {} // so the next visit picks something else
         markPalette();
         $('nowPlaying').src = nowPlayingSrc();
@@ -1532,18 +1554,60 @@
 
     // Yveltal: hover (or tap on a phone) for a little card about my favourite Pokémon
     const mascot = $('mascot');
-    tipContent.set(mascot, {
-        content: `<p class="tip-meta" style="margin-bottom: 2px;">my favourite pokémon</p>
-            <p class="tip-title">yveltal <span style="font-weight: 400; color: var(--on-surface-variant);">#717</span></p>
-            <p class="tip-line"><span class="ms">bolt</span>the destruction pokémon</p>
-            <p class="tip-line"><span class="ms">auto_awesome</span>legendary of pokémon y</p>
-            <div class="tip-chips"><span>dark</span><span>flying</span></div>`,
-    });
+    const chips = (...c) => `<div class="tip-chips">${c.map((x) => `<span>${x}</span>`).join('')}</div>`;
+    const MASCOTS = [
+        { src: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/717.png', alt: 'Yveltal, my favourite Pokémon', glow: '#d0263f',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">my favourite pokémon</p>
+                <p class="tip-title">yveltal <span style="font-weight: 400; color: var(--on-surface-variant);">#717</span></p>
+                <p class="tip-line"><span class="ms">bolt</span>the destruction pokémon</p>
+                <p class="tip-line"><span class="ms">auto_awesome</span>legendary of pokémon y</p>${chips('dark', 'flying')}` },
+        { src: 'assets/stickers/lucky-cat.webp', alt: 'A winking maneki-neko sticker', glow: '#d33a2c',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">sticker</p>
+                <p class="tip-title">maneki-neko</p>
+                <p class="tip-line"><span class="ms">waving_hand</span>the beckoning lucky cat</p>
+                <p class="tip-line"><span class="ms">auto_awesome</span>here for the good luck</p>${chips('japan', 'good luck')}` },
+        { src: 'assets/stickers/eva-01.webp', alt: 'An Evangelion Unit-01 sticker', glow: '#7b4fc4',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">sticker</p>
+                <p class="tip-title">evangelion unit-01</p>
+                <p class="tip-line"><span class="ms">smart_toy</span>neon genesis evangelion</p>
+                <p class="tip-line"><span class="ms">bolt</span>get in the robot, shinji</p>${chips('mecha', 'anime')}` },
+        { src: 'assets/stickers/gojo.webp', alt: 'A laughing Satoru Gojo sticker', glow: '#a9a6e8',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">sticker</p>
+                <p class="tip-title">satoru gojo</p>
+                <p class="tip-line"><span class="ms">visibility_off</span>jujutsu kaisen</p>
+                <p class="tip-line"><span class="ms">auto_awesome</span>the strongest sorcerer</p>${chips('anime', 'jjk')}` },
+    ];
+    MASCOTS.forEach((m) => { new Image().src = m.src; });
+    function paintMascot(i) {
+        const m = MASCOTS[i];
+        mascot.dataset.index = i;
+        mascot.src = m.src;
+        mascot.alt = m.alt;
+        mascot.dataset.glow = m.glow;
+        tipContent.set(mascot, { content: m.tip });
+    }
+    paintMascot(+mascot.dataset.index || 0);
+    // Theme changes swap it straight away (inside the sweep); taps get a little pop
+    function nextMascot(animate) {
+        const i = (+mascot.dataset.index + 1) % MASCOTS.length;
+        try { localStorage.setItem('sc136-mascot', i); } catch (e) {}
+        if (!animate || reduceMotion) { paintMascot(i); return Promise.resolve(); }
+        mascot.classList.add('is-swapping');
+        return new Promise((done) => setTimeout(() => {
+            paintMascot(i);
+            const show = () => { mascot.classList.remove('is-swapping'); done(); };
+            mascot.decode().then(show, show);
+        }, 180));
+    }
+    window.__nextMascot = () => nextMascot(false);
     let mascotTimer = null;
     mascot.addEventListener('click', () => {
-        showTip(mascot);
-        clearTimeout(mascotTimer);
-        mascotTimer = setTimeout(hideTip, 2600);
+        hideTip();
+        nextMascot(true).then(() => {
+            showTip(mascot);
+            clearTimeout(mascotTimer);
+            mascotTimer = setTimeout(hideTip, 2600);
+        });
     });
 
     // ---------- live sky: tinted for the time of day in Mumbai, from the real sunrise and sunset ----------
