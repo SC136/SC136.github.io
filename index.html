@@ -1342,6 +1342,7 @@
     function setTheme(theme) {
         root.dataset.theme = theme;
         if (window.__nextMascot) window.__nextMascot();
+        if (window.__nextAvatar) window.__nextAvatar();
         try { localStorage.setItem('theme', theme); } catch (e) {}
         paintThemeIcon();
         $('nowPlaying').src = nowPlayingSrc();
@@ -1372,6 +1373,7 @@
     function setPalette(name) {
         if (name === 'coral') delete root.dataset.palette; else root.dataset.palette = name;
         if (window.__nextMascot) window.__nextMascot();
+        if (window.__nextAvatar) window.__nextAvatar();
         try { localStorage.setItem('sc136-palette', name); } catch (e) {} // so the next visit picks something else
         markPalette();
         $('nowPlaying').src = nowPlayingSrc();
@@ -1424,7 +1426,7 @@
     // ---------- avatar: each tap morphs it into the next shape (the picture stays upright; the backdrop spins) ----------
     const SHAPES = ['cookie12', 'flower8', 'clover4', 'burst10', 'sunny8', 'cookie9', 'soft6'];
     let shapeIndex = 0, spin = 0;
-    // Each tap: the next profile picture, and a new shape
+    // Each tap (and each theme or colour change): the next profile picture, and a new shape
     const avatarImg = $('avatarImg');
     const AVATARS = $('avatarBtn').dataset.avatars.split(' ');
     avatarImg.addEventListener('error', () => { if (avatarImg.src !== AVATARS[0]) avatarImg.src = AVATARS[0]; });
@@ -1434,23 +1436,24 @@
     let avatarTapped = false;
     try { avatarTapped = localStorage.getItem('sc136-avatar-tapped') === '1'; } catch (e) {}
     if (!avatarTapped) setTimeout(() => avatarHint.classList.add('show'), 2600);
-    $('avatarBtn').addEventListener('click', () => {
-        if (!avatarTapped) {
-            avatarTapped = true;
-            avatarHint.classList.remove('show');
-            try { localStorage.setItem('sc136-avatar-tapped', '1'); } catch (e) {}
-        }
+    // Taps fade the picture out and back in; theme changes swap it straight away, inside the colour sweep
+    function nextAvatar(animate) {
         const nextAvatar = (+avatarImg.dataset.index + 1) % AVATARS.length;
         avatarImg.dataset.index = nextAvatar;
         try { localStorage.setItem('sc136-avatar', nextAvatar); } catch (e) {}
-        avatarImg.classList.add('is-swapping');
         clearTimeout(avatarSwap);
-        avatarSwap = setTimeout(() => {
+        if (!animate) {
+            avatarImg.classList.remove('is-swapping');
             avatarImg.src = AVATARS[nextAvatar];
-            const show = () => avatarImg.classList.remove('is-swapping');
-            avatarImg.decode().then(show, show);
-            setTimeout(show, 800); // never leave it hidden if the picture is slow
-        }, reduceMotion ? 0 : 150);
+        } else {
+            avatarImg.classList.add('is-swapping');
+            avatarSwap = setTimeout(() => {
+                avatarImg.src = AVATARS[nextAvatar];
+                const show = () => avatarImg.classList.remove('is-swapping');
+                avatarImg.decode().then(show, show);
+                setTimeout(show, 800); // never leave it hidden if the picture is slow
+            }, reduceMotion ? 0 : 150);
+        }
         shapeIndex = (shapeIndex + 1) % SHAPES.length;
         spin += 45;
         const next = SHAPES[shapeIndex], back = SHAPES[(shapeIndex + 3) % SHAPES.length];
@@ -1458,6 +1461,15 @@
         hero.style.setProperty('--avatar-shape', `var(--shape-${next})`);
         hero.style.setProperty('--avatar-shape-back', `var(--shape-${back})`);
         hero.style.setProperty('--avatar-spin-back', `${-spin / 2}deg`);
+    }
+    window.__nextAvatar = () => nextAvatar(false);
+    $('avatarBtn').addEventListener('click', () => {
+        if (!avatarTapped) {
+            avatarTapped = true;
+            avatarHint.classList.remove('show');
+            try { localStorage.setItem('sc136-avatar-tapped', '1'); } catch (e) {}
+        }
+        nextAvatar(true);
     });
 
     // ---------- pinned thought ----------
