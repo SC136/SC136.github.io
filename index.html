@@ -185,6 +185,24 @@
             place-items: center;
             padding: 40px 0 36px;
         }
+        /* Aurora: the palette's colours slowly turning behind the avatar, leaning toward the pointer */
+        .hero-aurora {
+            position: absolute;
+            width: min(560px, 120vw);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--primary) 0%, var(--tertiary-container) 22%, var(--tertiary) 45%, var(--primary-container) 70%, var(--primary) 100%);
+            filter: blur(48px) saturate(1.6);
+            opacity: 0.62;
+            translate: var(--lean-x, 0px) var(--lean-y, 0px);
+            -webkit-mask: radial-gradient(closest-side, #000 45%, transparent);
+            mask: radial-gradient(closest-side, #000 45%, transparent);
+            animation: aurora-turn 26s linear infinite;
+            transition: translate 1.2s var(--ease);
+            pointer-events: none;
+        }
+        [data-theme="light"] .hero-aurora { opacity: 0.38; }
+        @keyframes aurora-turn { to { rotate: 360deg; } }
         .hero-backdrop {
             position: absolute;
             width: min(380px, 86vw);
@@ -1112,7 +1130,7 @@
             *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
             .js .card { opacity: 1; translate: none; }
             .loader-shape { animation: none; }
-            .hero-backdrop, .avatar-btn, .avatar-btn img, .avatar-hint-arrow { animation: none !important; }
+            .hero-backdrop, .avatar-btn, .avatar-btn img, .avatar-hint-arrow, .hero-aurora { animation: none !important; }
             /* Colours still fade; the glow just doesn't travel */
             html { transition-duration: 0.4s !important; }
             .glow { transition: none !important; }
@@ -1161,6 +1179,7 @@
 <main class="page">
 
     <section class="hero" aria-label="Avatar">
+        <div class="hero-aurora" id="heroAurora" aria-hidden="true"></div>
         <div class="hero-backdrop" aria-hidden="true"></div>
         <!-- My avatars from around the internet: a different one on every visit and every tap -->
         <button class="avatar-btn" id="avatarBtn" type="button" aria-label="Show another avatar"
@@ -2409,6 +2428,17 @@
 
     // Banner pictures load the first time someone points at the socials, so they're ready by the hover card
     ['.t-find', '.t-setup'].forEach((sel) => document.querySelector(sel).addEventListener('pointerenter', () => socialPictures.forEach((src) => { new Image().src = src; }), { once: true }));
+
+    // The aurora behind the avatar leans a little toward the pointer
+    if (!reduceMotion && matchMedia('(hover: hover)').matches) {
+        const hero = document.querySelector('.hero'), aurora = $('heroAurora');
+        hero.addEventListener('pointermove', (e) => {
+            const r = hero.getBoundingClientRect();
+            aurora.style.setProperty('--lean-x', ((e.clientX - r.left) / r.width - 0.5) * 60 + 'px');
+            aurora.style.setProperty('--lean-y', ((e.clientY - r.top) / r.height - 0.5) * 40 + 'px');
+        });
+        hero.addEventListener('pointerleave', () => { aurora.style.setProperty('--lean-x', '0px'); aurora.style.setProperty('--lean-y', '0px'); });
+    }
 
     // ---------- keyboard shortcuts ----------
     const keysDialog = $('keysDialog');
