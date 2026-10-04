@@ -1,148 +1,1901 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
-
-  <title>SC</title>
-
-  <meta name="description" content="Hello! I’m SC. I enjoy coding, watching anime, and exploring various other interests. :)" />
-  <meta name="author" content="SC" />
-
-  <meta property="og:title" content="SC" />
-  <meta property="og:type" content="website" />
-  <meta property="og:description" content="Hello! I’m SC. I enjoy coding, watching anime, and exploring various other interests. :)" />
-  <meta property="og:image" content="https://sc.is-a.dev/Assets/Favicon.gif" />
-  <meta property="og:url" content="https://sc.is-a.dev" />
-
-  <meta name="theme-color" content="#00b0f4" />
-
-  <meta name="google-site-verification" content="c6jykhAv3JuMx7Bs4UjVxfbOBfSdUls9AEdxOLyInsw" />
-
-  <link rel="stylesheet" href="Styles/index.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-  <link rel="preload" fetchpriority="high" as="image" href="Banners/banner.gif" type="image/gif" />
-
-  <link rel="shortcut icon" href="https://sc.is-a.dev/Assets/Favicon.gif" />
-  
-  <script src="https://kit.fontawesome.com/63c261036d.js" crossorigin="anonymous"></script>
-
-</head>
-
-<body>
-  <div class="main">
-    <div class="banner">
-      <img fetchpriority="high" class="avatar" src="Assets/sukunarui.webp" alt="SC Avatar" width="150" height="150"
-        draggable="false" onclick="location.href='/'" />
-    </div>
-    <h1 class="name">SC</h1>
-    <p class="abtme">
-      Kon'nichiwa! I Am SC, I Do Stuff Like Coding, Watching Anime, And Other
-      Things IG IDK
-    </p>
-    <div class="links">
-      <a href="/projects.html">View Projects</a>
-    </div>
-    <hr />
-    <div class="connections" id="connections-container">
-      <!-- Connections will be loaded dynamically from connections.json -->
-    </div>
-    
-    <!-- Show All button -->
-    <div class="show-more-container">
-      <button id="show-more-btn" class="show-more-btn">Show All</button>
-    </div>
-    
-    <div style="height: 20px;"></div>
-  </div>
-
-  <a class="©️" href="https://discord.com/users/594504468931018752">©️ 2024 SC#0600</a>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  
-  <script>
-    $(document).ready(function() {
-      // Load connections from JSON file
-      $.getJSON('connections.json', function(connections) {
-        const connectionsContainer = $('#connections-container');
-        
-        // Create connection elements
-        connections.forEach(function(connection) {
-          const connectionDiv = $('<div>')
-            .addClass('connection');
-          
-          // Add hidden-connection class only if not visible
-          if (!connection.visible) {
-            connectionDiv.addClass('hidden-connection');
-          }
-          
-          // Icon link
-          const iconLink = $('<a>')
-            .addClass(connection.icon)
-            .attr('href', connection.url);
-          
-          // Name with padding
-          const nameP = $('<p>')
-            .css('padding-right', connection.paddingRight)
-            .text(connection.name);
-          
-          // External link with SVG icon
-          const externalLink = $('<a>')
-            .attr('href', connection.externalUrl)
-            .attr('target', '_blank');
-          
-          const svg = $('<svg>')
-            .addClass('OpenIcon')
-            .attr('aria-hidden', 'false')
-            .attr('width', '24')
-            .attr('height', '24')
-            .attr('viewBox', '0 0 24 24');
-          
-          const path1 = $('<path>')
-            .attr('fill', 'currentColor')
-            .attr('d', 'M10 5V3H5.375C4.06519 3 3 4.06519 3 5.375V18.625C3 19.936 4.06519 21 5.375 21H18.625C19.936 21 21 19.936 21 18.625V14H19V19H5V5H10Z');
-          
-          const path2 = $('<path>')
-            .attr('fill', 'currentColor')
-            .attr('d', 'M21 2.99902H14V4.99902H17.586L9.29297 13.292L10.707 14.706L19 6.41302V9.99902H21V2.99902Z');
-          
-          // Append elements
-          svg.append(path1, path2);
-          externalLink.append(svg);
-          connectionDiv.append(iconLink, nameP, externalLink);
-          connectionsContainer.append(connectionDiv);
-        });
-        
-        // Toggle connections visibility
-        $('#show-more-btn').click(function() {
-          const hiddenConnections = $('.hidden-connection');
-          const button = $(this);
-          
-          if (hiddenConnections.first().hasClass('show')) {
-            // Hide connections with animation
-            hiddenConnections.removeClass('show');
-            button.text('Show All');
-          } else {
-            // Show connections with animation
-            hiddenConnections.addClass('show');
-            button.text('Show Less');
-          }
-        });
-        
-        // Check if there are any hidden connections
-        const hasHiddenConnections = $('.hidden-connection').length > 0;
-        if (!hasHiddenConnections) {
-          $('.show-more-container').hide();
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swar Churi · More</title>
+    <meta name="description" content="More about Swar Churi: what I'm listening to, watching, playing and building right now.">
+    <link rel="icon" type="image/png" href="SC.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Google+Sans+Flex:wght@400;500;600;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        // Theme before first paint: saved choice, else the system's
+        (function () {
+            var theme = 'dark';
+            try {
+                theme = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
+            // A random colour theme on every visit, never the same one twice in a row
+            var palettes = ['coral', 'pink', 'lavender', 'teal', 'mint', 'sand', 'lime'];
+            var last = null;
+            try { last = localStorage.getItem('sc136-palette'); } catch (e) {}
+            var options = palettes.filter(function (p) { return p !== last; });
+            var pick = options[Math.floor(Math.random() * options.length)];
+            if (pick !== 'coral') document.documentElement.setAttribute('data-palette', pick);
+            try { localStorage.setItem('sc136-palette', pick); } catch (e) {}
+        })();
+    </script>
+    <style>
+        @font-face {
+            font-family: 'Docallisme';
+            src: url('assets/fonts/docallismeonstreet.otf') format('opentype');
+            font-display: swap;
         }
-      }).fail(function(jqxhr, textStatus, error) {
-        console.error('Error loading connections: ' + error);
-      });
-    });
-  </script>
-</body>
 
+        /* ===== Material 3 colour roles, Tonal Spot scheme generated from the site's coral (#e79a86) ===== */
+        :root {
+      --shape-circle: polygon(100.0% 50.0%, 99.9% 53.3%, 99.6% 56.5%, 99.0% 59.8%, 98.3% 62.9%, 97.3% 66.1%, 96.2% 69.1%, 94.8% 72.1%, 93.3% 75.0%, 91.6% 77.8%, 89.7% 80.4%, 87.6% 83.0%, 85.4% 85.4%, 83.0% 87.6%, 80.4% 89.7%, 77.8% 91.6%, 75.0% 93.3%, 72.1% 94.8%, 69.1% 96.2%, 66.1% 97.3%, 62.9% 98.3%, 59.8% 99.0%, 56.5% 99.6%, 53.3% 99.9%, 50.0% 100.0%, 46.7% 99.9%, 43.5% 99.6%, 40.2% 99.0%, 37.1% 98.3%, 33.9% 97.3%, 30.9% 96.2%, 27.9% 94.8%, 25.0% 93.3%, 22.2% 91.6%, 19.6% 89.7%, 17.0% 87.6%, 14.6% 85.4%, 12.4% 83.0%, 10.3% 80.4%, 8.4% 77.8%, 6.7% 75.0%, 5.2% 72.1%, 3.8% 69.1%, 2.7% 66.1%, 1.7% 62.9%, 1.0% 59.8%, 0.4% 56.5%, 0.1% 53.3%, 0.0% 50.0%, 0.1% 46.7%, 0.4% 43.5%, 1.0% 40.2%, 1.7% 37.1%, 2.7% 33.9%, 3.8% 30.9%, 5.2% 27.9%, 6.7% 25.0%, 8.4% 22.2%, 10.3% 19.6%, 12.4% 17.0%, 14.6% 14.6%, 17.0% 12.4%, 19.6% 10.3%, 22.2% 8.4%, 25.0% 6.7%, 27.9% 5.2%, 30.9% 3.8%, 33.9% 2.7%, 37.1% 1.7%, 40.2% 1.0%, 43.5% 0.4%, 46.7% 0.1%, 50.0% 0.0%, 53.3% 0.1%, 56.5% 0.4%, 59.8% 1.0%, 62.9% 1.7%, 66.1% 2.7%, 69.1% 3.8%, 72.1% 5.2%, 75.0% 6.7%, 77.8% 8.4%, 80.4% 10.3%, 83.0% 12.4%, 85.4% 14.6%, 87.6% 17.0%, 89.7% 19.6%, 91.6% 22.2%, 93.3% 25.0%, 94.8% 27.9%, 96.2% 30.9%, 97.3% 33.9%, 98.3% 37.1%, 99.0% 40.2%, 99.6% 43.5%, 99.9% 46.7%);
+      --shape-cookie9: polygon(96.5% 50.0%, 93.9% 52.9%, 92.8% 55.6%, 92.2% 58.4%, 92.1% 61.3%, 92.7% 64.5%, 94.9% 68.6%, 94.5% 72.0%, 93.3% 75.0%, 91.3% 77.6%, 88.5% 79.6%, 83.9% 79.7%, 80.9% 80.9%, 78.4% 82.4%, 76.3% 84.3%, 74.4% 86.6%, 73.3% 90.3%, 71.7% 94.0%, 69.1% 96.1%, 66.1% 97.3%, 62.8% 97.7%, 59.4% 97.0%, 55.8% 94.1%, 52.8% 93.3%, 50.0% 93.0%, 47.2% 93.3%, 44.2% 94.1%, 40.6% 97.0%, 37.2% 97.7%, 33.9% 97.3%, 30.9% 96.1%, 28.3% 94.0%, 26.7% 90.3%, 25.6% 86.6%, 23.7% 84.3%, 21.6% 82.4%, 19.1% 80.9%, 16.1% 79.7%, 11.5% 79.6%, 8.7% 77.6%, 6.7% 75.0%, 5.5% 72.0%, 5.1% 68.6%, 7.3% 64.5%, 7.9% 61.3%, 7.8% 58.4%, 7.2% 55.6%, 6.1% 52.9%, 3.5% 50.0%, 1.1% 46.8%, 0.6% 43.5%, 1.0% 40.3%, 2.3% 37.2%, 4.6% 34.6%, 8.9% 33.0%, 11.1% 30.8%, 12.7% 28.5%, 13.9% 25.9%, 14.7% 22.9%, 14.0% 18.4%, 15.1% 15.1%, 17.1% 12.4%, 19.7% 10.5%, 22.8% 9.2%, 26.7% 9.7%, 30.5% 10.5%, 33.5% 10.1%, 36.2% 9.2%, 38.7% 7.9%, 41.2% 5.8%, 43.7% 1.8%, 46.8% 0.4%, 50.0% 0.0%, 53.2% 0.4%, 56.3% 1.8%, 58.8% 5.8%, 61.3% 7.9%, 63.8% 9.2%, 66.5% 10.1%, 69.5% 10.5%, 73.3% 9.7%, 77.2% 9.2%, 80.3% 10.5%, 82.9% 12.4%, 84.9% 15.1%, 86.0% 18.4%, 85.3% 22.9%, 86.1% 25.9%, 87.3% 28.5%, 88.9% 30.8%, 91.1% 33.0%, 95.4% 34.6%, 97.7% 37.2%, 99.0% 40.3%, 99.4% 43.5%, 98.9% 46.8%);
+      --shape-cookie12: polygon(100.0% 50.0%, 99.5% 53.2%, 97.2% 56.2%, 94.8% 58.9%, 93.7% 61.7%, 93.2% 64.7%, 94.0% 68.2%, 94.5% 71.9%, 93.3% 75.0%, 91.2% 77.5%, 87.8% 79.0%, 84.3% 80.1%, 82.0% 82.0%, 80.1% 84.3%, 79.0% 87.8%, 77.5% 91.2%, 75.0% 93.3%, 71.9% 94.5%, 68.2% 94.0%, 64.7% 93.2%, 61.7% 93.7%, 58.9% 94.8%, 56.2% 97.2%, 53.2% 99.5%, 50.0% 100.0%, 46.8% 99.5%, 43.8% 97.2%, 41.1% 94.8%, 38.3% 93.7%, 35.3% 93.2%, 31.8% 94.0%, 28.1% 94.5%, 25.0% 93.3%, 22.5% 91.2%, 21.0% 87.8%, 19.9% 84.3%, 18.0% 82.0%, 15.7% 80.1%, 12.2% 79.0%, 8.8% 77.5%, 6.7% 75.0%, 5.5% 71.9%, 6.0% 68.2%, 6.8% 64.7%, 6.3% 61.7%, 5.2% 58.9%, 2.8% 56.2%, 0.5% 53.2%, 0.0% 50.0%, 0.5% 46.8%, 2.8% 43.8%, 5.2% 41.1%, 6.3% 38.3%, 6.8% 35.3%, 6.0% 31.8%, 5.5% 28.1%, 6.7% 25.0%, 8.8% 22.5%, 12.2% 21.0%, 15.7% 19.9%, 18.0% 18.0%, 19.9% 15.7%, 21.0% 12.2%, 22.5% 8.8%, 25.0% 6.7%, 28.1% 5.5%, 31.8% 6.0%, 35.3% 6.8%, 38.3% 6.3%, 41.1% 5.2%, 43.8% 2.8%, 46.8% 0.5%, 50.0% 0.0%, 53.2% 0.5%, 56.2% 2.8%, 58.9% 5.2%, 61.7% 6.3%, 64.7% 6.8%, 68.2% 6.0%, 71.9% 5.5%, 75.0% 6.7%, 77.5% 8.8%, 79.0% 12.2%, 80.1% 15.7%, 82.0% 18.0%, 84.3% 19.9%, 87.8% 21.0%, 91.2% 22.5%, 93.3% 25.0%, 94.5% 28.1%, 94.0% 31.8%, 93.2% 35.3%, 93.7% 38.3%, 94.8% 41.1%, 97.2% 43.8%, 99.5% 46.8%);
+      --shape-flower8: polygon(100.0% 50.0%, 99.2% 53.2%, 97.0% 56.2%, 93.0% 58.6%, 89.0% 60.4%, 86.3% 62.3%, 84.8% 64.4%, 84.4% 67.0%, 84.9% 70.2%, 86.5% 74.4%, 87.6% 78.8%, 87.1% 82.5%, 85.4% 85.4%, 82.5% 87.1%, 78.8% 87.6%, 74.4% 86.5%, 70.2% 84.9%, 67.0% 84.4%, 64.4% 84.8%, 62.3% 86.3%, 60.4% 89.0%, 58.6% 93.0%, 56.2% 97.0%, 53.2% 99.2%, 50.0% 100.0%, 46.8% 99.2%, 43.8% 97.0%, 41.4% 93.0%, 39.6% 89.0%, 37.7% 86.3%, 35.6% 84.8%, 33.0% 84.4%, 29.8% 84.9%, 25.6% 86.5%, 21.2% 87.6%, 17.5% 87.1%, 14.6% 85.4%, 12.9% 82.5%, 12.4% 78.8%, 13.5% 74.4%, 15.1% 70.2%, 15.6% 67.0%, 15.2% 64.4%, 13.7% 62.3%, 11.0% 60.4%, 7.0% 58.6%, 3.0% 56.2%, 0.8% 53.2%, 0.0% 50.0%, 0.8% 46.8%, 3.0% 43.8%, 7.0% 41.4%, 11.0% 39.6%, 13.7% 37.7%, 15.2% 35.6%, 15.6% 33.0%, 15.1% 29.8%, 13.5% 25.6%, 12.4% 21.2%, 12.9% 17.5%, 14.6% 14.6%, 17.5% 12.9%, 21.2% 12.4%, 25.6% 13.5%, 29.8% 15.1%, 33.0% 15.6%, 35.6% 15.2%, 37.7% 13.7%, 39.6% 11.0%, 41.4% 7.0%, 43.8% 3.0%, 46.8% 0.8%, 50.0% 0.0%, 53.2% 0.8%, 56.2% 3.0%, 58.6% 7.0%, 60.4% 11.0%, 62.3% 13.7%, 64.4% 15.2%, 67.0% 15.6%, 70.2% 15.1%, 74.4% 13.5%, 78.8% 12.4%, 82.5% 12.9%, 85.4% 14.6%, 87.1% 17.5%, 87.6% 21.2%, 86.5% 25.6%, 84.9% 29.8%, 84.4% 33.0%, 84.8% 35.6%, 86.3% 37.7%, 89.0% 39.6%, 93.0% 41.4%, 97.0% 43.8%, 99.2% 46.8%);
+      --shape-clover4: polygon(100.0% 50.0%, 99.7% 53.3%, 98.8% 56.4%, 97.3% 59.4%, 95.2% 62.1%, 92.5% 64.4%, 88.5% 65.9%, 84.5% 67.0%, 81.6% 68.3%, 79.2% 69.5%, 77.1% 70.8%, 75.2% 72.1%, 73.6% 73.6%, 72.1% 75.2%, 70.8% 77.1%, 69.5% 79.2%, 68.3% 81.6%, 67.0% 84.5%, 65.9% 88.5%, 64.4% 92.5%, 62.1% 95.2%, 59.4% 97.3%, 56.4% 98.8%, 53.3% 99.7%, 50.0% 100.0%, 46.7% 99.7%, 43.6% 98.8%, 40.6% 97.3%, 37.9% 95.2%, 35.6% 92.5%, 34.1% 88.5%, 33.0% 84.5%, 31.7% 81.6%, 30.5% 79.2%, 29.2% 77.1%, 27.9% 75.2%, 26.4% 73.6%, 24.8% 72.1%, 22.9% 70.8%, 20.8% 69.5%, 18.4% 68.3%, 15.5% 67.0%, 11.5% 65.9%, 7.5% 64.4%, 4.8% 62.1%, 2.7% 59.4%, 1.2% 56.4%, 0.3% 53.3%, 0.0% 50.0%, 0.3% 46.7%, 1.2% 43.6%, 2.7% 40.6%, 4.8% 37.9%, 7.5% 35.6%, 11.5% 34.1%, 15.5% 33.0%, 18.4% 31.7%, 20.8% 30.5%, 22.9% 29.2%, 24.8% 27.9%, 26.4% 26.4%, 27.9% 24.8%, 29.2% 22.9%, 30.5% 20.8%, 31.7% 18.4%, 33.0% 15.5%, 34.1% 11.5%, 35.6% 7.5%, 37.9% 4.8%, 40.6% 2.7%, 43.6% 1.2%, 46.7% 0.3%, 50.0% 0.0%, 53.3% 0.3%, 56.4% 1.2%, 59.4% 2.7%, 62.1% 4.8%, 64.4% 7.5%, 65.9% 11.5%, 67.0% 15.5%, 68.3% 18.4%, 69.5% 20.8%, 70.8% 22.9%, 72.1% 24.8%, 73.6% 26.4%, 75.2% 27.9%, 77.1% 29.2%, 79.2% 30.5%, 81.6% 31.7%, 84.5% 33.0%, 88.5% 34.1%, 92.5% 35.6%, 95.2% 37.9%, 97.3% 40.6%, 98.8% 43.6%, 99.7% 46.7%);
+      --shape-burst10: polygon(88.5% 50.0%, 90.7% 52.7%, 93.6% 55.7%, 94.1% 58.8%, 96.8% 62.5%, 97.2% 66.0%, 93.4% 68.0%, 89.7% 69.6%, 87.2% 71.5%, 82.8% 71.9%, 80.9% 73.7%, 81.8% 77.9%, 81.3% 81.3%, 80.4% 84.7%, 80.2% 89.3%, 77.3% 90.8%, 72.7% 89.4%, 69.5% 89.6%, 65.9% 88.4%, 62.4% 86.6%, 60.4% 88.7%, 58.5% 92.7%, 55.8% 94.2%, 53.1% 97.6%, 50.0% 100.0%, 46.9% 97.6%, 44.2% 94.2%, 41.5% 92.7%, 39.6% 88.7%, 37.6% 86.6%, 34.1% 88.4%, 30.5% 89.6%, 27.3% 89.4%, 22.7% 90.8%, 19.8% 89.3%, 19.6% 84.7%, 18.7% 81.3%, 18.2% 77.9%, 19.1% 73.7%, 17.2% 71.9%, 12.8% 71.5%, 10.3% 69.6%, 6.6% 68.0%, 2.8% 66.0%, 3.2% 62.5%, 5.9% 58.8%, 6.4% 55.7%, 9.3% 52.7%, 11.5% 50.0%, 9.3% 47.3%, 6.4% 44.3%, 5.9% 41.2%, 3.2% 37.5%, 2.8% 34.0%, 6.6% 32.0%, 10.3% 30.4%, 12.8% 28.5%, 17.2% 28.1%, 19.1% 26.3%, 18.2% 22.1%, 18.7% 18.7%, 19.6% 15.3%, 19.8% 10.7%, 22.7% 9.2%, 27.3% 10.6%, 30.5% 10.4%, 34.1% 11.6%, 37.6% 13.4%, 39.6% 11.3%, 41.5% 7.3%, 44.2% 5.8%, 46.9% 2.4%, 50.0% 0.0%, 53.1% 2.4%, 55.8% 5.8%, 58.5% 7.3%, 60.4% 11.3%, 62.4% 13.4%, 65.9% 11.6%, 69.5% 10.4%, 72.7% 10.6%, 77.3% 9.2%, 80.2% 10.7%, 80.4% 15.3%, 81.3% 18.7%, 81.8% 22.1%, 80.9% 26.3%, 82.8% 28.1%, 87.2% 28.5%, 89.7% 30.4%, 93.4% 32.0%, 97.2% 34.0%, 96.8% 37.5%, 94.1% 41.2%, 93.6% 44.3%, 90.7% 47.3%);
+      --shape-sunny8: polygon(100.0% 50.0%, 99.0% 53.2%, 96.8% 56.2%, 95.0% 58.9%, 93.0% 61.5%, 90.3% 63.7%, 88.6% 66.0%, 88.2% 68.8%, 88.5% 72.3%, 88.1% 75.5%, 87.5% 78.8%, 87.0% 82.4%, 85.4% 85.4%, 82.4% 87.0%, 78.8% 87.5%, 75.5% 88.1%, 72.3% 88.5%, 68.8% 88.2%, 66.0% 88.6%, 63.7% 90.3%, 61.5% 93.0%, 58.9% 95.0%, 56.2% 96.8%, 53.2% 99.0%, 50.0% 100.0%, 46.8% 99.0%, 43.8% 96.8%, 41.1% 95.0%, 38.5% 93.0%, 36.3% 90.3%, 34.0% 88.6%, 31.2% 88.2%, 27.7% 88.5%, 24.5% 88.1%, 21.2% 87.5%, 17.6% 87.0%, 14.6% 85.4%, 13.0% 82.4%, 12.5% 78.8%, 11.9% 75.5%, 11.5% 72.3%, 11.8% 68.8%, 11.4% 66.0%, 9.7% 63.7%, 7.0% 61.5%, 5.0% 58.9%, 3.2% 56.2%, 1.0% 53.2%, 0.0% 50.0%, 1.0% 46.8%, 3.2% 43.8%, 5.0% 41.1%, 7.0% 38.5%, 9.7% 36.3%, 11.4% 34.0%, 11.8% 31.2%, 11.5% 27.7%, 11.9% 24.5%, 12.5% 21.2%, 13.0% 17.6%, 14.6% 14.6%, 17.6% 13.0%, 21.2% 12.5%, 24.5% 11.9%, 27.7% 11.5%, 31.2% 11.8%, 34.0% 11.4%, 36.3% 9.7%, 38.5% 7.0%, 41.1% 5.0%, 43.8% 3.2%, 46.8% 1.0%, 50.0% 0.0%, 53.2% 1.0%, 56.2% 3.2%, 58.9% 5.0%, 61.5% 7.0%, 63.7% 9.7%, 66.0% 11.4%, 68.8% 11.8%, 72.3% 11.5%, 75.5% 11.9%, 78.8% 12.5%, 82.4% 13.0%, 85.4% 14.6%, 87.0% 17.6%, 87.5% 21.2%, 88.1% 24.5%, 88.5% 27.7%, 88.2% 31.2%, 88.6% 34.0%, 90.3% 36.3%, 93.0% 38.5%, 95.0% 41.1%, 96.8% 43.8%, 99.0% 46.8%);
+      --shape-soft6: polygon(94.3% 50.0%, 94.5% 52.9%, 94.8% 55.9%, 95.2% 59.0%, 95.6% 62.2%, 95.7% 65.5%, 95.4% 68.8%, 94.7% 72.0%, 93.3% 75.0%, 91.4% 77.7%, 89.0% 79.9%, 86.3% 81.8%, 83.4% 83.4%, 80.4% 84.6%, 77.5% 85.8%, 74.8% 87.0%, 72.2% 88.4%, 69.7% 90.0%, 67.3% 91.7%, 64.8% 93.6%, 62.2% 95.6%, 59.4% 97.3%, 56.4% 98.8%, 53.3% 99.7%, 50.0% 100.0%, 46.7% 99.7%, 43.6% 98.8%, 40.6% 97.3%, 37.8% 95.6%, 35.2% 93.6%, 32.7% 91.7%, 30.3% 90.0%, 27.8% 88.4%, 25.2% 87.0%, 22.5% 85.8%, 19.6% 84.6%, 16.6% 83.4%, 13.7% 81.8%, 11.0% 79.9%, 8.6% 77.7%, 6.7% 75.0%, 5.3% 72.0%, 4.6% 68.8%, 4.3% 65.5%, 4.4% 62.2%, 4.8% 59.0%, 5.2% 55.9%, 5.5% 52.9%, 5.7% 50.0%, 5.5% 47.1%, 5.2% 44.1%, 4.8% 41.0%, 4.4% 37.8%, 4.3% 34.5%, 4.6% 31.2%, 5.3% 28.0%, 6.7% 25.0%, 8.6% 22.3%, 11.0% 20.1%, 13.7% 18.2%, 16.6% 16.6%, 19.6% 15.4%, 22.5% 14.2%, 25.2% 13.0%, 27.8% 11.6%, 30.3% 10.0%, 32.7% 8.3%, 35.2% 6.4%, 37.8% 4.4%, 40.6% 2.7%, 43.6% 1.2%, 46.7% 0.3%, 50.0% 0.0%, 53.3% 0.3%, 56.4% 1.2%, 59.4% 2.7%, 62.2% 4.4%, 64.8% 6.4%, 67.3% 8.3%, 69.7% 10.0%, 72.2% 11.6%, 74.8% 13.0%, 77.5% 14.2%, 80.4% 15.4%, 83.4% 16.6%, 86.3% 18.2%, 89.0% 20.1%, 91.4% 22.3%, 93.3% 25.0%, 94.7% 28.0%, 95.4% 31.2%, 95.7% 34.5%, 95.6% 37.8%, 95.2% 41.0%, 94.8% 44.1%, 94.5% 47.1%);
+            --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease: cubic-bezier(0.2, 0, 0, 1);
+        }
+        [data-theme="dark"] {
+            color-scheme: dark;
+            --primary: #ffb4a1;
+            --on-primary: #561f10;
+            --primary-container: #723524;
+            --on-primary-container: #ffdbd2;
+            --secondary-container: #5d4038;
+            --on-secondary-container: #ffdbd2;
+            --tertiary: #d9c58d;
+            --tertiary-container: #534519;
+            --on-tertiary-container: #f7e1a6;
+            --surface: #1a110f;
+            --surface-lowest: #140c0a;
+            --surface-low: #231917;
+            --surface-container: #271d1b;
+            --surface-high: #322825;
+            --surface-highest: #3d3230;
+            --on-surface: #f1dfda;
+            --on-surface-variant: #d8c2bc;
+            --outline: #a08c88;
+            --outline-variant: #53433f;
+        }
+        [data-theme="light"] {
+            color-scheme: light;
+            --primary: #8f4b39;
+            --on-primary: #ffffff;
+            --primary-container: #ffdbd2;
+            --on-primary-container: #723524;
+            --secondary-container: #ffdbd2;
+            --on-secondary-container: #5d4038;
+            --tertiary: #6c5d2e;
+            --tertiary-container: #f7e1a6;
+            --on-tertiary-container: #534519;
+            --surface: #fff8f6;
+            --surface-lowest: #ffffff;
+            --surface-low: #fff1ed;
+            --surface-container: #fceae6;
+            --surface-high: #f7e4e0;
+            --surface-highest: #f1dfda;
+            --on-surface: #231917;
+            --on-surface-variant: #53433f;
+            --outline: #85736f;
+            --outline-variant: #d8c2bc;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            background: var(--surface);
+            color: var(--on-surface);
+            font-family: "Google Sans Flex", system-ui, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; }
+        img { display: block; max-width: 100%; }
+
+        .ms {
+            font-family: "Material Symbols Rounded";
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            white-space: nowrap;
+            direction: ltr;
+            -webkit-font-feature-settings: "liga";
+            font-feature-settings: "liga";
+            font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+            user-select: none;
+        }
+        .ms.filled { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
+
+        .page { max-width: 1180px; margin: 0 auto; padding: 0 16px 24px; }
+
+        /* ---------- top buttons (they scroll away with the page, so they never cover a card) ---------- */
+        .topbar {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 12px 16px 0;
+            pointer-events: none;
+        }
+        .icon-btn {
+            pointer-events: auto;
+            display: inline-grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--surface-high);
+            color: var(--on-surface);
+            text-decoration: none;
+            cursor: pointer;
+            transition: border-radius 0.35s var(--ease), background 0.2s, transform 0.2s var(--spring);
+        }
+        .icon-btn:hover { background: color-mix(in srgb, var(--on-surface) 10%, var(--surface-high)); }
+        .icon-btn:active { border-radius: 14px; transform: scale(0.94); }
+        .icon-btn:focus-visible, .btn:focus-visible, .row:focus-visible, .seg button:focus-visible, .poster:focus-visible, .avatar-btn:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* ---------- hero: avatar in a shape that morphs when you tap it ---------- */
+        .hero {
+            position: relative;
+            display: grid;
+            place-items: center;
+            padding: 40px 0 36px;
+        }
+        .hero-backdrop {
+            position: absolute;
+            width: min(380px, 86vw);
+            aspect-ratio: 1;
+            background: color-mix(in oklab, var(--primary-container) 55%, var(--surface));
+            clip-path: var(--avatar-shape-back, var(--shape-flower8));
+            rotate: var(--avatar-spin-back, 0deg);
+            transition: clip-path 0.9s var(--spring), rotate 0.9s var(--spring);
+            animation: shape-spin 60s linear infinite;
+        }
+        /* The two cookie cutters turn slowly in opposite directions; the photo itself stays upright */
+        @keyframes shape-spin { to { transform: rotate(360deg); } }
+        .avatar-btn {
+            position: relative;
+            width: min(220px, 56vw);
+            aspect-ratio: 1;
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            clip-path: var(--avatar-shape, var(--shape-cookie12));
+            transition: clip-path 0.7s var(--spring);
+            animation: shape-spin 45s linear infinite reverse;
+        }
+        .avatar-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: scale 0.3s var(--spring), opacity 0.15s var(--ease);
+            animation: shape-spin 45s linear infinite;
+        }
+        .hero .avatar-btn img.is-swapping { opacity: 0; scale: 0.7; transition: scale 0.15s var(--ease), opacity 0.15s var(--ease); }
+        .avatar-btn:hover img { scale: 1.03; }
+        .avatar-btn:active img { scale: 0.96; }
+
+        /* Hand-drawn hint beside the avatar, until the first tap */
+        .avatar-hint {
+            position: absolute;
+            top: 70px;
+            left: calc(50% + 196px); /* just outside the shape behind the avatar */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            color: var(--primary);
+            pointer-events: none;
+            opacity: 0;
+            translate: 0 -6px;
+            transition: opacity 0.5s var(--ease), translate 0.6s var(--spring);
+        }
+        .avatar-hint.show { opacity: 1; translate: 0 0; }
+        .avatar-hint-label {
+            font: 600 1.9rem "Caveat", cursive;
+            white-space: nowrap;
+            rotate: -6deg;
+        }
+        .avatar-hint-arrow { width: 30px; height: 64px; margin: 0 0 0 -6px; rotate: -150deg; }
+        .avatar-hint.show .avatar-hint-arrow { animation: hint-bob 1.8s ease-in-out infinite; }
+        @keyframes hint-bob { 50% { translate: -3px 3px; } }
+        @media (max-width: 600px) {
+            .avatar-hint { top: 20px; left: calc(50% + 28vw - 8px); }
+            .avatar-hint-label { font-size: 1.15rem; }
+            .avatar-hint-arrow { width: 18px; height: 40px; }
+        }
+
+        /* ---------- cards ---------- */
+        .card {
+            position: relative;
+            margin-bottom: 16px;
+            padding: 24px;
+            border-radius: 28px;
+            background: color-mix(in oklab, var(--glow-c) calc(var(--glow-k) * 6%), var(--surface-low));
+            overflow: hidden;
+        }
+        .js .card { opacity: 0; translate: 0 28px; transition: opacity 0.6s var(--ease), translate 0.7s var(--spring); }
+        .js .card.in { opacity: 1; translate: 0 0; }
+
+        .shape-icon {
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            margin-bottom: 14px;
+            background: var(--icon-bg, var(--primary));
+            color: var(--icon-fg, var(--on-primary));
+            clip-path: var(--shape-a);
+            transition: clip-path 0.7s var(--spring), rotate 0.7s var(--spring);
+        }
+        .card:hover .shape-icon { clip-path: var(--shape-b); rotate: 24deg; }
+        .card:hover .shape-icon .ms { rotate: -24deg; }
+        .shape-icon .ms { transition: rotate 0.7s var(--spring); }
+        .shape-icon.tonal { --icon-bg: var(--primary-container); --icon-fg: var(--on-primary-container); }
+        .shape-icon.gold { --icon-bg: var(--tertiary-container); --icon-fg: var(--on-tertiary-container); }
+
+        .card-title {
+            margin: 0 0 18px;
+            font-size: clamp(1.6rem, 3.4vw, 2.05rem);
+            font-weight: 500;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+        }
+        .card-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: 40px;
+            padding: 0 20px 0 16px;
+            border: 0;
+            border-radius: 999px;
+            background: var(--secondary-container);
+            color: var(--on-secondary-container);
+            font: 500 0.92rem/1 "Google Sans Flex", sans-serif;
+            text-decoration: none;
+            cursor: pointer;
+            transition: border-radius 0.3s var(--spring), filter 0.2s, transform 0.2s var(--spring);
+        }
+        .btn .ms, .btn i { font-size: 18px; }
+        .btn:hover { filter: brightness(1.08); }
+        .btn:active { border-radius: 12px; transform: scale(0.97); }
+        .btn.filled { background: var(--primary); color: var(--on-primary); }
+
+        /* ---------- intro ---------- */
+        .intro { padding-right: min(260px, 34%); min-height: 260px; }
+        .intro h1 {
+            margin: 0 0 12px;
+            font-size: clamp(2rem, 5vw, 2.6rem);
+            font-weight: 500;
+            line-height: 1.1;
+        }
+        .intro h1 .name {
+            font-family: "Docallisme", "Google Sans Flex", sans-serif;
+            font-weight: 400;
+            font-size: 1.45em;
+            letter-spacing: 0.02em;
+            color: var(--primary);
+            vertical-align: -0.08em;
+        }
+        .intro ul { margin: 0 0 16px; padding-left: 20px; color: var(--on-surface-variant); }
+        .intro li { margin: 2px 0; }
+        .intro li::marker { color: var(--primary); }
+        .pinned { margin: 0 0 16px; color: var(--on-surface-variant); font-size: 0.95rem; }
+        .pinned .ms { font-size: 18px; vertical-align: -3px; margin-right: 4px; color: var(--primary); }
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            height: 32px;
+            padding: 0 14px;
+            border: 1px solid var(--outline-variant);
+            border-radius: 8px;
+            font-size: 0.86rem;
+            color: var(--on-surface-variant);
+            transition: border-radius 0.3s var(--spring), background 0.2s;
+        }
+        .chip:hover { border-radius: 16px; background: color-mix(in srgb, var(--on-surface) 6%, transparent); }
+        .chip i, .chip .ms { font-size: 16px; color: var(--primary); }
+        .mascot {
+            position: absolute;
+            right: -8px;
+            bottom: -26px;
+            width: min(300px, 40%);
+            height: auto;
+            cursor: help;
+            filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.35));
+            transition: translate 0.8s var(--spring), rotate 0.8s var(--spring), scale 0.5s var(--spring);
+        }
+        .intro:hover .mascot { translate: -6px -8px; rotate: -3deg; }
+        .intro .mascot:hover, .intro .mascot:focus-visible { scale: 1.06; rotate: -7deg; }
+        .mascot:focus-visible { outline: none; filter: drop-shadow(0 0 4px var(--primary)) drop-shadow(0 0 4px var(--primary)) drop-shadow(0 12px 24px rgba(0, 0, 0, 0.35)); }
+
+        /* ---------- tiles ---------- */
+        .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .tile {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+            padding: 18px;
+            border-radius: 20px;
+            background: var(--surface-high);
+            text-decoration: none;
+            transition: border-radius 0.35s var(--ease), background 0.2s;
+        }
+        a.tile:hover { border-radius: 28px; background: color-mix(in srgb, var(--on-surface) 6%, var(--surface-high)); }
+        .tile .ms { color: var(--primary); margin-bottom: 6px; }
+        .tile-label { font-size: 0.8rem; color: var(--on-surface-variant); }
+        .tile-value { font-size: 1.55rem; font-weight: 500; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .tile-sub { font-size: 0.82rem; color: var(--on-surface-variant); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* ---------- lists: segmented rows whose corners round out on hover ---------- */
+        .list { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 0; list-style: none; }
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-height: 64px;
+            padding: 10px 16px;
+            border-radius: 4px;
+            background: var(--surface-high);
+            text-decoration: none;
+            transition: border-radius 0.35s var(--ease), background 0.2s;
+        }
+        .list > li:first-child .row, .list > .row:first-child { border-top-left-radius: 18px; border-top-right-radius: 18px; }
+        .list > li:last-child .row, .list > .row:last-child { border-bottom-left-radius: 18px; border-bottom-right-radius: 18px; }
+        a.row:hover { border-radius: 18px; background: color-mix(in srgb, var(--on-surface) 7%, var(--surface-high)); }
+        a.row:active { transform: scale(0.99); }
+        .row-lead {
+            display: grid;
+            place-items: center;
+            flex: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--primary-container);
+            color: var(--on-primary-container);
+            font-size: 18px;
+        }
+        .row-lead .ms { font-size: 22px; }
+        .row-text { flex: 1; min-width: 0; }
+        .row-title { display: block; font-size: 1rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .row-sub { display: block; font-size: 0.82rem; color: var(--on-surface-variant); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .row-trail { flex: none; color: var(--on-surface-variant); }
+        .socials { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; }
+        .socials .list:first-child { margin: 0; }
+
+        /* ---------- listening ---------- */
+        .now-playing {
+            display: block;
+            overflow: hidden;
+            border-radius: 20px;
+            background: var(--surface-high);
+            transition: border-radius 0.35s var(--ease);
+        }
+        .now-playing:hover { border-radius: 28px; }
+        .now-playing img { width: 100%; height: auto; }
+        .fav-song { margin-top: 10px; border-radius: 20px; overflow: hidden; }
+        .fav-song iframe { display: block; width: 100%; border: 0; }
+
+        /* ---------- watching: segmented buttons switch anime and films ---------- */
+        .seg {
+            display: inline-flex;
+            margin-bottom: 16px;
+            border: 1px solid var(--outline);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .seg button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            height: 40px;
+            padding: 0 18px;
+            border: 0;
+            background: transparent;
+            color: var(--on-surface);
+            font: 500 0.9rem "Google Sans Flex", sans-serif;
+            cursor: pointer;
+            transition: background 0.25s var(--ease);
+        }
+        .seg button + button { border-left: 1px solid var(--outline); }
+        .seg button .ms { font-size: 18px; width: 0; overflow: hidden; transition: width 0.3s var(--spring); }
+        .seg button[aria-pressed="true"] { background: var(--secondary-container); color: var(--on-secondary-container); }
+        .seg button[aria-pressed="true"] .ms { width: 18px; }
+        .panel[hidden] { display: none; }
+
+        .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+        .stat {
+            padding: 10px 16px;
+            border-radius: 16px;
+            background: var(--surface-high);
+        }
+        .stat b { display: block; font-size: 1.3rem; font-weight: 600; line-height: 1.2; }
+        .stat span { font-size: 0.78rem; color: var(--on-surface-variant); }
+
+        .posters { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .posters.four { grid-template-columns: repeat(4, 1fr); }
+        .poster {
+            position: relative;
+            display: block;
+            aspect-ratio: 2 / 3;
+            overflow: hidden;
+            border-radius: 12px;
+            background: var(--surface-high);
+            text-decoration: none;
+            transition: border-radius 0.35s var(--ease), scale 0.35s var(--spring);
+        }
+        .poster:hover, .poster:focus-visible { border-radius: 20px; scale: 1.05; }
+        .poster img { width: 100%; height: 100%; object-fit: cover; }
+        .poster-tag {
+            position: absolute;
+            left: 6px;
+            bottom: 6px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            font-size: 0.66rem;
+            backdrop-filter: blur(6px);
+        }
+        .poster.skeleton { background: color-mix(in srgb, var(--primary) 12%, var(--surface-high)); }
+
+        /* ---------- playing ---------- */
+        .play-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 10px; }
+        .game {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 210px;
+            padding: 18px;
+            overflow: hidden;
+            border-radius: 20px;
+            background: var(--surface-high) center / cover no-repeat;
+            color: #fff;
+            text-decoration: none;
+            transition: border-radius 0.35s var(--ease);
+        }
+        .game::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 25%, rgba(0, 0, 0, 0.78));
+        }
+        .game:hover { border-radius: 28px; }
+        .game > * { position: relative; }
+        .game-label { font-size: 0.8rem; opacity: 0.85; }
+        .game-name { font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
+        .game-sub { font-size: 0.85rem; opacity: 0.85; }
+
+        /* ---------- coding ---------- */
+        .lang-bar { display: flex; height: 12px; margin: 4px 0 10px; overflow: hidden; border-radius: 999px; gap: 3px; }
+        .lang-bar span { height: 100%; border-radius: 999px; }
+        .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.82rem; color: var(--on-surface-variant); margin-bottom: 18px; }
+        .legend i { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; vertical-align: 1px; }
+        .subhead { margin: 18px 0 10px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--on-surface-variant); }
+
+        /* ---------- footer ---------- */
+        .footer {
+            max-width: 1180px;
+            margin: 8px auto 0;
+            padding: 28px 24px 32px;
+            border-radius: 28px 28px 0 0;
+            background: var(--surface-low);
+        }
+        .footer-icons { display: flex; flex-wrap: wrap; gap: 10px; }
+        .footer-icons a {
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 24px; /* half the size: a circle that can ease smoothly into a rounded square */
+            background: var(--primary);
+            color: var(--on-primary);
+            font-size: 20px;
+            text-decoration: none;
+            transition: border-radius 0.3s var(--ease), transform 0.2s var(--spring);
+        }
+        .footer-icons a:hover, .footer-icons a:focus-visible { border-radius: 15px; }
+        .footer-icons a:active { transform: scale(0.92); }
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid var(--outline-variant);
+        }
+        .wordmark { font-size: 1.3rem; color: var(--on-surface-variant); text-decoration: none; }
+        .wordmark b { font-family: "Docallisme", sans-serif; font-weight: 400; font-size: 1.5em; color: var(--on-surface); letter-spacing: 0.02em; }
+
+
+
+        /* ===== Rich tooltip: the details of the poster you're hovering ===== */
+        .rich-tip {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 60;
+            width: 280px;
+            padding: 14px 16px 16px;
+            overflow: hidden;
+            border-radius: 18px;
+            background: var(--surface-highest);
+            color: var(--on-surface);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+            pointer-events: none;
+            opacity: 0;
+            scale: 0.94;
+            transform-origin: var(--tip-origin, top left);
+            transition: opacity 0.15s var(--ease), scale 0.3s var(--spring);
+        }
+        .rich-tip.show { opacity: 1; scale: 1; }
+        /* Banner strip, fading into the card; the show's own colour shows while it loads */
+        .tip-banner {
+            position: relative;
+            height: 104px;
+            margin: -14px -16px 12px;
+            background: var(--tip-accent, var(--surface-high));
+        }
+        .tip-banner img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.3s var(--ease); }
+        .tip-banner img.is-loaded { opacity: 1; }
+        .tip-banner.is-cover img { object-position: center 30%; }
+        .tip-banner::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, var(--surface-highest));
+        }
+        .tip-title { margin: 0 0 2px; font-size: 1rem; font-weight: 600; line-height: 1.25; }
+        .tip-meta { margin: 0 0 12px; font-size: 0.78rem; color: var(--on-surface-variant); }
+        .tip-progress {
+            height: 6px;
+            margin-bottom: 6px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--on-surface) 12%, transparent);
+        }
+        .tip-progress span { display: block; height: 100%; border-radius: inherit; background: var(--tip-accent, var(--primary)); }
+        .tip-line { display: flex; align-items: center; gap: 6px; margin: 4px 0 0; font-size: 0.82rem; }
+        .tip-line .ms { font-size: 16px; color: var(--primary); }
+        .tip-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+        .tip-chips span {
+            padding: 2px 8px;
+            border: 1px solid var(--outline-variant);
+            border-radius: 6px;
+            font-size: 0.72rem;
+            color: var(--on-surface-variant);
+        }
+
+        /* ===== BENTO: tiles of mixed sizes on a 4-column grid ===== */
+        .bento {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-auto-flow: row dense;
+            gap: 16px;
+        }
+        .bento > .card { margin: 0; }
+        .span-2 { grid-column: span 2; }
+        .span-3 { grid-column: span 3; }
+        .span-4 { grid-column: 1 / -1; }
+        .rows-2 { grid-row: span 2; }
+        .rows-3 { grid-row: span 3; }
+
+        /* Small tiles: an icon and a label, then one big value */
+        .mini {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+            padding: 20px;
+            text-decoration: none;
+        }
+        .mini-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .shape-icon.sm { width: 40px; height: 40px; margin: 0; }
+        .shape-icon.sm .ms { font-size: 20px; }
+        .mini .tile-value { font-size: 1.75rem; }
+        .js a.mini { transition: border-radius 0.35s var(--ease), background 0.2s, opacity 0.6s var(--ease), translate 0.7s var(--spring); }
+        a.mini:hover { border-radius: 36px; background: color-mix(in srgb, var(--on-surface) 5%, var(--surface-low)); }
+
+        /* Backloggd: a shelf across the full width, the numbers on the left and favourites on the right */
+        @media (min-width: 1001px) {
+            .t-played { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 32px; align-items: start; }
+            .t-played .played-info { display: flex; flex-direction: column; height: 100%; }
+            .t-played .played-info .card-actions { margin-top: auto; justify-content: flex-start; }
+            .t-played .played-favs .subhead { margin-top: 4px; }
+        }
+
+        /* Socials across the full width: two columns of rows */
+        @media (min-width: 721px) {
+            .t-find .list { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; }
+            .t-find .list > li .row { border-radius: 12px; }
+            .t-find .list > li .row:hover { border-radius: 20px; }
+        }
+
+        /* Full-bleed game art tile */
+        .t-game {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 260px;
+            padding: 22px;
+            background: var(--surface-high) center / cover no-repeat;
+            color: #fff;
+            text-decoration: none;
+        }
+        .t-game::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 20%, rgba(0, 0, 0, 0.8));
+            transition: opacity 0.3s;
+        }
+        .t-game:hover::before { opacity: 0.85; }
+        .t-game::before { z-index: 1; }
+        .t-game > * { position: relative; z-index: 2; }
+        .t-game > .game-video {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.4s var(--ease);
+        }
+        .t-game.is-playing > .game-video { opacity: 1; }
+        .t-game.is-playing::before { opacity: 0.6; }
+        .game-chip {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            height: 32px;
+            padding: 0 14px 0 10px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(8px);
+            font-size: 0.82rem;
+        }
+        .game-chip .ms { font-size: 18px; }
+
+        /* ===== LOADER: Material 3 Expressive style, a shape morphing through the page's shapes ===== */
+        html.is-loading { overflow: hidden; }
+        .loader {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            background: var(--surface);
+            transition: opacity 0.5s var(--ease) 0.15s, visibility 0s 0.65s;
+        }
+        .loader.is-done { opacity: 0; visibility: hidden; }
+        .loader-blob {
+            display: grid;
+            place-items: center;
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: var(--primary-container);
+            transition: scale 0.5s var(--spring);
+        }
+        .loader.is-done .loader-blob { scale: 0; }
+        .loader-shape {
+            width: 58px;
+            height: 58px;
+            background: var(--primary);
+            clip-path: var(--shape-cookie9);
+            animation: loader-morph 3.6s var(--spring) infinite, loader-spin 3.6s linear infinite;
+        }
+        @keyframes loader-morph {
+            0%, 100% { clip-path: var(--shape-cookie9); }
+            20% { clip-path: var(--shape-flower8); }
+            40% { clip-path: var(--shape-clover4); }
+            60% { clip-path: var(--shape-burst10); }
+            80% { clip-path: var(--shape-sunny8); }
+        }
+        @keyframes loader-spin { to { rotate: 360deg; } }
+
+        @media (max-width: 1000px) {
+            .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .span-2, .span-3, .span-4 { grid-column: 1 / -1; }
+            .rows-2, .rows-3 { grid-row: auto; }
+        }
+        @media (max-width: 600px) {
+            .wide-xs { grid-column: 1 / -1; }
+        }
+
+
+        /* ===== Colour themes: every option is a full Material 3 scheme generated from one seed colour
+           (Tonal Spot, like the default coral; lime uses the Content scheme to keep its punch) ===== */
+        [data-palette="lavender"][data-theme="dark"] { --primary: #c3c0ff; --on-primary: #2b2a60; --primary-container: #424178; --on-primary-container: #e2dfff; --secondary-container: #464559; --on-secondary-container: #e3e0f9; --tertiary: #eab9d2; --tertiary-container: #603c50; --on-tertiary-container: #ffd8ea; --surface: #131318; --surface-lowest: #0e0e13; --surface-low: #1b1b21; --surface-container: #201f25; --surface-high: #2a292f; --surface-highest: #35343a; --on-surface: #e5e1e9; --on-surface-variant: #c8c5d0; --outline: #928f9a; --outline-variant: #47464f; }
+        [data-palette="lavender"][data-theme="light"] { --primary: #5a5892; --on-primary: #ffffff; --primary-container: #e2dfff; --on-primary-container: #424178; --secondary-container: #e3e0f9; --on-secondary-container: #464559; --tertiary: #7a5368; --tertiary-container: #ffd8ea; --on-tertiary-container: #603c50; --surface: #fcf8ff; --surface-lowest: #ffffff; --surface-low: #f6f2fa; --surface-container: #f0ecf4; --surface-high: #eae7ef; --surface-highest: #e5e1e9; --on-surface: #1b1b21; --on-surface-variant: #47464f; --outline: #787680; --outline-variant: #c8c5d0; }
+        [data-palette="teal"][data-theme="dark"] { --primary: #80d4db; --on-primary: #00363a; --primary-container: #004f54; --on-primary-container: #9df0f8; --secondary-container: #324b4d; --on-secondary-container: #cce8ea; --tertiary: #b7c7ea; --tertiary-container: #374764; --on-tertiary-container: #d7e3ff; --surface: #0e1415; --surface-lowest: #090f10; --surface-low: #161d1d; --surface-container: #1a2121; --surface-high: #252b2c; --surface-highest: #303636; --on-surface: #dde4e4; --on-surface-variant: #bec8c9; --outline: #899393; --outline-variant: #3f4849; }
+        [data-palette="teal"][data-theme="light"] { --primary: #00696f; --on-primary: #ffffff; --primary-container: #9df0f8; --on-primary-container: #004f54; --secondary-container: #cce8ea; --on-secondary-container: #324b4d; --tertiary: #4f5f7d; --tertiary-container: #d7e3ff; --on-tertiary-container: #374764; --surface: #f4fafb; --surface-lowest: #ffffff; --surface-low: #eff5f5; --surface-container: #e9efef; --surface-high: #e3e9ea; --surface-highest: #dde4e4; --on-surface: #161d1d; --on-surface-variant: #3f4849; --outline: #6f797a; --outline-variant: #bec8c9; }
+        [data-palette="mint"][data-theme="dark"] { --primary: #95d5a7; --on-primary: #00391d; --primary-container: #10512f; --on-primary-container: #b0f1c2; --secondary-container: #384b3d; --on-secondary-container: #d2e8d4; --tertiary: #a2cdda; --tertiary-container: #214c57; --on-tertiary-container: #beeaf7; --surface: #101510; --surface-lowest: #0a0f0b; --surface-low: #181d18; --surface-container: #1c211c; --surface-high: #262b27; --surface-highest: #313631; --on-surface: #dfe4dd; --on-surface-variant: #c0c9bf; --outline: #8b938a; --outline-variant: #414942; }
+        [data-palette="mint"][data-theme="light"] { --primary: #2d6a45; --on-primary: #ffffff; --primary-container: #b0f1c2; --on-primary-container: #10512f; --secondary-container: #d2e8d4; --on-secondary-container: #384b3d; --tertiary: #3a646f; --tertiary-container: #beeaf7; --on-tertiary-container: #214c57; --surface: #f6fbf3; --surface-lowest: #ffffff; --surface-low: #f0f5ee; --surface-container: #eaefe8; --surface-high: #e5eae2; --surface-highest: #dfe4dd; --on-surface: #181d18; --on-surface-variant: #414942; --outline: #717971; --outline-variant: #c0c9bf; }
+        [data-palette="sand"][data-theme="dark"] { --primary: #e5c36c; --on-primary: #3e2e00; --primary-container: #594400; --on-primary-container: #ffdf92; --secondary-container: #51462a; --on-secondary-container: #f3e1bb; --tertiary: #aecfac; --tertiary-container: #314d33; --on-tertiary-container: #c9ebc7; --surface: #16130b; --surface-lowest: #110e07; --surface-low: #1f1b13; --surface-container: #231f17; --surface-high: #2e2a21; --surface-highest: #39342b; --on-surface: #eae1d4; --on-surface-variant: #cfc5b4; --outline: #989080; --outline-variant: #4c4639; }
+        [data-palette="sand"][data-theme="light"] { --primary: #745b0b; --on-primary: #ffffff; --primary-container: #ffdf92; --on-primary-container: #594400; --secondary-container: #f3e1bb; --on-secondary-container: #51462a; --tertiary: #486549; --tertiary-container: #c9ebc7; --on-tertiary-container: #314d33; --surface: #fff8f1; --surface-lowest: #ffffff; --surface-low: #fcf2e5; --surface-container: #f6eddf; --surface-high: #f0e7d9; --surface-highest: #eae1d4; --on-surface: #1f1b13; --on-surface-variant: #4c4639; --outline: #7e7667; --outline-variant: #cfc5b4; }
+        [data-palette="pink"][data-theme="dark"] { --primary: #feb0d1; --on-primary: #531d38; --primary-container: #6e334f; --on-primary-container: #ffd8e6; --secondary-container: #593f4a; --on-secondary-container: #fed9e6; --tertiary: #f2bb98; --tertiary-container: #633e23; --on-tertiary-container: #ffdcc6; --surface: #191114; --surface-lowest: #130c0f; --surface-low: #21191c; --surface-container: #251d20; --surface-high: #30282b; --surface-highest: #3b3235; --on-surface: #eedfe3; --on-surface-variant: #d4c2c7; --outline: #9d8c92; --outline-variant: #504348; }
+        [data-palette="pink"][data-theme="light"] { --primary: #894a67; --on-primary: #ffffff; --primary-container: #ffd8e6; --on-primary-container: #6e334f; --secondary-container: #fed9e6; --on-secondary-container: #593f4a; --tertiary: #7e5538; --tertiary-container: #ffdcc6; --on-tertiary-container: #633e23; --surface: #fff8f8; --surface-lowest: #ffffff; --surface-low: #fff0f3; --surface-container: #faeaee; --surface-high: #f4e4e8; --surface-highest: #eedfe3; --on-surface: #21191c; --on-surface-variant: #504348; --outline: #827378; --outline-variant: #d4c2c7; }
+        [data-palette="lime"][data-theme="dark"] { --primary: #d1fd40; --on-primary: #293500; --primary-container: #b6e01e; --on-primary-container: #4c6000; --secondary-container: #405200; --on-secondary-container: #afc56a; --tertiary: #b4ffad; --tertiary-container: #65eb6c; --on-tertiary-container: #00681a; --surface: #121409; --surface-lowest: #0d0f05; --surface-low: #1a1d11; --surface-container: #1e2115; --surface-high: #282b1f; --surface-highest: #333629; --on-surface: #e2e4d1; --on-surface-variant: #c5c9ae; --outline: #8e937b; --outline-variant: #444934; }
+        [data-palette="lime"][data-theme="light"] { --primary: #516600; --on-primary: #ffffff; --primary-container: #b6e01e; --on-primary-container: #4c6000; --secondary-container: #d2ea8a; --on-secondary-container: #576a19; --tertiary: #006e1d; --tertiary-container: #65eb6c; --on-tertiary-container: #00681a; --surface: #f9fbe7; --surface-lowest: #ffffff; --surface-low: #f4f5e2; --surface-container: #eeefdc; --surface-high: #e8ead6; --surface-highest: #e2e4d1; --on-surface: #1a1d11; --on-surface-variant: #444934; --outline: #757962; --outline-variant: #c5c9ae; }
+
+        .topbar-actions { display: flex; gap: 8px; }
+        .palette-menu {
+            position: absolute;
+            top: 68px;
+            right: 16px;
+            z-index: 30;
+            width: 296px;
+            padding: 16px 16px 18px;
+            border-radius: 24px;
+            background: var(--surface-high);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+            pointer-events: auto;
+            opacity: 0;
+            scale: 0.9;
+            visibility: hidden;
+            transform-origin: top right;
+            transition: opacity 0.15s var(--ease), scale 0.35s var(--spring), visibility 0s 0.35s;
+        }
+        .palette-menu.open { opacity: 1; scale: 1; visibility: visible; transition: opacity 0.15s var(--ease), scale 0.35s var(--spring); }
+        .palette-title {
+            margin: 0 0 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--on-surface-variant);
+        }
+        .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 8px; }
+        .swatch-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 0;
+            border: 0;
+            background: none;
+            color: var(--on-surface-variant);
+            font: 500 0.74rem "Google Sans Flex", sans-serif;
+            cursor: pointer;
+        }
+        .swatch-btn[aria-pressed="true"] { color: var(--on-surface); }
+        .swatch-btn:focus-visible { outline: none; }
+        .swatch-btn:focus-visible .swatch { outline: 3px solid var(--primary); outline-offset: 3px; }
+        /* Like Android's colour picker: primary on top, secondary and tertiary below */
+        .swatch {
+            position: relative;
+            display: grid;
+            place-items: center;
+            width: 50px;
+            height: 50px;
+            background:
+                linear-gradient(to bottom, var(--sw-a) 50%, transparent 50%),
+                linear-gradient(to right, var(--sw-b) 50%, var(--sw-c) 50%);
+            clip-path: var(--shape-circle);
+            transition: clip-path 0.55s var(--spring), rotate 0.55s var(--spring);
+        }
+        .swatch-btn:hover .swatch { clip-path: var(--shape-soft6); }
+        .swatch-btn[aria-pressed="true"] .swatch { clip-path: var(--shape-cookie9); rotate: 24deg; }
+        .swatch .ms {
+            display: grid;
+            place-items: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--surface);
+            color: var(--on-surface);
+            font-size: 18px;
+            opacity: 0;
+            scale: 0.4;
+            rotate: -24deg;
+            transition: opacity 0.2s var(--ease), scale 0.4s var(--spring);
+        }
+        .swatch-btn[aria-pressed="true"] .ms { opacity: 1; scale: 1; }
+        [data-theme="dark"] .swatch[data-seed="coral"] { --sw-a: #ffb4a1; --sw-b: #e7bdb3; --sw-c: #d9c58d; }
+        [data-theme="light"] .swatch[data-seed="coral"] { --sw-a: #8f4b39; --sw-b: #77574e; --sw-c: #6c5d2e; }
+        [data-theme="dark"] .swatch[data-seed="pink"] { --sw-a: #feb0d1; --sw-b: #e1bdca; --sw-c: #f2bb98; }
+        [data-theme="light"] .swatch[data-seed="pink"] { --sw-a: #894a67; --sw-b: #735762; --sw-c: #7e5538; }
+        [data-theme="dark"] .swatch[data-seed="lavender"] { --sw-a: #c3c0ff; --sw-b: #c7c4dd; --sw-c: #eab9d2; }
+        [data-theme="light"] .swatch[data-seed="lavender"] { --sw-a: #5a5892; --sw-b: #5e5c71; --sw-c: #7a5368; }
+        [data-theme="dark"] .swatch[data-seed="teal"] { --sw-a: #80d4db; --sw-b: #b1cbce; --sw-c: #b7c7ea; }
+        [data-theme="light"] .swatch[data-seed="teal"] { --sw-a: #00696f; --sw-b: #4a6365; --sw-c: #4f5f7d; }
+        [data-theme="dark"] .swatch[data-seed="mint"] { --sw-a: #95d5a7; --sw-b: #b6ccb9; --sw-c: #a2cdda; }
+        [data-theme="light"] .swatch[data-seed="mint"] { --sw-a: #2d6a45; --sw-b: #4f6353; --sw-c: #3a646f; }
+        [data-theme="dark"] .swatch[data-seed="sand"] { --sw-a: #e5c36c; --sw-b: #d6c5a0; --sw-c: #aecfac; }
+        [data-theme="light"] .swatch[data-seed="sand"] { --sw-a: #745b0b; --sw-b: #6a5d3f; --sw-c: #486549; }
+        [data-theme="dark"] .swatch[data-seed="lime"] { --sw-a: #d1fd40; --sw-b: #b9d074; --sw-c: #b4ffad; }
+        [data-theme="light"] .swatch[data-seed="lime"] { --sw-a: #516600; --sw-b: #536515; --sw-c: #006e1d; }
+
+        /* Theme switch: the new theme grows out of the button as a circle */
+        ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+        @media (max-width: 720px) {
+            .card { padding: 20px; border-radius: 24px; }
+            .intro { padding-right: 20px; padding-bottom: 150px; }
+            .mascot { width: 160px; bottom: -18px; }
+            .tiles { grid-template-columns: 1fr; }
+            .posters { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+            .posters > :nth-child(n + 13) { display: none; } /* three rows of four */
+            .play-grid { grid-template-columns: 1fr; }
+            .socials { grid-template-columns: 1fr; }
+            .socials .list + .list { margin-top: 2px; }
+            .socials .list:last-child > li:first-child .row { border-top-left-radius: 4px; border-top-right-radius: 4px; }
+            .socials .list:first-child > li:last-child .row { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; }
+        }
+
+        /* ===== Live sky: the top of the page is tinted for the time of day in Mumbai, re-tinted by the colour theme ===== */
+        [data-theme="dark"] {
+            --sky-night: #1f2a6b; --hz-night: #3b3466;
+            --sky-dawn: #6d4790;  --hz-dawn: #e0835f;
+            --sky-day: #2b6aa8;   --hz-day: #6aa3d6;
+            --sky-dusk: #4b2d7d;  --hz-dusk: #e2643a;
+            --sky-k: 0.6;
+            --star: #ffffff;
+            --glow-a: 30%;
+        }
+        [data-theme="light"] {
+            --sky-night: #a7b0ec; --hz-night: #cfc6f2;
+            --sky-dawn: #f2bad8;  --hz-dawn: #ffc29a;
+            --sky-day: #a6d1fb;   --hz-day: #dcefff;
+            --sky-dusk: #d6aef0;  --hz-dusk: #ffab85;
+            --sky-k: 0.75;
+            --star: #5b5f9e;
+            --glow-a: 36%;
+        }
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 680px;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+            -webkit-mask: linear-gradient(#000 calc(100% - 320px), transparent);
+            mask: linear-gradient(#000 calc(100% - 320px), transparent);
+        }
+        .sky-tint {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 72% 240px at 50% var(--horizon, 340px), color-mix(in oklab, var(--hz) 75%, transparent), transparent),
+                linear-gradient(color-mix(in oklab, var(--top) 62%, var(--primary-container)), color-mix(in oklab, var(--top) 30%, transparent) var(--horizon, 340px), transparent);
+            opacity: calc(var(--w, 0) * var(--sky-k));
+            transition: opacity 2s var(--ease);
+        }
+        .sky-tint.night { --top: var(--sky-night); --hz: var(--hz-night); --w: var(--night); }
+        .sky-tint.dawn { --top: var(--sky-dawn); --hz: var(--hz-dawn); --w: var(--dawn); }
+        .sky-tint.day { --top: var(--sky-day); --hz: var(--hz-day); --w: var(--day); }
+        .sky-tint.dusk { --top: var(--sky-dusk); --hz: var(--hz-dusk); --w: var(--dusk); }
+        /* Stars stay put: no twinkling */
+        .sky-stars {
+            position: absolute;
+            inset: 0 0 auto;
+            height: var(--horizon, 340px);
+            opacity: var(--night, 0);
+            transition: opacity 2s var(--ease);
+        }
+        .sky-stars i { position: absolute; border-radius: 50%; background: var(--star); }
+        .sky-stars i.sparkle { border-radius: 0; clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%); }
+
+        /* ===== Glow: the page takes on the colour of whatever you point at ===== */
+        @property --glow-c { syntax: "<color>"; inherits: true; initial-value: transparent; }
+        @property --glow-k { syntax: "<number>"; inherits: true; initial-value: 0; }
+        @property --glow-x { syntax: "<length>"; inherits: false; initial-value: 0px; }
+        @property --glow-y { syntax: "<length>"; inherits: false; initial-value: 0px; }
+        html { transition: --glow-c 0.5s var(--ease), --glow-k 0.7s var(--ease); }
+        html.glowing { --glow-k: 1; }
+        html.glow-jump, html.glow-jump .glow { transition: none; }
+        .glow {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            opacity: var(--glow-k);
+            background:
+                radial-gradient(circle max(36vmax, 440px) at var(--glow-x) var(--glow-y),
+                    color-mix(in srgb, var(--glow-c) var(--glow-a), transparent),
+                    color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 0.4), transparent) 40%,
+                    transparent),
+                color-mix(in srgb, var(--glow-c) calc(var(--glow-a) * 0.2), transparent);
+            transition: --glow-x 0.5s var(--ease), --glow-y 0.5s var(--ease);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+            .js .card { opacity: 1; translate: none; }
+            .loader-shape { animation: none; }
+            .hero-backdrop, .avatar-btn, .avatar-btn img, .avatar-hint-arrow { animation: none !important; }
+            /* Colours still fade; the glow just doesn't travel */
+            html { transition-duration: 0.4s !important; }
+            .glow { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js', 'is-loading');</script>
+<noscript><style>.loader { display: none; }</style></noscript>
+
+<!-- Loader: a Material 3 Expressive style indicator, one shape morphing through the page's shapes as it spins -->
+<div class="loader" id="loader" role="status" aria-label="Loading">
+    <div class="loader-blob"><div class="loader-shape"></div></div>
+</div>
+
+<!-- Live sky: dawn, day, dusk or night over Mumbai, behind the hero -->
+<div class="sky" id="sky" aria-hidden="true">
+    <div class="sky-tint night"></div>
+    <div class="sky-tint dawn"></div>
+    <div class="sky-tint day"></div>
+    <div class="sky-tint dusk"></div>
+    <div class="sky-stars" id="skyStars"></div>
+</div>
+<div class="glow" id="glow" aria-hidden="true"></div>
+
+<div class="topbar">
+    <a class="icon-btn" href="https://swar.is-a.dev/" aria-label="Back to my portfolio"><span class="ms">arrow_back</span></a>
+    <div class="topbar-actions">
+        <button class="icon-btn" id="paletteBtn" type="button" aria-label="Colour theme" aria-haspopup="dialog" aria-expanded="false" aria-controls="paletteMenu"><span class="ms">palette</span></button>
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch theme"><span class="ms" id="themeIcon">dark_mode</span></button>
+    </div>
+    <div class="palette-menu" id="paletteMenu" role="dialog" aria-label="Colour theme">
+        <p class="palette-title">colour</p>
+        <div class="swatches">
+            <button class="swatch-btn" type="button" data-palette="coral" aria-pressed="true"><span class="swatch" data-seed="coral"><span class="ms">check</span></span>coral</button>
+            <button class="swatch-btn" type="button" data-palette="pink" aria-pressed="false"><span class="swatch" data-seed="pink"><span class="ms">check</span></span>pink</button>
+            <button class="swatch-btn" type="button" data-palette="lavender" aria-pressed="false"><span class="swatch" data-seed="lavender"><span class="ms">check</span></span>lavender</button>
+            <button class="swatch-btn" type="button" data-palette="teal" aria-pressed="false"><span class="swatch" data-seed="teal"><span class="ms">check</span></span>teal</button>
+            <button class="swatch-btn" type="button" data-palette="mint" aria-pressed="false"><span class="swatch" data-seed="mint"><span class="ms">check</span></span>mint</button>
+            <button class="swatch-btn" type="button" data-palette="sand" aria-pressed="false"><span class="swatch" data-seed="sand"><span class="ms">check</span></span>sand</button>
+            <button class="swatch-btn" type="button" data-palette="lime" aria-pressed="false"><span class="swatch" data-seed="lime"><span class="ms">check</span></span>lime</button>
+        </div>
+    </div>
+</div>
+
+<main class="page">
+
+    <section class="hero" aria-label="Avatar">
+        <div class="hero-backdrop" aria-hidden="true"></div>
+        <!-- My avatars from around the internet: a different one on every visit and every tap -->
+        <button class="avatar-btn" id="avatarBtn" type="button" aria-label="Show another avatar"
+                data-avatars="assets/avatars/github.webp assets/avatars/cat.webp assets/avatars/white-hair.webp assets/avatars/steam.webp assets/avatars/backloggd.webp">
+            <img id="avatarImg" alt="Swar's avatar" width="460" height="460">
+            <script>
+                (function () {
+                    var list = document.getElementById('avatarBtn').dataset.avatars.split(' ');
+                    var last = -1;
+                    try { var saved = localStorage.getItem('sc136-avatar'); if (saved !== null) last = +saved; } catch (e) {}
+                    var pick = Math.floor(Math.random() * (list.length - 1));
+                    if (pick >= last && last >= 0) pick++; // never the same one twice in a row
+                    if (pick >= list.length) pick = 0;
+                    try { localStorage.setItem('sc136-avatar', pick); } catch (e) {}
+                    var img = document.getElementById('avatarImg');
+                    img.dataset.index = pick;
+                    img.src = list[pick];
+                })();
+            </script>
+            <noscript><img src="assets/avatars/github.webp" alt="Swar's avatar" width="460" height="460"></noscript>
+        </button>
+        <!-- First-visit hint; arrow doodle from dddoodle by fffuel (CC BY 4.0) -->
+        <div class="avatar-hint" id="avatarHint" aria-hidden="true">
+            <span class="avatar-hint-label">tap me!</span>
+            <svg class="avatar-hint-arrow" viewBox="182 85 169 364" fill="currentColor"><path d="M266.7 167.6c-1.7 4.1-6.6 7.6-2.1 12.8.7.8.7 3.2.1 3.7-7.1 6.5-3.4 15.7-5.3 23.4-3 11.8-8.4 22.2-13.4 32.9-4.4 9.4-9.7 18.3-14.6 27.4-.3.5-.2 1.5-.6 1.7-11.2 4.1-11.7 16.2-18 23.9-.7.9-1.5 4.1-3.3-.2-2.5-5.8-1.5-11.2-1.2-16.8 0-.8.1-1.7.1-2.5-.6.1-1.7.1-1.8.3-2.3 7.3-7.2 6.5-12.9 4.6-.7-.2-2.6 2.3-3.5 3.7-.5.8 4.3 2.8-.5 3.2-2.2.2-3.5 0-3.6-3-.1-8.3.7-16.3 2.7-24.5 3.2-12.5 10.3-22.7 17-33.3 9.9-15.6 19.4-31.4 29.6-46.8 6.9-10.4 14.8-20.2 22.4-30.1 5-6.5 10.2-12.8 15.3-19.3.6-.7 1.6-1.6 1.5-2.3-.8-7 4-12.2 5.3-18.5.7-3.6 1-7.9-.4-11.1-1.7-4-.8-6.9 2.3-7.8 2.2-.7 5.7.8 6.8 4.5.6 2 3.3 3.8 3.1 5.5-1 8.8 5.2 14.3 8.5 21.2 3.8 7.9 6.4 16.7 10.4 24.1 7.2 13.3 12.2 27.1 17.2 41.2 1 2.7 3.3 5 5 7.5-.4-2.9-.4-5.9-1.2-8.7-2.6-8.7-4.2-18.1-8.5-25.9-6.7-12.4-12-25.2-17.1-38.2-1.9-4.8-5.2-9.1-8.4-13.2-2.1-2.7-.3-2.5 1.3-2.4 3.1.1 3 .2 2.4-2-.4-1.2-.9-2.3-.9-3.5 0-.8.5-2.1 1.1-2.3.7-.3 1.9.2 2.5.7.9.8 1.7 1.9 2.2 3 2.4 5.9 4.5 11.9 7 17.8 2 4.7 4.9 9.1 6.8 13.9 4.2 10.7 8.1 21.6 11.9 32.5 1.5 4.3 2.6 8.8 3.5 13.3 1.6 8.2 3.1 16.5 4.2 24.8.2 1.3-1.4 3.9-2.2 3.9-1.6 0-3.3-1.3-4.9-2.1 3.5-5.7-3.4-7.2-4.7-11-2.2-6.6-5.1-13-7.7-19.4-.3-.8-.6-1.7-.9-2.6-.4.8-1.1 1.7-1 2.3.9 3.9 1.6 7.8 3.1 11.5 3.5 8.4 7.4 16.6 11 25 1.3 3.1 3.4 6.3 3.3 9.4-.5 13.7 8.3 24.3 11.3 36.7.5 2.1.7 2.2-2.1 1.8-2.6-.4-3.7.5-2.8 3.1.4 1.1 1.5 2.1 1.6 3.2.8 12.5 1.4 25 2 37.6.1 1 .4 2.2-.1 2.9-.9 1.6-2.2 2.9-3.3 4.3-1.1-1.2-2.7-2.3-3.1-3.7-3.8-11.5-7.5-23.1-11.2-34.8-4.6-14.8-9-29.7-13.8-44.5-3.2-9.8-7-19.4-10.5-29.1-1.1-3.1-2.1-6.4-3.2-9.5-.4-1-1.3-1.7-1.9-2.6-.7.8-1.7 1.6-1.9 2.6-2.1 13.5-3.4 27-4.6 40.6-1.2 13.5 1.8 26.5 1.1 39.8-.2 4.5-.5 9.4-.6 14.1-.1 5 .3 9.9-1.5 15.1-2.1 6.1-1.6 13.1-2.3 19.7-.5 4.7-1.2 9.3-2 13.9-.1.7-1 1.7-1.6 1.8-1.4.1-2.8-.3-4.2-.5.8 1.3 1.8 2.5 2.3 4 .7 2 1.5 4.1 1.5 6.2.2 5.9.1 11.8.1 17.7v4.9c-1.1-.1-2.2-.4-3.3-.3-.2 0-.7 1.4-.6 1.6 3.4 3.1-.2 6.2 0 9.2.4 5.3-1 10.6 1.7 16 3.4 6.6 1 14.1-.3 20.8-.6 3.2-1.9 5.4.3 8.4.6.8-.5 2.9-.8 4.4-1.6-.9-3.6-1.4-4.6-2.7-1-1.3-.9-3.5-1.6-5.2-.3-.7-1.3-1.1-2-1.6-.2.9-.8 1.8-.7 2.6.8 3.6 1.8 7.1 2.7 10.7.3 1.3.2 2.7.3 4-1.5-.2-3.3 0-4.6-.7-.8-.4-1-2.1-1.5-3.1-.3 1.2-.8 2.4-.9 3.5-.1 2.9.3 6-.2 8.8-.2 1.1-2 2-3.1 3-.9-1.3-1.9-2.5-2.6-3.8-.3-.5-.3-1.4 0-1.9 4.1-8 1.9-16.6 1.6-24.8-.2-5.4 2.7-10.3.8-16.2-1.5-4.6 1.2-10.5 1.5-15.8.3-5.9-.6-11.9.2-17.7 1.6-10.3 4.8-20.5 3.6-30.9-1.9-15.2-1.6-30.3-1.8-45.5 0-.9-.6-1.7-.9-2.6-.4.8-1 1.6-1 2.4-.7 9.6-1.3 19.1-2 28.7-.2 2.2-.8 4.3-1.1 6.4-.3 2.4-4.1 6.4 2.5 6.4.2 0 .7 3.6.5 5.4-.2 1.8-1.9 3.5-1.8 5.1 1.5 12.6-4.3 24.3-4.1 36.8.2 10.4-2.4 20.6-3.6 30.9-.9 8.2-1.4 16.1-6.2 23.1-.6.9-1.4 1.6-2 2.5-.6-1.2-1.9-2.5-1.8-3.6.4-5 .3-10.3 2.1-14.9 3.2-8.2 2.2-16.8 3.5-25.1 2.8-18.3 3.7-36.9 4.6-55.4.7-14.2 2.5-28.5 3.9-42.6.9-9 .3-18 1.7-26.8 3.6-21.7.7-43.5 1.9-65.2.1-2.7 1.3-5.4 1.9-8 1.8-7.8 3.4-15.5.5-23.8.8-1.5 1-2.6 1.3-3.6l-1.3-.3-.5 3.4Zm-60 80.7.1-1.8c-.4.6-.8 1.2-2.1 1.8.3.7.7 1.3 1 3-2 2.8-4.1 5.4-5.8 8.3-1.2 2-1.8 4.3-2.7 6.4 2.2-1.7 4.8-3.1 6.5-5.2 1.8-2.3 2.9-5.3 3.9-8.1.2-.5-1.2-1.6-1.8-3.5 0 0 0-1 1-1Zm70.8-7.9.8-3.2-1.3-.3c-.2 1.1-.3 2.3-1.5 3.4-.3.7-.7 1.3-2 2-1 .8-2.6 1.4-2.8 2.3-.5 1.7-.1 3.7-1.1 5.6l-.1 1.8c.4-.6.8-1.2 2.1-1.8 1-2.6 2-5.3 3.9-7.9.3-.7.7-1.3 2-2Zm-47.2-41.4-.1 5.8c.4-1.6.8-3.2 1.1-4.8.1-.3 0-.6 1-.9l.1-1.8c-.4.6-.8 1.2-2.1 1.8Zm31.5-49.2c-4.7 8.1-12.5 14.8-11.8 25.6l-.8 3.2 1.3.3c.2-1.1.3-2.3 1.5-3.4 4.4-8.2 9.6-16.1 11.8-25.6l.8-3.2-1.3-.3c-.2 1.1-.3 2.3-1.5 3.4Zm24.6 101.4-.5-10.3c-.5.1-1.3.2-1.3.3.2 3.7.5 7.3.8 11 0 0 .6 0 .9 1 0 2 .2 4 0 5.9-.3 3 2.2 8-4.5 6.9 0 .8-.1 1.7.1 2.5.7 2 2.3 4 2.3 5.9-.4 13.5-1.1 27-1.9 40.5-.2 3.4-1.3 6.7-1.8 10-.1.6.8 1.3 1.2 1.9.2-.6.5-1.1.7-1.7.7-2 1.7-4 1.9-6.1.8-6.6.5-13.4 2.2-19.8 3-11.1 2.3-22.4 3.5-33.6.5-4.3-2.3-9-3.6-14.5Zm3.9-63 .7 2.6c.4-1.2.9-2.4 2.3-3.6 1.2-4.9 2.6-10.1-.9-14.5-2.2-2.8-5.2-5-4.1-9.2.1-.5-.4-1.1-.7-1.6-.4.7-1.2 1.3-1.2 2-.1 5.6-1 11.4.2 16.7 1.3 5.4-5.3 10.1-.7 15.4.2.2-1.3 1.8-2 2.7-.5-.8-1.3-1.5-1.4-2.3-.8-4.3-1.6-8.6-1.9-13-.4-4.3.1-8.7.1-13.1 0-5.5-7.1-10-2.2-16.1.2-.2-.7-1.3-1.1-2-.7.7-1.9 1.3-2 2.1-.4 3.8-.5 7.7-1.8 11.5-.3.5-.7 1-1 1.6-2.1 4.7.6 9.2.6 13.8 0 0 .4 0 .7.1.2-3.8.5-7.7.7-11.5.1-1.3 0-2.6 1-3.9 1 .5 2.8 1 2.8 1.6.3 3.9.7 8 0 11.8-1.5 8.7 3.6 17.3.2 26 0 .1 1.3.9 1.9.9 1.8 0 4.1-1 5.2-.2 2.1 1.4 2.6 1.4 2.6-1 0-4.6-.1-9.2.1-13.8.1-1.2 1.2-2.4 1.9-2.5Zm16.7-3c5.5 18 11 36 16.6 54 .9 3 2.3 5.8 3.4 8.7-.4-2.9-.9-5.8-1.3-8.7-1.6-13.8-6.3-26.8-10-40-1.9-7-6.7-13.4-7.4-20.4-1.6-15-7.8-28.1-14.1-41.3-.6-1.3-2-2.2-3.1-3.3-.3 1.5-1.1 3.2-.7 4.5 1 3.5 2.4 6.9 3.9 10.1 5.4 11.3 8.6 23.3 12.7 36.4Zm-32.4 117.2c3.8 4.2 3 10 1.4 13.7-1.8 4.3-.7 8.2-1.4 12.2-.1.8.5 1.7.8 2.6.4-.8 1-1.5 1-2.3.1-2.6-.7-5.5.2-7.8 2.7-6.8 3-13.4.1-20.1-.3-.7-.2-2.2.3-2.6 7.6-6.1.1-15.8 5.2-22.5.2-.3-1.4-1.9-2.1-2.9-.6.9-1.3 1.8-1.7 2.8-.8 2.3-.9 5-2.1 7-4.6 7.4-5.1 10.6-1.9 20Zm-67.8-69.9c-2.3 3-4.6 5.9-6.8 9-.3.4 0 1.3 0 1.9.7-.1 1.7.1 2-.3 4-4.5 8.2-8.9 11.6-13.9 3.2-4.8 5.5-10.1 7.9-15.4.5-1.2-.3-3.1-.5-4.6-1.1.9-2.6 1.6-3.3 2.8-3.4 6.4-6.6 13-10.9 20.5Zm2.9 34.5c1.7-5.2 5.4-10 3.9-16-.2-.9-.6-1.7-.8-2.6-.4.7-.7 1.5-1.1 2.2-4.4 7.8-5.5 17.9-15.3 22-.3.1-.5 2-.1 2.5.5.6 1.9 1 2.5.7 3.7-2.1 7.3-4.5 10.9-8.8Zm62.9 110.3c1.3 0 3.7 0 3.8-.2.2-2.6-.2-5.3.2-7.8 1.4-8.3-3.7-17.5 3.2-25.2.2-.3-2.4-3.1-3.6-4.7-.5 1-1.4 2-1.5 3.1-.8 5.6-2.3 11.3-1.7 16.8.6 5.5-1.3 10.7-.3 18ZM245.1 227.7c-1.3 2.1-2.7 4.1-3.9 6.2-.3.4.1 1.2.1 1.9.7-.1 1.7-.1 2-.5 1.5-1.9 3.4-3.8 4.1-6.1 2.1-7.2 8-13.1 7.7-21.3-.1-1.6.6-3.1 1-4.7-1 1.4-2.3 2.8-3 4.3-2.7 6-5.3 12.1-7.9 20.1Zm-2-15.8c1.3-1.7 4.1-4.4 3.7-5.1-2.1-3.4-2.4-6.2.2-9.4.2-.3-.6-1.9-1.2-2.1-.7-.2-2.5.6-2.4.7 1.3 5.9-4.3 9.4-5.1 14.7-.6 3.6-2.6 6.9.8 10.1 1-2.6 2.1-5.3 4.1-8.9Zm4.9-42.3c-8.1 5.6-9.7 15.3-14.7 22.8-.3.5.4 1.7.7 2.5.7-.5 1.5-1 2-1.6 6.1-6.6 9.5-14.7 11.9-23.7Zm-20.6 89.6c.6-2.6 1.5-5.2 1.8-7.9.1-.8-1.6-2.3-2.6-2.6-.7-.1-2.4 1.3-2.6 2.2-.8 3.6-.6 7.2-3.9 10.2-1.4 1.2-.2 5.4-.2 8.2 1.6-1.8 3.2-3.7 4.8-5.5.9-1 1.8-1.8 2.7-4.7Zm43.3-47.3c1.8 1.4 3.7 2 3.9-1.1.3-6.2.2-12.4 0-18.5-.1-1.7-1.2-3.4-1.9-5-.2-.6-.5-1.1-.7-1.6-.4.6-1.2 1.3-1.2 1.9-.1 7.5-.1 15-.1 24.4Zm-47.2 17.7c.7 4 1.3 8.1 2 12.1.2.9.5 1.7.8 2.6.9-.8 2.6-1.6 2.6-2.5.2-3-.2-6.1-.5-9.1-.1-1.2-.8-2.3-1-3.4-.5-2.8 5.5-5.6 0-8.4-1 2.6-2 5.3-3.9 8.9Zm50.1-6.9c.3 2.1.5 4.3 1.1 6.4.2.6 1.3 1.4 1.9 1.4.7 0 1.8-.9 1.9-1.5.8-4.9 1.5-9.8 1.9-14.7.1-.9-1.5-1.9-2.3-2.9-.5.7-1.1 1.4-1.5 2.2-1.4 2.7-2.6 5.4-3 9.1Zm14.7-3c-.6-2.7-2.3-5.7-1.6-7.9.8-2.3 2.1-2.9-1.3-3-2.9-.1-3.4 1.3-3 3.5.6 3.7 1.1 7.4 2 11 .7 2.4 2.1 4.6 3.2 7 .2-2.5.5-5.1.7-7.6 0-.3 0-.7 0-3Zm-17.7-80.7c-.9 4.2-2 8.4-2.7 12.6-.4 2-.2 4-.3 6 1-1.8 2.1-3.6 3-5.5.8-1.6 1.4-3.4 1.9-5.1.8-2.9-.1-7.8-1.8-8Zm10.8-12.8c2.6-1.8 3.6-4.4 2.8-7.3-.4-1.6-1.9-3-2.9-4.4-.3 1.5-.7 2.9-.9 4.4-.4 2.5-.7 4.9 1 7.4Zm-68.8 149.7c-.3 2.1-.9 4.3-.9 6.4 0 1.8.6 3.6.9 5.4.9-1.6 2-3 2.7-4.7.7-1.7 1.4-3.5 1.2-5.2-.1-1-1.9-1.9-3.9-1.9Zm68.8-21.7c-.4-2.4-.8-4.8-1.3-7.2-.1-.3-1.1-.8-1.5-.7-.8.2-1.8.8-2 1.4-1 4.2 2.1 9.2 6.2 10.3.2 0 1-1 .9-1.5-.1-.5-.8-.9-2.3-2.4Zm-63.9-16.7c0-1.6.1-3.2 0-4.9 0-.6-.4-1.1-.6-1.7-.4.2-1.2.3-1.3.7-1.4 3.3-2.8 6.6-3.9 10-.2.7.5 1.7.7 2.5.7-.6 1.5-1 2-1.8.8-1.2 1.4-2.6 3.1-5Zm55.1 25.6c.7 2 1.2 4 2.1 5.9.3.6 1.6.8 2.4.9.4 0 .9-.6 1.3-1-4.2-2.4.1-4.8-.1-7.1-.1-1.3-1.8-2.4-2.7-3.6-.7 1.3-1.3 2.6-3 4.9Zm63.9-14.8c1 2.2 1.9 4.4 3 6.5.2.4 1.2.3 1.8.5-.6-2-1.5-3.9-1.7-6-.4-3.1-1.3-4.3-3.1-1ZM275.6 405.9c-.3-2.2-.6-4.3-1-6.5-.1-.5-.7-.9-1-1.3-.2.2-.5.4-.7.7-1.7 2.4.3 9.4 3 10.7.2-.9.5-1.8-.3-3.6Zm-58-158.5c0 1.3-.1 2.6 0 3.9.1.9.4 1.8.6 2.7.4-.9.9-1.8 1.3-2.7.7-1.3 1.4-2.6 2.1-4 .4-.9.6-1.8 1-2.7-1.3.6-2.7 1.3-5 2.9Zm13.8-33.5 1.9-6c-.5-.1-1.3-.4-1.3-.4-.9 1.9-1.8 3.8-2.4 5.8-.1.4.6 1 1.9.5Zm43.3 175.3-.6-6.5c-.4 2.2-1.1 4.3-1.3 6.5-.1 1.5.3 3.1.6 4.6.5-.2 1.2-.3 1.3-.7.2-.6.1-1.3.1-3.9Zm-78.7-133.9c1.1-.5 2.6-.7 3.2-1.5.5-.6.4-2.9-.1-3-2.4-1.1-3.5 0-3.2 4.5Zm84.6-106.3c.4 2.9.8 5.8 1.1 8.7.2-3 .4-6 .5-9 0-.2-.4-.4-1.6.3Zm-37.4 41.4 3.9-.8-1.1-4c-.6 1.3-1.3 2.6-2.9 4.8Zm29.5 84.7 1.3 2.7 2.6-2.6c-1.3-.7-2.6-1.3-3.9 0Zm-2 139.8-2 1c.7.3 1.3.7 2-1Zm0-159.5-2 1c.7.3 1.3.7 2-1Zm-36.4-6.9-2.5.5c.1.4.3 1.2.3 1.2 1.1-.2 2.1-.5 2.1-1.7Zm89.5-38.4 2-1c-.7-.3-1.3-.7-2 1Zm-35.4-65-.5-2.5c-.4.1-1.2.3-1.2.3.2 1.1.5 2.1 1.7 2.2Zm-11.8-2 2-1c-.7-.3-1.3-.7-2 1Zm7.9-15.8 1.2.8c-.1-.6-.1-1.2-1.2-.8Zm-23.6 41.4a807 807 0 0 0 1.2.8c-.1-.6-.1-1.2-1.2-.8Zm67.8 58.1-.8 1.2c.6-.1 1.2-.1.8-1.2Zm8.8 42.3 1.2.8c-.1-.6-.1-1.2-1.2-.8Z"/></svg>
+        </div>
+    </section>
+
+    <section class="card intro" aria-labelledby="introTitle">
+        <div class="shape-icon" style="--shape-a: var(--shape-cookie9); --shape-b: var(--shape-burst10);"><span class="ms">waving_hand</span></div>
+        <h1 id="introTitle">hey, i'm <span class="name">swar</span></h1>
+        <ul>
+            <li>i build full-stack apps, edge-ai gadgets and drones</li>
+            <li>i grew up on anime, games and computers</li>
+            <li>i like interfaces that actually feel good to use</li>
+        </ul>
+        <p class="pinned"><span class="ms">push_pin</span><span id="pinnedQuote"></span></p>
+        <div class="chips">
+            <span class="chip">ui/ux design</span>
+            <span class="chip">embedded systems</span>
+            <span class="chip">drones</span>
+            <span class="chip">pc building</span>
+            <span class="chip">open source</span>
+            <span class="chip">game dev</span>
+            <span class="chip">anime</span>
+            <span class="chip">cybersecurity</span>
+            <span class="chip">electronics</span>
+            <span class="chip">linux</span>
+            <span class="chip">3d printing</span>
+            <span class="chip">mech keyboards</span>
+            <span class="chip">photography</span>
+        </div>
+        <img class="mascot" id="mascot" data-glow="#d0263f" tabindex="0" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/717.png" alt="Yveltal, my favourite Pokémon" width="475" height="475" loading="lazy">
+    </section>
+
+    <div class="bento">
+        <div class="card mini span-2">
+            <div class="mini-head">
+                <span class="shape-icon sm tonal" style="--shape-a: var(--shape-soft6); --shape-b: var(--shape-clover4);"><span class="ms">nest_clock_farsight_analog</span></span>
+                <span class="tile-label">my time</span>
+            </div>
+            <span class="tile-value" id="nowTime">–</span>
+            <span class="tile-sub" id="nowDate">IST · UTC+5:30</span>
+        </div>
+
+        <div class="card mini span-2">
+            <div class="mini-head">
+                <span class="shape-icon sm tonal" style="--shape-a: var(--shape-cookie9); --shape-b: var(--shape-sunny8);"><span class="ms" id="wxIcon">partly_cloudy_day</span></span>
+                <span class="tile-label">weather here</span>
+            </div>
+            <span class="tile-value" id="wxTemp">–</span>
+            <span class="tile-sub" id="wxDesc">checking the sky…</span>
+        </div>
+
+
+        <section class="card span-2" aria-labelledby="listenTitle" data-glow="#1ed760">
+            <div class="shape-icon" style="--shape-a: var(--shape-flower8); --shape-b: var(--shape-cookie12);"><span class="ms">headphones</span></div>
+            <h2 class="card-title" id="listenTitle">what i'm listening to</h2>
+            <a class="now-playing" href="https://spotify-github-profile.kittinanx.com/api/view?uid=vxsgbx1d31s54nju55e60oz7n&amp;redirect=true" target="_blank" rel="noopener noreferrer" aria-label="Now playing on Spotify">
+                <img id="nowPlaying" alt="What I'm playing on Spotify right now" loading="lazy">
+            </a>
+            <p class="subhead">current favourite</p>
+            <div class="fav-song">
+                <iframe src="https://open.spotify.com/embed/track/0zlZVdP0ddhqjaGcDVd8oo?utm_source=generator&amp;theme=0" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="My current favourite song on Spotify"></iframe>
+            </div>
+            <div class="card-actions">
+                <a class="btn" href="https://open.spotify.com/user/vxsgbx1d31s54nju55e60oz7n" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-spotify"></i>Spotify</a>
+            </div>
+        </section>
+
+        <section class="card span-2 rows-2" aria-labelledby="watchTitle">
+            <div class="shape-icon gold" style="--shape-a: var(--shape-clover4); --shape-b: var(--shape-sunny8);"><span class="ms">live_tv</span></div>
+            <h2 class="card-title" id="watchTitle">what i'm watching</h2>
+            <div class="seg" role="group" aria-label="Show">
+                <button type="button" aria-pressed="true" data-panel="animePanel"><span class="ms">check</span>anime</button>
+                <button type="button" aria-pressed="false" data-panel="filmsPanel"><span class="ms">check</span>films</button>
+            </div>
+            <div class="panel" id="animePanel">
+                <div class="stats">
+                    <div class="stat"><b id="alCount">–</b><span>anime watched</span></div>
+                    <div class="stat"><b id="alEpisodes">–</b><span>episodes</span></div>
+                    <div class="stat"><b id="alHours">–</b><span>hours</span></div>
+                    <div class="stat"><b id="alScore">–</b><span>mean score</span></div>
+                </div>
+                <div class="posters" id="alWatching">
+                    <span class="poster skeleton"></span><span class="poster skeleton"></span><span class="poster skeleton"></span><span class="poster skeleton"></span><span class="poster skeleton"></span>
+                </div>
+                <div class="card-actions">
+                    <a class="btn" href="https://anilist.co/user/SC136/" target="_blank" rel="noopener noreferrer"><span class="ms">open_in_new</span>AniList</a>
+                </div>
+            </div>
+            <div class="panel" id="filmsPanel" hidden>
+                <div class="stats">
+                    <div class="stat"><b>415</b><span>films watched</span></div>
+                    <div class="stat"><b>6</b><span>this year</span></div>
+                </div>
+                <p class="subhead">all-time favourites</p>
+                <div class="posters four">
+                    <a class="poster" href="https://letterboxd.com/film/blade-runner-2049/" target="_blank" rel="noopener noreferrer" data-glow="#e0782a" data-tip="Blade Runner 2049|2017 · sci-fi · drama" data-banner="assets/letterboxd/blade-runner-2049-banner.webp" aria-label="Blade Runner 2049, one of my favourite films"><img src="assets/letterboxd/blade-runner-2049.webp" alt="" loading="lazy" width="264" height="396"></a>
+                    <a class="poster" href="https://letterboxd.com/film/spider-man-across-the-spider-verse/" target="_blank" rel="noopener noreferrer" data-glow="#e0457b" data-tip="Spider-Man: Across the Spider-Verse|2023 · animation · sci-fi" data-banner="assets/letterboxd/spider-verse-banner.webp" aria-label="Spider-Man: Across the Spider-Verse, one of my favourite films"><img src="assets/letterboxd/spider-verse.webp" alt="" loading="lazy" width="264" height="396"></a>
+                    <a class="poster" href="https://letterboxd.com/film/interstellar/" target="_blank" rel="noopener noreferrer" data-glow="#7b9bb8" data-tip="Interstellar|2014 · sci-fi · drama" data-banner="assets/letterboxd/interstellar-banner.webp" aria-label="Interstellar, one of my favourite films"><img src="assets/letterboxd/interstellar.webp" alt="" loading="lazy" width="264" height="396"></a>
+                    <a class="poster" href="https://letterboxd.com/film/walle/" target="_blank" rel="noopener noreferrer" data-glow="#e3a33a" data-tip="WALL·E|2008 · animation · sci-fi" data-banner="assets/letterboxd/walle-banner.webp" aria-label="WALL·E, one of my favourite films"><img src="assets/letterboxd/walle.webp" alt="" loading="lazy" width="264" height="396"></a>
+                </div>
+                <p class="subhead">watched lately</p>
+                <div class="posters" id="lbFilms">
+                    <span class="poster skeleton"></span><span class="poster skeleton"></span><span class="poster skeleton"></span><span class="poster skeleton"></span><span class="poster skeleton"></span>
+                </div>
+                <div class="card-actions">
+                    <a class="btn" href="https://letterboxd.com/SC136/" target="_blank" rel="noopener noreferrer"><span class="ms">open_in_new</span>Letterboxd</a>
+                </div>
+            </div>
+        </section>
+
+        <a class="card t-game span-2" id="steamGame" data-glow="#66c0f4" href="https://steamcommunity.com/id/SC136" target="_blank" rel="noopener noreferrer">
+            <!-- A round of mine, played on hover once the top game is CS2; only downloaded on the first hover -->
+            <video class="game-video" id="gameVideo" playsinline loop preload="none" data-src="assets/videos/cs2-clip" aria-hidden="true"></video>
+            <span class="game-chip"><span class="ms">sports_esports</span>what i'm playing</span>
+            <span class="game-label" id="steamState">steam</span>
+            <span class="game-name" id="steamTop">–</span>
+            <span class="game-sub" id="steamHours">loading hours…</span>
+        </a>
+
+
+        <section class="card span-2" aria-labelledby="codeTitle">
+            <div class="shape-icon" style="--shape-a: var(--shape-sunny8); --shape-b: var(--shape-flower8);"><span class="ms">terminal</span></div>
+            <h2 class="card-title" id="codeTitle">how i code</h2>
+            <div class="stats">
+                <div class="stat"><b id="wtTotal">–</b><span>tracked on wakatime</span></div>
+                <div class="stat"><b id="wtDaily">–</b><span>daily average</span></div>
+                <div class="stat"><b id="wtEditors">–</b><span>editors</span></div>
+            </div>
+            <p class="subhead">languages lately</p>
+            <div class="chips" id="wtLangs"></div>
+            <p class="subhead">languages across my repos</p>
+            <div class="lang-bar" id="langBar"></div>
+            <div class="legend" id="langLegend"></div>
+            <div class="card-actions">
+                <a class="btn" href="https://wakatime.com/@SC136" target="_blank" rel="noopener noreferrer"><span class="ms">open_in_new</span>WakaTime</a>
+            </div>
+        </section>
+
+        <section class="card span-2 rows-2" aria-labelledby="setupTitle">
+            <div class="shape-icon tonal" style="--shape-a: var(--shape-cookie12); --shape-b: var(--shape-clover4);"><span class="ms">desktop_windows</span></div>
+            <h2 class="card-title" id="setupTitle">setup</h2>
+            <p class="subhead" style="margin-top: 0;">hardware</p>
+            <ul class="list">
+                <li><div class="row"><span class="row-lead"><span class="ms">laptop_windows</span></span><span class="row-text"><span class="row-title">asus zenbook 14</span><span class="row-sub">laptop · ux3405ca</span></span></div></li>
+                <li><div class="row"><span class="row-lead"><span class="ms">memory</span></span><span class="row-text"><span class="row-title">intel core ultra 5 225h</span><span class="row-sub">processor · 14 cores · arc 130t graphics</span></span></div></li>
+                <li><div class="row"><span class="row-lead"><span class="ms">developer_board</span></span><span class="row-text"><span class="row-title">16 gb lpddr5x</span><span class="row-sub">memory · 8533 mt/s</span></span></div></li>
+                <li><div class="row"><span class="row-lead"><span class="ms">hard_drive</span></span><span class="row-text"><span class="row-title">1 tb nvme ssd</span><span class="row-sub">storage</span></span></div></li>
+                <li><div class="row"><span class="row-lead"><span class="ms">monitor</span></span><span class="row-text"><span class="row-title">3k 120hz oled</span><span class="row-sub">display · 2880 × 1800</span></span></div></li>
+                <li><div class="row"><span class="row-lead"><span class="ms">keyboard</span></span><span class="row-text"><span class="row-title">urx core 75</span><span class="row-sub">keyboard</span></span></div></li>
+            </ul>
+            <p class="subhead">software</p>
+            <ul class="list">
+                <li><div class="row"><span class="row-lead"><span class="ms">computer</span></span><span class="row-text"><span class="row-title">windows 11 + wsl2</span><span class="row-sub">os · ubuntu 24.04 in wsl</span></span></div></li>
+                <li><div class="row"><span class="row-lead"><span class="ms">code</span></span><span class="row-text"><span class="row-title">antigravity + claude code</span><span class="row-sub">editor</span></span></div></li>
+                <li><div class="row"><span class="row-lead"><span class="ms">terminal</span></span><span class="row-text"><span class="row-title">windows terminal + pwsh 7</span><span class="row-sub">terminal</span></span></div></li>
+                <li><div class="row"><span class="row-lead"><span class="ms">travel_explore</span></span><span class="row-text"><span class="row-title">microsoft edge</span><span class="row-sub">daily browser</span></span></div></li>
+            </ul>
+        </section>
+
+        <section class="card span-2" aria-labelledby="toolTitle">
+            <div class="shape-icon gold" style="--shape-a: var(--shape-sunny8); --shape-b: var(--shape-soft6);"><span class="ms">construction</span></div>
+            <h2 class="card-title" id="toolTitle">toolbox</h2>
+            <div class="chips">
+                <span class="chip"><i class="fa-brands fa-react"></i>react</span>
+                <span class="chip"><i class="fa-brands fa-js"></i>next.js</span>
+                <span class="chip"><i class="fa-brands fa-node-js"></i>node</span>
+                <span class="chip"><i class="fa-brands fa-python"></i>python</span>
+                <span class="chip"><i class="fa-brands fa-figma"></i>figma</span>
+                <span class="chip"><i class="fa-brands fa-docker"></i>docker</span>
+                <span class="chip"><i class="fa-solid fa-fire"></i>firebase</span>
+                <span class="chip"><i class="fa-solid fa-bolt"></i>supabase</span>
+            </div>
+        </section>
+
+        <section class="card span-2 rows-2" aria-labelledby="madeTitle">
+            <div class="shape-icon gold" style="--shape-a: var(--shape-cookie12); --shape-b: var(--shape-soft6);"><span class="ms">deployed_code</span></div>
+            <h2 class="card-title" id="madeTitle">what i've made</h2>
+            <ul class="list">
+                <li><a class="row" href="https://swar.is-a.dev/projects.html"><span class="row-lead"><span class="ms">grid_view</span></span><span class="row-text"><span class="row-title">all my projects</span><span class="row-sub" id="madeCount">every repo, searchable</span></span><span class="ms row-trail">chevron_forward</span></a></li>
+                <li><a class="row" id="topRepoRow" href="https://github.com/SC136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><span class="ms">star</span></span><span class="row-text"><span class="row-title" id="topRepoName">most starred</span><span class="row-sub" id="topRepoDesc">on github</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" href="https://www.npmjs.com/package/sc136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-npm"></i></span><span class="row-text"><span class="row-title">sc136 <span id="npmVersion"></span></span><span class="row-sub" id="npmDownloads">a small utility package on npm</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" href="https://github.com/SC136/portfolio" target="_blank" rel="noopener noreferrer"><span class="row-lead"><span class="ms">web</span></span><span class="row-text"><span class="row-title">this website</span><span class="row-sub">swar.is-a.dev, open source</span></span><span class="ms row-trail">open_in_new</span></a></li>
+            </ul>
+        </section>
+
+        <section class="card span-2" aria-labelledby="numTitle">
+            <div class="shape-icon tonal" style="--shape-a: var(--shape-soft6); --shape-b: var(--shape-sunny8);"><span class="ms">monitoring</span></div>
+            <h2 class="card-title" id="numTitle">by the numbers</h2>
+            <div class="stats" style="margin: 0;">
+                <div class="stat"><b id="ghRepos">–</b><span>public repos</span></div>
+                <div class="stat"><b id="ghStars">–</b><span>stars</span></div>
+                <div class="stat"><b id="ghFollowers">–</b><span>followers</span></div>
+                <div class="stat"><b id="siteViews">–</b><span>site visits</span></div>
+            </div>
+        </section>
+
+        <a class="card mini span-2" id="pushTile" href="https://github.com/SC136" target="_blank" rel="noopener noreferrer">
+            <div class="mini-head">
+                <span class="shape-icon sm tonal" style="--shape-a: var(--shape-flower8); --shape-b: var(--shape-burst10);"><span class="ms">commit</span></span>
+                <span class="tile-label">latest push</span>
+            </div>
+            <span class="tile-value" id="pushRepo">–</span>
+            <span class="tile-sub" id="pushWhen">on github</span>
+        </a>
+
+
+        <section class="card t-played span-4" aria-labelledby="playedTitle">
+            <div class="played-info">
+                <div class="shape-icon tonal" style="--shape-a: var(--shape-burst10); --shape-b: var(--shape-cookie9);"><span class="ms">stadia_controller</span></div>
+                <h2 class="card-title" id="playedTitle">games i've played</h2>
+                <div class="stats">
+                    <div class="stat"><b>33</b><span>games played</span></div>
+                    <div class="stat"><b>7</b><span>in the backlog</span></div>
+                </div>
+                <div class="card-actions">
+                    <a class="btn" href="https://backloggd.com/u/SC136/" target="_blank" rel="noopener noreferrer"><span class="ms">open_in_new</span>Backloggd</a>
+                </div>
+            </div>
+            <div class="played-favs">
+                <p class="subhead">all-time favourites</p>
+                <div class="posters four">
+                    <a class="poster" href="https://backloggd.com/games/sekiro-shadows-die-twice/" target="_blank" rel="noopener noreferrer" data-glow="#b8452e" data-tip="Sekiro: Shadows Die Twice|2019 · action · souls-like" data-banner="assets/backloggd/sekiro-banner.webp" aria-label="Sekiro: Shadows Die Twice, one of my favourite games"><img src="assets/backloggd/sekiro.webp" alt="" loading="lazy" width="264" height="352"></a>
+                    <a class="poster" href="https://backloggd.com/games/inside/" target="_blank" rel="noopener noreferrer" data-glow="#c8302a" data-tip="Inside|2016 · puzzle · platformer" data-banner="assets/backloggd/inside-banner.webp" aria-label="Inside, one of my favourite games"><img src="assets/backloggd/inside.webp" alt="" loading="lazy" width="264" height="352"></a>
+                    <a class="poster" href="https://backloggd.com/games/mafia-ii/" target="_blank" rel="noopener noreferrer" data-glow="#a8763e" data-tip="Mafia II|2010 · action · open world" data-banner="assets/backloggd/mafia-ii-banner.webp" aria-label="Mafia II, one of my favourite games"><img src="assets/backloggd/mafia-ii.webp" alt="" loading="lazy" width="264" height="352"></a>
+                    <a class="poster" href="https://backloggd.com/games/limbo/" target="_blank" rel="noopener noreferrer" data-glow="#9aa39a" data-tip="Limbo|2010 · puzzle · platformer" data-banner="assets/backloggd/limbo-banner.webp" aria-label="Limbo, one of my favourite games"><img src="assets/backloggd/limbo.webp" alt="" loading="lazy" width="264" height="352"></a>
+                </div>
+            </div>
+        </section>
+
+        <section class="card t-find span-4" aria-labelledby="findTitle">
+            <div class="shape-icon" style="--shape-a: var(--shape-clover4); --shape-b: var(--shape-cookie9);"><span class="ms">alternate_email</span></div>
+            <h2 class="card-title" id="findTitle">where to find me</h2>
+            <ul class="list">
+                <li><a class="row" data-glow="#a371f7" href="https://github.com/SC136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-github"></i></span><span class="row-text"><span class="row-title">SC136</span><span class="row-sub">GitHub</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#0a66c2" href="https://www.linkedin.com/in/swarchuri" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-linkedin-in"></i></span><span class="row-text"><span class="row-title">swarchuri</span><span class="row-sub">LinkedIn</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#e1306c" href="https://www.instagram.com/sc_136_" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-instagram"></i></span><span class="row-text"><span class="row-title">sc_136_</span><span class="row-sub">Instagram</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#1d9bf0" href="https://x.com/SC_136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-x-twitter"></i></span><span class="row-text"><span class="row-title">SC_136</span><span class="row-sub">X</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#ff0033" href="https://www.youtube.com/@SCSmartTech" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-youtube"></i></span><span class="row-text"><span class="row-title">@SCSmartTech</span><span class="row-sub">YouTube</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#5865f2" href="https://discord.com/users/594504468931018752" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-discord"></i></span><span class="row-text"><span class="row-title">SC</span><span class="row-sub">Discord</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#66c0f4" href="https://steamcommunity.com/id/SC136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-steam"></i></span><span class="row-text"><span class="row-title">SC136</span><span class="row-sub">Steam</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#9146ff" href="https://www.twitch.tv/SC_136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-twitch"></i></span><span class="row-text"><span class="row-title">SC_136</span><span class="row-sub">Twitch</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#ff4500" href="https://www.reddit.com/user/SC-136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-reddit-alien"></i></span><span class="row-text"><span class="row-title">u/SC-136</span><span class="row-sub">Reddit</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#02a9ff" href="https://anilist.co/user/SC136/" target="_blank" rel="noopener noreferrer"><span class="row-lead"><span class="ms">live_tv</span></span><span class="row-text"><span class="row-title">SC136</span><span class="row-sub">AniList</span></span><span class="ms row-trail">open_in_new</span></a></li>
+            </ul>
+            <div class="card-actions">
+                <a class="btn" href="https://swar.is-a.dev/socials.html"><span class="ms">hub</span>all socials</a>
+                <a class="btn filled" href="mailto:hello@swar.is-a.dev"><span class="ms">mail</span>Contact</a>
+            </div>
+        </section>
+
+    </div>
+
+</main>
+
+<footer class="footer">
+    <div class="footer-icons">
+        <a href="https://github.com/SC136" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/swarchuri" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://www.instagram.com/sc_136_" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://x.com/SC_136" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+    </div>
+    <div class="footer-bottom">
+        <a class="wordmark" href="https://swar.is-a.dev/"><b>swar</b>.is-a.dev</a>
+        <a class="btn" href="mailto:hello@swar.is-a.dev"><span class="ms">mail</span>Contact</a>
+    </div>
+</footer>
+
+<div class="rich-tip" id="richTip" aria-hidden="true"></div>
+
+<script>
+(function () {
+    const root = document.documentElement;
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const $ = (id) => document.getElementById(id);
+    const setText = (id, value) => { const el = $(id); if (el) el.textContent = value; };
+
+    // ---------- theme ----------
+    const themeBtn = $('themeBtn');
+    function paintThemeIcon() {
+        $('themeIcon').textContent = root.dataset.theme === 'dark' ? 'light_mode' : 'dark_mode';
+    }
+    function nowPlayingSrc() {
+        const dark = root.dataset.theme === 'dark';
+        return 'https://spotify-github-profile.kittinanx.com/api/view?uid=vxsgbx1d31s54nju55e60oz7n&cover_image=true&theme=novatorem&show_offline=false&interchange=false&profanity=false'
+            + '&mode=' + (dark ? 'dark' : 'light') + '&background_color=' + getComputedStyle(root).getPropertyValue('--surface-high').trim().replace('#', '');
+    }
+    function setTheme(theme) {
+        root.dataset.theme = theme;
+        try { localStorage.setItem('theme', theme); } catch (e) {}
+        paintThemeIcon();
+        $('nowPlaying').src = nowPlayingSrc();
+    }
+    paintThemeIcon();
+    $('nowPlaying').src = nowPlayingSrc();
+    // New colours grow out of whatever was clicked, as a circle
+    function sweep(fromEl, change) {
+        if (!document.startViewTransition || reduceMotion) { change(); return; }
+        const r = fromEl.getBoundingClientRect();
+        const x = r.left + r.width / 2, y = r.top + r.height / 2;
+        const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+        document.startViewTransition(change).ready.then(() => {
+            root.animate({ clipPath: [`circle(0 at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+                { duration: 650, easing: 'cubic-bezier(0.2, 0, 0, 1)', pseudoElement: '::view-transition-new(root)' });
+        });
+    }
+    themeBtn.addEventListener('click', () => sweep(themeBtn, () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark')));
+
+    // ---------- colour themes ----------
+    const paletteBtn = $('paletteBtn');
+    const paletteMenu = $('paletteMenu');
+    const swatchBtns = paletteMenu.querySelectorAll('.swatch-btn');
+    function markPalette() {
+        const current = root.dataset.palette || 'coral';
+        swatchBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.palette === current)));
+    }
+    function setPalette(name) {
+        if (name === 'coral') delete root.dataset.palette; else root.dataset.palette = name;
+        try { localStorage.setItem('sc136-palette', name); } catch (e) {} // so the next visit picks something else
+        markPalette();
+        $('nowPlaying').src = nowPlayingSrc();
+    }
+    function toggleMenu(open) {
+        paletteMenu.classList.toggle('open', open);
+        paletteBtn.setAttribute('aria-expanded', String(open));
+        if (open) (paletteMenu.querySelector('[aria-pressed="true"]') || swatchBtns[0]).focus({ preventScroll: true });
+    }
+    markPalette();
+    paletteBtn.addEventListener('click', () => toggleMenu(!paletteMenu.classList.contains('open')));
+    swatchBtns.forEach((b) => b.addEventListener('click', () => {
+        if (b.getAttribute('aria-pressed') === 'true') return;
+        sweep(b, () => setPalette(b.dataset.palette));
+    }));
+    document.addEventListener('click', (e) => {
+        if (paletteMenu.classList.contains('open') && !paletteMenu.contains(e.target) && !paletteBtn.contains(e.target)) toggleMenu(false);
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && paletteMenu.classList.contains('open')) { toggleMenu(false); paletteBtn.focus(); }
+    });
+
+    // ---------- tiles rise in as they scroll into view, a beat apart ----------
+    const cards = document.querySelectorAll('.card');
+    function revealCards() {
+        if (!('IntersectionObserver' in window) || reduceMotion) { cards.forEach((c) => c.classList.add('in')); return; }
+        const io = new IntersectionObserver((entries) => {
+            entries.filter((e) => e.isIntersecting).forEach((e, i) => {
+                e.target.style.transitionDelay = `${i * 70}ms`;
+                e.target.classList.add('in');
+                setTimeout(() => { e.target.style.transitionDelay = ''; }, 900 + i * 70); // later hovers shouldn't wait
+                io.unobserve(e.target);
+            });
+        }, { threshold: 0.08 });
+        cards.forEach((c) => io.observe(c));
+    }
+
+    // ---------- loader: stays at least 1.8s, and until the fonts and images are in (4s at most) ----------
+    const minShow = new Promise((r) => setTimeout(r, reduceMotion ? 300 : 1800));
+    const loaded = new Promise((r) => (document.readyState === 'complete' ? r() : addEventListener('load', r, { once: true })));
+    const assets = Promise.all([document.fonts ? document.fonts.ready : null, loaded]);
+    Promise.all([minShow, Promise.race([assets, new Promise((r) => setTimeout(r, 4000))])]).then(() => {
+        const loader = $('loader');
+        loader.classList.add('is-done');
+        loader.setAttribute('aria-hidden', 'true');
+        root.classList.remove('is-loading');
+        setTimeout(revealCards, 250);
+    });
+
+    // ---------- avatar: each tap morphs it into the next shape (the picture stays upright; the backdrop spins) ----------
+    const SHAPES = ['cookie12', 'flower8', 'clover4', 'burst10', 'sunny8', 'cookie9', 'soft6'];
+    let shapeIndex = 0, spin = 0;
+    // Each tap: the next profile picture, and a new shape
+    const avatarImg = $('avatarImg');
+    const AVATARS = $('avatarBtn').dataset.avatars.split(' ');
+    avatarImg.addEventListener('error', () => { if (avatarImg.src !== AVATARS[0]) avatarImg.src = AVATARS[0]; });
+    AVATARS.forEach((url) => { new Image().src = url; });
+    let avatarSwap = 0;
+    const avatarHint = $('avatarHint');
+    let avatarTapped = false;
+    try { avatarTapped = localStorage.getItem('sc136-avatar-tapped') === '1'; } catch (e) {}
+    if (!avatarTapped) setTimeout(() => avatarHint.classList.add('show'), 2600);
+    $('avatarBtn').addEventListener('click', () => {
+        if (!avatarTapped) {
+            avatarTapped = true;
+            avatarHint.classList.remove('show');
+            try { localStorage.setItem('sc136-avatar-tapped', '1'); } catch (e) {}
+        }
+        const nextAvatar = (+avatarImg.dataset.index + 1) % AVATARS.length;
+        avatarImg.dataset.index = nextAvatar;
+        try { localStorage.setItem('sc136-avatar', nextAvatar); } catch (e) {}
+        avatarImg.classList.add('is-swapping');
+        clearTimeout(avatarSwap);
+        avatarSwap = setTimeout(() => {
+            avatarImg.src = AVATARS[nextAvatar];
+            const show = () => avatarImg.classList.remove('is-swapping');
+            avatarImg.decode().then(show, show);
+            setTimeout(show, 800); // never leave it hidden if the picture is slow
+        }, reduceMotion ? 0 : 150);
+        shapeIndex = (shapeIndex + 1) % SHAPES.length;
+        spin += 45;
+        const next = SHAPES[shapeIndex], back = SHAPES[(shapeIndex + 3) % SHAPES.length];
+        const hero = document.querySelector('.hero');
+        hero.style.setProperty('--avatar-shape', `var(--shape-${next})`);
+        hero.style.setProperty('--avatar-shape-back', `var(--shape-${back})`);
+        hero.style.setProperty('--avatar-spin-back', `${-spin / 2}deg`);
+    });
+
+    // ---------- pinned thought ----------
+    const QUOTES = ['comparison is the thief of joy', 'waking up early feels good, but the work only gets done at night', 'java so ass'];
+    setText('pinnedQuote', QUOTES[Math.floor(Math.random() * QUOTES.length)]);
+
+    // ---------- watching: segmented buttons ----------
+    const segButtons = document.querySelectorAll('.seg button');
+    segButtons.forEach((btn) => btn.addEventListener('click', () => {
+        segButtons.forEach((b) => {
+            const on = b === btn;
+            b.setAttribute('aria-pressed', String(on));
+            $(b.dataset.panel).hidden = !on;
+        });
+    }));
+
+    // ---------- rich tooltip for posters (mouse and keyboard; touch just follows the link) ----------
+    const tip = $('richTip');
+    const tipContent = new WeakMap();
+    const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    function showTip(poster) {
+        const html = tipContent.get(poster);
+        if (!html) return;
+        tip.innerHTML = html.content;
+        tip.style.setProperty('--tip-accent', html.accent || 'var(--primary)');
+        const r = poster.getBoundingClientRect();
+        const w = tip.offsetWidth, h = tip.offsetHeight, gap = 12;
+        let left = r.right + gap, origin = 'left';
+        if (left + w > innerWidth - 8) { left = r.left - gap - w; origin = 'right'; }
+        let top = Math.min(Math.max(8, r.top), innerHeight - h - 8);
+        if (left < 8) {
+            // No room either side: centre it under the poster, or over it if the bottom edge is too close
+            left = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), innerWidth - w - 8);
+            const below = r.bottom + gap;
+            top = below + h <= innerHeight - 8 ? below : Math.max(8, r.top - gap - h);
+            origin = 'center';
+        }
+        tip.style.left = left + 'px';
+        tip.style.top = top + 'px';
+        tip.style.setProperty('--tip-origin', 'top ' + origin);
+        tip.classList.add('show');
+    }
+    const hideTip = () => tip.classList.remove('show');
+    const posterFrom = (node) => node && node.closest && node.closest('.poster, .mascot');
+    document.addEventListener('pointerover', (e) => {
+        const p = posterFrom(e.target);
+        if (p && e.pointerType !== 'touch' && !p.contains(e.relatedTarget)) showTip(p);
+    });
+    document.addEventListener('pointerout', (e) => {
+        const p = posterFrom(e.target);
+        if (p && !p.contains(e.relatedTarget)) hideTip();
+    });
+    document.addEventListener('focusin', (e) => { const p = posterFrom(e.target); if (p) showTip(p); });
+    document.addEventListener('focusout', (e) => { if (posterFrom(e.target)) hideTip(); });
+    addEventListener('scroll', hideTip, { passive: true });
+
+    // ---------- glow: point at something and the page takes on its colour ----------
+    const glow = $('glow');
+    let glowEl = null, glowOff = 0, glowFrame = 0, glowIdleAt = 0;
+    function placeGlow() {
+        glowFrame = 0;
+        if (!glowEl) return;
+        const r = glowEl.getBoundingClientRect();
+        glow.style.setProperty('--glow-x', (r.left + r.width / 2).toFixed(1) + 'px');
+        glow.style.setProperty('--glow-y', (r.top + r.height / 2).toFixed(1) + 'px');
+    }
+    function glowOn(el) {
+        clearTimeout(glowOff);
+        if (el === glowEl) return;
+        const fresh = !glowEl && performance.now() > glowIdleAt;
+        glowEl = el;
+        // Coming from nothing, start where (and in the colour) it should be instead of sliding over
+        if (fresh) root.classList.add('glow-jump');
+        root.style.setProperty('--glow-c', el.dataset.glow);
+        placeGlow();
+        if (fresh) { getComputedStyle(glow).opacity; root.classList.remove('glow-jump'); }
+        root.classList.add('glowing');
+    }
+    function glowFade() {
+        clearTimeout(glowOff);
+        // A short grace period, so moving between neighbouring posters doesn't flicker
+        glowOff = setTimeout(() => { glowEl = null; glowIdleAt = performance.now() + 700; root.classList.remove('glowing'); }, 160);
+    }
+    const glowFrom = (node) => node && node.closest && node.closest('[data-glow]');
+    document.addEventListener('pointerover', (e) => {
+        if (e.pointerType === 'touch') return;
+        const g = glowFrom(e.target);
+        if (g && g.dataset.glow) glowOn(g); else if (glowEl) glowFade();
+    });
+    document.addEventListener('pointerout', (e) => { if (!e.relatedTarget && glowEl) glowFade(); });
+    document.addEventListener('focusin', (e) => { const g = glowFrom(e.target); if (g && g.dataset.glow) glowOn(g); });
+    document.addEventListener('focusout', (e) => { if (glowEl && glowFrom(e.target) === glowEl) glowFade(); });
+    addEventListener('scroll', () => { if (glowEl && !glowFrame) glowFrame = requestAnimationFrame(placeGlow); }, { passive: true });
+
+    // Yveltal: hover (or tap on a phone) for a little card about my favourite Pokémon
+    const mascot = $('mascot');
+    tipContent.set(mascot, {
+        content: `<p class="tip-meta" style="margin-bottom: 2px;">my favourite pokémon</p>
+            <p class="tip-title">yveltal <span style="font-weight: 400; color: var(--on-surface-variant);">#717</span></p>
+            <p class="tip-line"><span class="ms">bolt</span>the destruction pokémon</p>
+            <p class="tip-line"><span class="ms">auto_awesome</span>legendary of pokémon y</p>
+            <div class="tip-chips"><span>dark</span><span>flying</span></div>`,
+    });
+    let mascotTimer = null;
+    mascot.addEventListener('click', () => {
+        showTip(mascot);
+        clearTimeout(mascotTimer);
+        mascotTimer = setTimeout(hideTip, 2600);
+    });
+
+    // ---------- live sky: tinted for the time of day in Mumbai, from the real sunrise and sunset ----------
+    const LAT = 19.4654, LON = 72.8086, RAD = Math.PI / 180, DAY = 86400000;
+    // The sunrise equation, good to a couple of minutes
+    function sunTimes(now) {
+        const n = Math.round(now / DAY + 2440587.5 - 2451545.0009 + LON / 360);
+        const jStar = 2451545.0009 - LON / 360 + n;
+        const M = (357.5291 + 0.98560028 * (jStar - 2451545)) % 360;
+        const C = 1.9148 * Math.sin(M * RAD) + 0.02 * Math.sin(2 * M * RAD) + 0.0003 * Math.sin(3 * M * RAD);
+        const L = (M + C + 180 + 102.9372) % 360;
+        const transit = jStar + 0.0053 * Math.sin(M * RAD) - 0.0069 * Math.sin(2 * L * RAD);
+        const dec = Math.asin(Math.sin(L * RAD) * Math.sin(23.44 * RAD));
+        const w = Math.acos((Math.sin(-0.83 * RAD) - Math.sin(LAT * RAD) * Math.sin(dec)) / (Math.cos(LAT * RAD) * Math.cos(dec))) / RAD;
+        const toMs = (j) => (j - 2440587.5) * DAY;
+        return { rise: toMs(transit - w / 360), set: toMs(transit + w / 360), noon: toMs(transit) };
+    }
+
+    const sky = $('sky');
+    let seed = 136;
+    const rand = () => {
+        seed = (seed + 0x6d2b79f5) | 0;
+        let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+    $('skyStars').innerHTML = Array.from({ length: 60 }, (_, i) => {
+        const sparkle = i % 10 === 0;
+        const size = sparkle ? 8 + rand() * 4 : 1.5 + rand() * 1.8;
+        return `<i${sparkle ? ' class="sparkle"' : ''} style="left:${(rand() * 100).toFixed(2)}%;top:${(rand() * 94).toFixed(2)}%;width:${size.toFixed(1)}px;height:${size.toFixed(1)}px;opacity:${(0.3 + rand() * 0.6).toFixed(2)}"></i>`;
+    }).join('');
+
+    // The horizon sits just above the intro card
+    function layoutSky() {
+        const base = document.querySelector('.intro').offsetTop - (innerWidth < 720 ? 26 : 40);
+        sky.style.height = base + 320 + 'px';
+        sky.style.setProperty('--horizon', base + 'px');
+    }
+    function paintSky() {
+        const now = Date.now(), min = 60000;
+        const { rise, set, noon } = sunTimes(now);
+        const ramp = (from, to) => Math.min(1, Math.max(0, (now - from) / (to - from)));
+        // Night fades into dawn around sunrise, dawn into day; then day into dusk and dusk into night around sunset
+        let w;
+        if (now < noon) {
+            const i = ramp(rise - 75 * min, rise - 15 * min), o = ramp(rise + 30 * min, rise + 90 * min);
+            w = { night: 1 - i, dawn: i * (1 - o), day: o, dusk: 0 };
+        } else {
+            const i = ramp(set - 90 * min, set - 30 * min), o = ramp(set + 15 * min, set + 75 * min);
+            w = { night: o, dawn: 0, day: 1 - i, dusk: i * (1 - o) };
+        }
+        Object.keys(w).forEach((k) => sky.style.setProperty('--' + k, w[k].toFixed(3)));
+    }
+    layoutSky();
+    paintSky();
+    new ResizeObserver(layoutSky).observe(document.body);
+
+    // Favourite games and films: a banner, title and year in the hover card
+    document.querySelectorAll('.poster[data-tip]').forEach((el) => {
+        const [title, meta] = el.dataset.tip.split('|');
+        new Image().src = el.dataset.banner; // ready before the first hover
+        tipContent.set(el, {
+            accent: el.dataset.glow,
+            content: `<div class="tip-banner"><img src="${esc(el.dataset.banner)}" alt="" onload="this.classList.add('is-loaded')"></div>
+                <p class="tip-title">${esc(title)}</p><p class="tip-meta">${esc(meta)}</p>
+                <p class="tip-line"><span class="ms">favorite</span>one of my all-time favourites</p>`,
+        });
+    });
+
+    // ---------- right now: my time ----------
+    function tick() {
+        const now = new Date();
+        setText('nowTime', now.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase());
+        setText('nowDate', now.toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'short', day: 'numeric', month: 'short' }) + ' · IST');
+        paintSky();
+    }
+    tick();
+    setInterval(tick, 15000);
+
+    // ---------- right now: weather ----------
+    const WMO = {
+        0: ['clear_day', 'clear sky'], 1: ['partly_cloudy_day', 'mostly clear'], 2: ['partly_cloudy_day', 'partly cloudy'], 3: ['cloud', 'overcast'],
+        45: ['foggy', 'foggy'], 48: ['foggy', 'rime fog'],
+        51: ['rainy', 'light drizzle'], 53: ['rainy', 'drizzle'], 55: ['rainy', 'heavy drizzle'],
+        61: ['rainy', 'light rain'], 63: ['rainy', 'rain'], 65: ['rainy', 'heavy rain'],
+        71: ['weather_snowy', 'light snow'], 73: ['weather_snowy', 'snow'], 75: ['weather_snowy', 'heavy snow'],
+        80: ['rainy', 'rain showers'], 81: ['rainy', 'heavy showers'], 82: ['thunderstorm', 'violent rain'],
+        95: ['thunderstorm', 'thunderstorm'], 96: ['thunderstorm', 'storm with hail'], 99: ['thunderstorm', 'severe storm'],
+    };
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=19.4654&longitude=72.8086&current=temperature_2m,apparent_temperature,weathercode,is_day&timezone=Asia/Kolkata')
+        .then((r) => r.json())
+        .then((d) => {
+            const c = d && d.current;
+            if (!c) return;
+            let [icon, desc] = WMO[c.weathercode] || ['thermostat', 'unknown'];
+            if (!c.is_day) icon = icon.replace('_day', '_night');
+            setText('wxIcon', icon);
+            setText('wxTemp', Math.round(c.temperature_2m) + '°C');
+            setText('wxDesc', desc + ' · feels ' + Math.round(c.apparent_temperature) + '°');
+        })
+        .catch(() => setText('wxDesc', 'weather unavailable'));
+
+    // ---------- GitHub: shares projects.html's cache, falls back to the bundled snapshot ----------
+    const CACHE_TTL = 30 * 60 * 1000;
+    const REPO_FIELDS = ['name', 'description', 'language', 'topics', 'stargazers_count', 'fork', 'homepage', 'html_url', 'pushed_at'];
+    const readCache = (key) => { try { return JSON.parse(localStorage.getItem(key)); } catch (e) { return null; } };
+    const writeCache = (key, value) => { try { localStorage.setItem(key, JSON.stringify(Object.assign({ savedAt: Date.now() }, value))); } catch (e) {} };
+    async function fetchJSON(url) {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(url + ' ' + res.status);
+        return res.json();
+    }
+    function loadSnapshot() {
+        return new Promise((resolve, reject) => {
+            const s = document.createElement('script');
+            s.src = 'js/repos-snapshot.js';
+            s.onload = () => (window.REPOS_SNAPSHOT ? resolve(window.REPOS_SNAPSHOT.repos) : reject(new Error('empty snapshot')));
+            s.onerror = reject;
+            document.head.appendChild(s);
+        });
+    }
+    async function loadRepos() {
+        const cached = readCache('sc136-repos-v1');
+        if (cached && Date.now() - cached.savedAt < CACHE_TTL) return cached.repos;
+        try {
+            const repos = (await fetchJSON('https://api.github.com/users/SC136/repos?per_page=100&sort=pushed'))
+                .map((r) => Object.fromEntries(REPO_FIELDS.map((k) => [k, r[k]])));
+            writeCache('sc136-repos-v1', { repos });
+            return repos;
+        } catch (e) {
+            if (cached) return cached.repos;
+            return loadSnapshot();
+        }
+    }
+    async function loadCached(key, url, pick, ttl) {
+        const cached = readCache(key);
+        if (cached && Date.now() - cached.savedAt < ttl) return cached.data;
+        try {
+            const data = pick(await fetchJSON(url));
+            writeCache(key, { data });
+            return data;
+        } catch (e) {
+            if (cached) return cached.data;
+            throw e;
+        }
+    }
+    function timeAgo(date) {
+        const s = Math.floor((Date.now() - date) / 1000);
+        if (s < 60) return 'just now';
+        const m = Math.floor(s / 60); if (m < 60) return m + 'm ago';
+        const h = Math.floor(m / 60); if (h < 24) return h + 'h ago';
+        const d = Math.floor(h / 24); if (d < 30) return d + 'd ago';
+        return Math.floor(d / 30) + 'mo ago';
+    }
+    const LANG_COLORS = { JavaScript: '#f0db4f', TypeScript: '#3178c6', Python: '#3572a5', HTML: '#e34c26', CSS: '#563d7c', 'C++': '#f34b7d', C: '#8a8a8a', Java: '#b07219', Kotlin: '#a97bff', Dart: '#00b4ab', Shell: '#89e051' };
+
+    const reposPromise = loadRepos();
+    reposPromise.then((repos) => {
+        if (!Array.isArray(repos) || !repos.length) return;
+        setText('ghRepos', repos.length);
+        setText('ghStars', repos.reduce((n, r) => n + (r.stargazers_count || 0), 0));
+        setText('madeCount', repos.length + ' repos, searchable');
+        const top = repos.reduce((best, r) => ((r.stargazers_count || 0) > (best.stargazers_count || 0) ? r : best), repos[0]);
+        setText('topRepoName', top.name + ' · ★ ' + (top.stargazers_count || 0));
+        setText('topRepoDesc', top.description || 'my most starred repo');
+        $('topRepoRow').href = top.html_url;
+
+        const counts = {};
+        repos.forEach((r) => { if (r.language) counts[r.language] = (counts[r.language] || 0) + 1; });
+        const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+        const total = sorted.reduce((n, [, c]) => n + c, 0);
+        $('langBar').innerHTML = sorted.map(([lang, c]) => `<span style="flex:${c};background:${LANG_COLORS[lang] || 'var(--outline)'}"${LANG_COLORS[lang] ? ` data-glow="${LANG_COLORS[lang]}"` : ''} title="${lang}"></span>`).join('');
+        $('langLegend').innerHTML = sorted.map(([lang, c]) => `<span${LANG_COLORS[lang] ? ` data-glow="${LANG_COLORS[lang]}"` : ''}><i style="background:${LANG_COLORS[lang] || 'var(--outline)'}"></i>${lang} ${Math.round(c / total * 100)}%</span>`).join('');
+    }).catch(() => {});
+
+    loadCached('sc136-gh-user-v1', 'https://api.github.com/users/SC136', (u) => ({ followers: u.followers }), CACHE_TTL)
+        .then((u) => u && u.followers != null && setText('ghFollowers', u.followers))
+        .catch(() => {});
+
+    loadCached('sc136-gh-push-v1', 'https://api.github.com/users/SC136/events?per_page=30', (events) => {
+        const push = Array.isArray(events) && events.find((e) => e.type === 'PushEvent');
+        if (!push) return null;
+        return { name: push.repo.name.split('/').pop(), url: 'https://github.com/' + push.repo.name, at: push.created_at };
+    }, 10 * 60 * 1000)
+        .then((p) => p || Promise.reject(new Error('no pushes')))
+        .catch(() => reposPromise.then((repos) => {
+            const latest = repos.filter((r) => r.pushed_at).sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))[0];
+            return latest && { name: latest.name, url: latest.html_url, at: latest.pushed_at };
+        }))
+        .then((p) => {
+            if (!p) return;
+            setText('pushRepo', p.name);
+            setText('pushWhen', timeAgo(new Date(p.at)));
+            $('pushTile').href = p.url;
+        })
+        .catch(() => {});
+
+    // Site visits (read only: this page never adds a view)
+    fetch('https://vixnfmutdbaprqflgzpr.supabase.co/rest/v1/page_views?select=page,count', {
+        headers: { apikey: 'sb_publishable_2s5mFF0V7DqjzoYMAc6VqQ_2VC5U7CR', Authorization: 'Bearer sb_publishable_2s5mFF0V7DqjzoYMAc6VqQ_2VC5U7CR' },
+    })
+        .then((r) => r.json())
+        .then((rows) => {
+            const total = Array.isArray(rows) && rows.find((r) => r.page === 'total');
+            if (total) setText('siteViews', Number(total.count).toLocaleString());
+        })
+        .catch(() => {});
+
+    // ---------- WakaTime: real languages and editors only (it also tracks browser time) ----------
+    function jsonp(url, cb) {
+        const fn = '_wk_' + Math.random().toString(36).slice(2);
+        window[fn] = (data) => { cb(data); delete window[fn]; };
+        const s = document.createElement('script');
+        s.src = url + '?callback=' + fn;
+        s.onerror = () => { delete window[fn]; };
+        document.head.appendChild(s);
+    }
+    function keepOnly(items, drop, rename) {
+        const merged = {};
+        items.forEach((it) => {
+            const name = rename ? rename(it.name) : it.name;
+            if (drop.includes(name)) return;
+            merged[name] = (merged[name] || 0) + it.percent;
+        });
+        const list = Object.entries(merged);
+        const sum = list.reduce((n, [, p]) => n + p, 0);
+        return sum ? list.map(([name, p]) => ({ name, percent: p / sum * 100 })).sort((a, b) => b.percent - a.percent) : [];
+    }
+    const WK = 'https://wakatime.com/share/@SC136/';
+    jsonp(WK + '6db4c0e8-5a97-4ee8-a1d2-2b00fb5f8d37.json', (res) => {
+        const g = res && res.data && res.data.grand_total;
+        if (!g) return;
+        setText('wtTotal', (g.human_readable_total_including_other_language || '').replace(/ mins?/, 'm').replace(/ hrs?/, 'h'));
+        setText('wtDaily', (g.human_readable_daily_average_including_other_language || '').replace(/ mins?/, 'm').replace(/ hrs?/, 'h'));
+    });
+    jsonp(WK + '67f046a3-2b1b-490e-90a3-38c636060c7f.json', (res) => {
+        if (!res || !Array.isArray(res.data)) return;
+        const NOT_LANGUAGES = ['Other', 'Markdown', 'JSON', 'YAML', 'Text', 'Git Config', 'TSConfig', 'XML', 'Properties', 'Java Properties', 'INI', 'TOML', 'CSV'];
+        $('wtLangs').innerHTML = keepOnly(res.data, NOT_LANGUAGES)
+            .filter((l) => Math.round(l.percent) > 0).slice(0, 6)
+            .map((l) => `<span class="chip">${l.name.toLowerCase()} <b style="color:var(--primary);font-weight:600">${Math.round(l.percent)}%</b></span>`).join('');
+    });
+    jsonp(WK + 'a25ca72e-fd50-4df5-89fc-2f7c0c80523a.json', (res) => {
+        if (!res || !Array.isArray(res.data)) return;
+        const NOT_EDITORS = ['Edge', 'Chrome', 'Firefox', 'Arc', 'Brave', 'Opera', 'Safari', 'WindowsTerminalHost', 'TaskManager', 'Explorer', 'Unknown Editor'];
+        const eds = keepOnly(res.data, NOT_EDITORS, (n) => (/^Antigravity/.test(n) ? 'Antigravity' : n));
+        setText('wtEditors', eds.slice(0, 2).map((e) => e.name).join(' + ') || '–');
+    });
+
+    // ---------- AniList ----------
+    const anilist = (query) => fetch('https://graphql.anilist.co', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ query }),
+    }).then((r) => r.json());
+    anilist('query { User(name: "SC136") { statistics { anime { count episodesWatched minutesWatched meanScore } } } }')
+        .then((d) => {
+            const s = d && d.data && d.data.User && d.data.User.statistics.anime;
+            if (!s) return;
+            setText('alCount', s.count);
+            setText('alEpisodes', s.episodesWatched.toLocaleString());
+            setText('alHours', Math.round(s.minutesWatched / 60).toLocaleString());
+            setText('alScore', s.meanScore ? s.meanScore.toFixed(1) : '–');
+        })
+        .catch(() => {});
+    anilist('query { MediaListCollection(userName: "SC136", type: ANIME, status: CURRENT, sort: UPDATED_TIME_DESC) { lists { entries { progress media { siteUrl episodes format seasonYear averageScore genres bannerImage title { romaji english } coverImage { large color } nextAiringEpisode { episode timeUntilAiring } } } } } }')
+        .then((d) => {
+            const lists = d && d.data && d.data.MediaListCollection && d.data.MediaListCollection.lists;
+            const entries = (lists || []).flatMap((l) => l.entries).slice(0, 15);
+            const grid = $('alWatching');
+            if (!entries.length) { grid.innerHTML = '<p class="tile-sub">nothing on the go right now.</p>'; return; }
+            const FORMATS = { TV: 'tv', TV_SHORT: 'tv short', MOVIE: 'movie', SPECIAL: 'special', OVA: 'ova', ONA: 'ona', MUSIC: 'music' };
+            grid.innerHTML = entries.map((e) => {
+                const m = e.media;
+                const title = m.title.english || m.title.romaji;
+                const of = m.episodes ? ` of ${m.episodes}` : '';
+                return `<a class="poster" href="${esc(m.siteUrl)}" target="_blank" rel="noopener noreferrer" style="background:${esc(m.coverImage.color || '')}"${m.coverImage.color ? ` data-glow="${esc(m.coverImage.color)}"` : ''} aria-label="${esc(title)}, watching episode ${e.progress}${of}">
+                    <img src="${esc(m.coverImage.large)}" alt="" loading="lazy">
+                    <span class="poster-tag">ep ${e.progress}</span></a>`;
+            }).join('');
+            grid.querySelectorAll('.poster').forEach((el, i) => {
+                const e = entries[i], m = e.media;
+                const meta = [FORMATS[m.format] || (m.format || '').toLowerCase(), m.seasonYear, m.episodes ? m.episodes + ' eps' : 'ongoing'].filter(Boolean).join(' · ');
+                const pct = m.episodes ? Math.min(100, Math.round(e.progress / m.episodes * 100)) : 0;
+                const next = m.nextAiringEpisode;
+                const days = next ? Math.max(1, Math.round(next.timeUntilAiring / 86400)) : 0;
+                const banner = m.bannerImage || m.coverImage.large;
+                tipContent.set(el, {
+                    accent: m.coverImage.color,
+                    content: `<div class="tip-banner${m.bannerImage ? '' : ' is-cover'}"><img src="${esc(banner)}" alt="" onload="this.classList.add('is-loaded')"></div>
+                        <p class="tip-title">${esc(m.title.english || m.title.romaji)}</p>
+                        <p class="tip-meta">${esc(meta)}</p>
+                        ${m.episodes ? `<div class="tip-progress"><span style="width:${pct}%"></span></div>` : ''}
+                        <p class="tip-line"><span class="ms">play_circle</span>watching ep ${e.progress}${m.episodes ? ' of ' + m.episodes : ''}</p>
+                        ${m.averageScore ? `<p class="tip-line"><span class="ms">star</span>${m.averageScore}% on anilist</p>` : ''}
+                        ${next ? `<p class="tip-line"><span class="ms">schedule</span>ep ${next.episode} airs in ${days} day${days === 1 ? '' : 's'}</p>` : ''}
+                        ${m.genres && m.genres.length ? `<div class="tip-chips">${m.genres.slice(0, 3).map((g) => `<span>${esc(g.toLowerCase())}</span>`).join('')}</div>` : ''}`,
+                });
+            });
+        })
+        .catch(() => {});
+
+    // ---------- Letterboxd ----------
+    fetch('https://vixnfmutdbaprqflgzpr.supabase.co/functions/v1/letterboxd-feed')
+        .then((r) => r.json())
+        .then((d) => {
+            const films = (d && d.films) || [];
+            if (!films.length) return;
+            const shown = films.slice(0, 5);
+            const starsFor = (r) => (r ? '★'.repeat(Math.floor(r)) + (r % 1 >= 0.5 ? '½' : '') : '');
+            const LB_DOTS = ['#ff8000', '#00e054', '#40bcf4'];
+            $('lbFilms').innerHTML = shown.map((f, i) => `<a class="poster" data-glow="${LB_DOTS[i % 3]}" href="${esc(f.link)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(f.title)}${f.rating ? ', rated ' + esc(f.rating) + ' out of 5' : ''}">
+                    <img src="${esc(f.poster)}" alt="" loading="lazy">
+                    ${f.rating ? `<span class="poster-tag">${starsFor(f.rating)}</span>` : ''}</a>`).join('');
+            $('lbFilms').querySelectorAll('.poster').forEach((el, i) => {
+                const f = shown[i];
+                const watched = f.watchedDate ? new Date(f.watchedDate + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase() : '';
+                tipContent.set(el, {
+                    content: `<p class="tip-title">${esc(f.title)}</p>
+                        <p class="tip-meta">film${watched ? ' · watched ' + esc(watched) : ''}</p>
+                        ${f.rating ? `<p class="tip-line"><span class="ms">star</span>${starsFor(f.rating)} · ${esc(f.rating)} out of 5</p>` : '<p class="tip-line">no rating yet</p>'}`,
+                });
+            });
+        })
+        .catch(() => {});
+
+    // ---------- Steam ----------
+    // Hovering the CS2 tile plays a clip of mine. Browsers only allow sound once you've clicked or tapped
+    // somewhere on the page, so until then it plays muted
+    function enableGameVideo() {
+        const tile = $('steamGame'), video = $('gameVideo');
+        if (reduceMotion || !matchMedia('(hover: hover)').matches) return;
+        video.volume = 0.6;
+        const start = () => {
+            // WebM (VP9) is a little smaller; Safari gets the MP4
+            if (!video.src) video.src = video.dataset.src + (video.canPlayType('video/webm; codecs="vp9, opus"') ? '.webm' : '.mp4');
+            video.currentTime = 0;
+            tile.classList.add('is-playing');
+            video.muted = false;
+            video.play().catch(() => { video.muted = true; video.play().catch(() => {}); });
+        };
+        const stop = () => { tile.classList.remove('is-playing'); video.pause(); };
+        tile.addEventListener('pointerenter', (e) => { if (e.pointerType !== 'touch') start(); });
+        tile.addEventListener('pointerleave', stop);
+        tile.addEventListener('focus', start);
+        tile.addEventListener('blur', stop);
+    }
+    const STEAM_ART = { 'Counter-Strike 2': 730 };
+    fetch('https://vixnfmutdbaprqflgzpr.supabase.co/functions/v1/steam-profile')
+        .then((r) => r.json())
+        .then((d) => {
+            if (!d || d.error) return;
+            setText('steamState', 'most played on steam · ' + (d.stateMessage || d.onlineState || '').toLowerCase());
+            setText('steamTop', d.topGame || 'steam');
+            setText('steamHours', (d.topGameHours ? d.topGameHours + ' hours on record' : '') + (d.hoursPlayed2Wk && d.hoursPlayed2Wk !== '0.0' ? ' · ' + d.hoursPlayed2Wk + 'h this fortnight' : ''));
+            const app = STEAM_ART[d.topGame];
+            const art = app ? `https://cdn.cloudflare.steamstatic.com/steam/apps/${app}/library_hero.jpg` : d.avatarFull;
+            if (art) $('steamGame').style.backgroundImage = `url("${art}")`;
+            if (d.topGame === 'Counter-Strike 2') {
+                $('steamGame').dataset.glow = '#f0902a';
+                enableGameVideo();
+            }
+        })
+        .catch(() => setText('steamHours', 'steam is napping'));
+
+    // ---------- npm ----------
+    fetch('https://registry.npmjs.org/sc136').then((r) => r.json())
+        .then((d) => d['dist-tags'] && setText('npmVersion', 'v' + d['dist-tags'].latest)).catch(() => {});
+    fetch('https://api.npmjs.org/downloads/point/last-year/sc136').then((r) => r.json())
+        .then((d) => d.downloads != null && setText('npmDownloads', d.downloads.toLocaleString() + ' downloads this year')).catch(() => {});
+})();
+</script>
+</body>
 </html>
