@@ -614,7 +614,12 @@
         .tip-progress span { display: block; height: 100%; border-radius: inherit; background: var(--tip-accent, var(--primary)); }
         .tip-line { display: flex; align-items: center; gap: 6px; margin: 4px 0 0; font-size: 0.82rem; }
         .tip-line .ms { font-size: 16px; color: var(--primary); }
-        .tip-brand { height: 6px; margin: -14px -16px 12px; border-radius: 18px 18px 0 0; background: var(--tip-accent); }
+        /* Platforms with no picture of mine get a banner in their colour, with the logo big */
+        .tip-banner.brand { display: grid; place-items: center; overflow: hidden; background: linear-gradient(135deg, var(--tip-accent), color-mix(in oklab, var(--tip-accent) 50%, #000)); }
+        .tip-banner.brand > i, .tip-banner.brand > .ms { font-size: 76px; color: rgba(255, 255, 255, 0.92); rotate: -12deg; translate: 60px 6px; }
+        .tip-banner.top img { object-position: center 18%; }
+        /* the platform badge sits over the banner's bottom edge, like a profile picture */
+        .tip-banner + .tip-head > i, .tip-banner + .tip-head > .ms { position: relative; margin-top: -34px; border: 3px solid var(--surface-highest); }
         .tip-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .tip-head > i, .tip-head > .ms { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 12px; background: var(--tip-accent); color: #fff; font-size: 18px; }
         .tip-head .tip-title { margin: 0; }
@@ -2333,38 +2338,47 @@
     const live = (id) => { const v = ($(id) || {}).textContent; return v && v !== '–' ? v : ''; };
     const line = (icon, text) => (text ? `<p class="tip-line"><span class="ms">${icon}</span>${esc(text)}</p>` : '');
     const SOCIALS = {
-        'github.com/SC136': ['fa-brands fa-github', 'github', 'SC136', '#a371f7', () =>
+        'github.com/SC136': ['fa-brands fa-github', 'github', 'SC136', '#a371f7', 'assets/socials/github-banner.webp', () =>
             line('folder_open', live('ghRepos') && `${live('ghRepos')} public repos · ★ ${live('ghStars')}`) + line('group', live('ghFollowers') && `${live('ghFollowers')} followers`) + line('commit', live('pushRepo') && `last pushed to ${live('pushRepo')} ${live('pushWhen')}`), ['code', 'projects']],
-        'linkedin.com/in/swarchuri': ['fa-brands fa-linkedin-in', 'linkedin', 'swarchuri', '#0a66c2', () =>
+        'linkedin.com/in/swarchuri': ['fa-brands fa-linkedin-in', 'linkedin', 'swarchuri', '#0a66c2', '', () =>
             line('school', 'computer engineering student, mumbai') + line('work', 'the place for internships and work stuff'), ['work', 'resume']],
-        'instagram.com/sc_136_': ['fa-brands fa-instagram', 'instagram', 'sc_136_', '#e1306c', () =>
+        'instagram.com/sc_136_': ['fa-brands fa-instagram', 'instagram', 'sc_136_', '#e1306c', '', () =>
             line('photo_camera', 'photos and whatever i\'m up to'), ['life', 'photos']],
-        'x.com/SC_136': ['fa-brands fa-x-twitter', 'x', '@SC_136', '#1d9bf0', () =>
+        'x.com/SC_136': ['fa-brands fa-x-twitter', 'x', '@SC_136', '#1d9bf0', '', () =>
             line('forum', 'thoughts, tech and the odd meme'), ['posts']],
-        'youtube.com/@SCSmartTech': ['fa-brands fa-youtube', 'youtube', '@SCSmartTech', '#ff0033', () =>
+        'youtube.com/@SCSmartTech': ['fa-brands fa-youtube', 'youtube', '@SCSmartTech', '#ff0033', 'assets/socials/youtube-banner.webp', () =>
             line('smart_display', 'my tech channel') + line('notifications', 'subscribe, it helps'), ['videos', 'tech']],
-        'discord.com/users': ['fa-brands fa-discord', 'discord', 'sc136', '#5865f2', () =>
+        'discord.com/users': ['fa-brands fa-discord', 'discord', 'sc136', '#5865f2', 'assets/server-banner.webp', () =>
             line('circle', live('discordStatus')) + line('bolt', [live('discordWhat'), live('discordDetail')].filter(Boolean).join(' · ')) + line('groups', live('serverMembers') && `my server has ${live('serverMembers')}`), ['live']],
-        'steamcommunity.com/id/SC136': ['fa-brands fa-steam', 'steam', 'SC136', '#66c0f4', () =>
+        'steamcommunity.com/id/SC136': ['fa-brands fa-steam', 'steam', 'SC136', '#66c0f4', 'https://cdn.cloudflare.steamstatic.com/steam/apps/730/library_hero.jpg', () =>
             line('sports_esports', live('steamTop') && `most played: ${live('steamTop')}`) + line('schedule', live('steamHours')) + line('circle', live('steamState').replace('most played on steam · ', '')), ['games']],
-        'twitch.tv/SC_136': ['fa-brands fa-twitch', 'twitch', 'SC_136', '#9146ff', () =>
+        'twitch.tv/SC_136': ['fa-brands fa-twitch', 'twitch', 'SC_136', '#9146ff', '', () =>
             line('videocam', 'the occasional stream') + line('sports_esports', 'mostly games'), ['streams']],
-        'reddit.com/user/SC-136': ['fa-brands fa-reddit-alien', 'reddit', 'u/SC-136', '#ff4500', () =>
+        'reddit.com/user/SC-136': ['fa-brands fa-reddit-alien', 'reddit', 'u/SC-136', '#ff4500', '', () =>
             line('forum', 'lurking in tech and anime subs'), ['lurker']],
-        'anilist.co/user/SC136': ['ms live_tv', 'anilist', 'SC136', '#02a9ff', () =>
+        'anilist.co/user/SC136': ['ms live_tv', 'anilist', 'SC136', '#02a9ff', 'top:assets/socials/anilist-banner.webp', () =>
             line('live_tv', live('alCount') && `${live('alCount')} anime watched`) + line('schedule', live('alHours') && `${live('alHours')} hours · ${live('alEpisodes')} episodes`) + line('star', live('alScore') && `mean score ${live('alScore')}`), ['anime']],
     };
+    const socialPictures = [];
     document.querySelectorAll('.t-find .row').forEach((row) => {
         const key = Object.keys(SOCIALS).find((k) => row.href.includes(k));
         if (!key) return;
-        const [icon, site, handle, colour, body, chips] = SOCIALS[key];
+        const [icon, site, handle, colour, picture, body, chips] = SOCIALS[key];
         const badge = icon.startsWith('ms ') ? `<span class="ms">${icon.slice(3)}</span>` : `<i class="${icon}"></i>`;
+        const [crop, src] = picture.startsWith('top:') ? ['top', picture.slice(4)] : ['', picture];
+        if (src) socialPictures.push(src);
+        const banner = src
+            ? `<div class="tip-banner ${crop}"><img src="${src}" alt="" onload="this.classList.add('is-loaded')"></div>`
+            : `<div class="tip-banner brand">${badge}</div>`;
         tipContent.set(row, {
             accent: colour,
-            content: () => `<div class="tip-brand"></div><div class="tip-head">${badge}<div><p class="tip-meta">${site}</p><p class="tip-title">${esc(handle)}</p></div></div>
+            content: () => `${banner}<div class="tip-head">${badge}<div><p class="tip-meta">${site}</p><p class="tip-title">${esc(handle)}</p></div></div>
                 ${body()}<div class="tip-chips">${chips.map((c) => `<span>${c}</span>`).join('')}</div>`,
         });
     });
+
+    // Banner pictures load the first time someone points at the socials, so they're ready by the hover card
+    document.querySelector('.t-find').addEventListener('pointerenter', () => socialPictures.forEach((src) => { new Image().src = src; }), { once: true });
 
     // ---------- keyboard shortcuts ----------
     const keysDialog = $('keysDialog');
