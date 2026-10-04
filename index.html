@@ -754,6 +754,8 @@
         .specs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
         .spec { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 14px 14px 12px; border-radius: 18px; background: var(--surface-high); transition: border-radius 0.35s var(--ease); }
         .spec:hover { border-radius: 26px; }
+        .spec { cursor: default; }
+        .spec:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
         .spec .ms { margin-bottom: 6px; font-size: 20px; color: var(--primary); }
         .spec b { font-size: 1.9rem; font-weight: 600; line-height: 1.05; letter-spacing: -0.01em; }
         .spec b small { margin-left: 3px; font-size: 0.95rem; font-weight: 500; color: var(--on-surface-variant); }
@@ -1710,7 +1712,7 @@
         tip.classList.add('show');
     }
     const hideTip = () => tip.classList.remove('show');
-    const posterFrom = (node) => node && node.closest && node.closest('.poster, .mascot, .t-find .row');
+    const posterFrom = (node) => node && node.closest && node.closest('.poster, .mascot, .t-find .row, .spec');
     document.addEventListener('pointerover', (e) => {
         const p = posterFrom(e.target);
         if (p && e.pointerType !== 'touch' && !p.contains(e.relatedTarget)) showTip(p);
@@ -2374,6 +2376,28 @@
             accent: colour,
             content: () => `${banner}<div class="tip-head">${badge}<div><p class="tip-meta">${site}</p><p class="tip-title">${esc(handle)}</p></div></div>
                 ${body()}<div class="tip-chips">${chips.map((c) => `<span>${c}</span>`).join('')}</div>`,
+        });
+    });
+
+    // Setup: a hover card for each part, with the details that don't fit on the tile
+    const SPECS = [
+        ['laptop_windows', 'laptop', 'asus zenbook 14', '#1f5fae', [['badge', 'model ux3405ca'], ['computer', 'windows 11 home + wsl2'], ['monitor', '14″ 3k oled at 120hz']], ['ultrabook', 'oled']],
+        ['memory', 'processor', 'intel core ultra 5 225h', '#0071c5', [['grid_view', '14 cores, 14 threads'], ['speed', 'boosts up to 4.9 ghz'], ['videogame_asset', 'intel arc 130t graphics']], ['arrow lake', 'intel']],
+        ['developer_board', 'memory', '16 gb lpddr5x', '#7c4dff', [['bolt', 'running at 8533 mt/s'], ['share', 'shared with the arc graphics']], ['lpddr5x']],
+        ['hard_drive', 'storage', '1 tb nvme ssd', '#00897b', [['save', 'micron nvme drive'], ['folder', 'windows, wsl and every side project']], ['nvme']],
+        ['monitor', 'display', '3k oled · 120hz', '#d81b60', [['aspect_ratio', '2880 × 1800, 16:10'], ['contrast', 'oled: true blacks'], ['animation', '120hz for smooth scrolling']], ['oled', '120hz']],
+        ['keyboard', 'keyboard', 'urx core 75', '#ef8a17', [['keyboard', '75% layout'], ['edit_note', 'where all of this gets typed']], ['75%']],
+    ];
+    document.querySelectorAll('.spec').forEach((el, i) => {
+        const spec = SPECS[i];
+        if (!spec) return;
+        const [icon, kind, name, colour, lines, chips] = spec;
+        el.tabIndex = 0;
+        tipContent.set(el, {
+            accent: colour,
+            content: `<div class="tip-banner brand"><span class="ms">${icon}</span></div>
+                <div class="tip-head"><span class="ms">${icon}</span><div><p class="tip-meta">${kind}</p><p class="tip-title">${name}</p></div></div>
+                ${lines.map(([ic, text]) => line(ic, text)).join('')}<div class="tip-chips">${chips.map((c) => `<span>${c}</span>`).join('')}</div>`,
         });
     });
 
