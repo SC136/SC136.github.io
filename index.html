@@ -180,6 +180,7 @@
         /* ---------- hero: avatar in a shape that morphs when you tap it ---------- */
         .hero {
             position: relative;
+            overflow-x: clip; /* the spinning shape's corners would otherwise widen the page on phones */
             display: grid;
             place-items: center;
             padding: 40px 0 36px;
@@ -652,6 +653,93 @@
         .js a.mini { transition: border-radius 0.35s var(--ease), background 0.2s, opacity 0.6s var(--ease), translate 0.7s var(--spring); }
         a.mini:hover { border-radius: 36px; background: color-mix(in srgb, var(--on-surface) 5%, var(--surface-low)); }
 
+        /* ===== Discord: live status from Lanyard ===== */
+        .card.t-discord { display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 16px; text-decoration: none; }
+        .discord-face { position: relative; flex: none; width: 64px; height: 64px; }
+        .discord-face img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--surface-high); }
+        .discord-dot {
+            position: absolute;
+            right: -2px;
+            bottom: -2px;
+            width: 20px;
+            height: 20px;
+            border: 4px solid var(--surface-low);
+            border-radius: 50%;
+            background: var(--status, #80848e);
+            transition: background 0.4s var(--ease);
+        }
+        .discord-text { display: flex; flex: 1; flex-direction: column; gap: 2px; min-width: 0; }
+        .discord-art {
+            flex: none;
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            object-fit: cover;
+            background: var(--surface-high);
+            transition: border-radius 0.35s var(--ease);
+        }
+        .discord-art[hidden] { display: none; }
+        .t-discord:hover .discord-art { border-radius: 24px; }
+        .discord-bar { height: 4px; margin-top: 6px; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--on-surface) 12%, transparent); }
+        .discord-bar[hidden] { display: none; }
+        .discord-bar span { display: block; height: 100%; width: 0; border-radius: inherit; background: #1ed760; transition: width 1s linear; }
+
+        /* ===== GitHub: the last year of contributions, in the page's colours ===== */
+        .gh-readout { margin: 0 0 12px; min-height: 1.5em; font-size: 0.9rem; color: var(--on-surface-variant); }
+        .gh-readout b { color: var(--on-surface); font-weight: 600; }
+        .gh-months, .gh-grid { display: grid; grid-auto-columns: minmax(0, 1fr); gap: 3px; }
+        .gh-months { grid-auto-flow: column; margin-bottom: 6px; font-size: 0.72rem; color: var(--on-surface-variant); }
+        .gh-months span { white-space: nowrap; }
+        .gh-grid { grid-template-rows: repeat(7, auto); grid-auto-flow: column; }
+        .gh-grid i { display: block; aspect-ratio: 1; border-radius: 3px; background: color-mix(in srgb, var(--on-surface) 8%, transparent); transition: scale 0.2s var(--spring), border-radius 0.2s var(--ease); }
+        .gh-grid i.l1, .gh-legend i.l1 { background: color-mix(in oklab, var(--primary) 32%, var(--surface-high)); }
+        .gh-grid i.l2, .gh-legend i.l2 { background: color-mix(in oklab, var(--primary) 56%, var(--surface-high)); }
+        .gh-grid i.l3, .gh-legend i.l3 { background: color-mix(in oklab, var(--primary) 80%, var(--surface-high)); }
+        .gh-grid i.l4, .gh-legend i.l4 { background: var(--primary); }
+        .gh-grid i.pad { visibility: hidden; }
+        .gh-grid i:hover { scale: 1.5; border-radius: 50%; position: relative; z-index: 1; }
+        .gh-legend { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 10px; font-size: 0.72rem; color: var(--on-surface-variant); }
+        .gh-legend i { display: block; width: 12px; height: 12px; border-radius: 3px; background: color-mix(in srgb, var(--on-surface) 8%, transparent); }
+        .gh-legend span { margin: 0 4px; }
+
+        /* ===== Keyboard shortcuts ===== */
+        .keys-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            z-index: 70;
+            width: min(340px, calc(100vw - 32px));
+            padding: 24px;
+            border-radius: 28px;
+            background: var(--surface-high);
+            color: var(--on-surface);
+            box-shadow: 0 18px 48px rgba(0, 0, 0, 0.4);
+            translate: -50% -50%;
+            opacity: 0;
+            scale: 0.92;
+            visibility: hidden;
+            transition: opacity 0.15s var(--ease), scale 0.35s var(--spring), visibility 0s 0.35s;
+        }
+        .keys-dialog.open { opacity: 1; scale: 1; visibility: visible; transition: opacity 0.15s var(--ease), scale 0.35s var(--spring); }
+        .keys-dialog h2 { margin: 0 0 16px; font-size: 1.3rem; font-weight: 500; }
+        .keys-list { display: grid; grid-template-columns: auto 1fr; gap: 10px 16px; align-items: center; margin: 0; }
+        .keys-list dd { margin: 0; color: var(--on-surface-variant); }
+        kbd {
+            display: inline-grid;
+            place-items: center;
+            min-width: 32px;
+            height: 32px;
+            padding: 0 8px;
+            border-radius: 10px;
+            background: var(--surface-highest);
+            box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--on-surface) 14%, transparent);
+            font: 600 0.9rem "Google Sans Flex", sans-serif;
+            color: var(--on-surface);
+        }
+        .keys-hint { display: none; padding: 0; border: 0; background: none; color: var(--on-surface-variant); font: inherit; font-size: 0.85rem; cursor: pointer; }
+        .keys-hint kbd { min-width: 24px; height: 24px; margin: 0 2px; border-radius: 7px; font-size: 0.8rem; }
+        @media (hover: hover) and (pointer: fine) { .keys-hint { display: inline-flex; align-items: center; } }
+
         /* Backloggd: a shelf across the full width, the numbers on the left and favourites on the right */
         @media (min-width: 1001px) {
             .t-played { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 32px; align-items: start; }
@@ -1086,7 +1174,7 @@
     </section>
 
     <div class="bento">
-        <div class="card mini span-2">
+        <div class="card mini">
             <div class="mini-head">
                 <span class="shape-icon sm tonal" style="--shape-a: var(--shape-soft6); --shape-b: var(--shape-clover4);"><span class="ms">nest_clock_farsight_analog</span></span>
                 <span class="tile-label">my time</span>
@@ -1095,7 +1183,7 @@
             <span class="tile-sub" id="nowDate">IST · UTC+5:30</span>
         </div>
 
-        <div class="card mini span-2">
+        <div class="card mini">
             <div class="mini-head">
                 <span class="shape-icon sm tonal" style="--shape-a: var(--shape-cookie9); --shape-b: var(--shape-sunny8);"><span class="ms" id="wxIcon">partly_cloudy_day</span></span>
                 <span class="tile-label">weather here</span>
@@ -1104,6 +1192,20 @@
             <span class="tile-sub" id="wxDesc">checking the sky…</span>
         </div>
 
+
+        <a class="card mini span-2 t-discord" id="discordTile" data-glow="#5865f2" href="https://discord.com/users/594504468931018752" target="_blank" rel="noopener noreferrer" aria-live="polite">
+            <span class="discord-face">
+                <img id="discordAvatar" src="assets/avatars/github.webp" alt="" width="64" height="64">
+                <span class="discord-dot" id="discordDot"></span>
+            </span>
+            <span class="discord-text">
+                <span class="tile-label" id="discordStatus">on discord</span>
+                <span class="tile-value" id="discordWhat">checking…</span>
+                <span class="tile-sub" id="discordDetail">sc136</span>
+                <span class="discord-bar" id="discordBar" hidden><span></span></span>
+            </span>
+            <img class="discord-art" id="discordArt" alt="" width="64" height="64" hidden>
+        </a>
 
         <section class="card span-2" aria-labelledby="listenTitle" data-glow="#1ed760">
             <div class="shape-icon" style="--shape-a: var(--shape-flower8); --shape-b: var(--shape-cookie12);"><span class="ms">headphones</span></div>
@@ -1259,6 +1361,21 @@
         </a>
 
 
+        <section class="card span-4" aria-labelledby="ghTitle">
+            <div class="shape-icon tonal" style="--shape-a: var(--shape-clover4); --shape-b: var(--shape-cookie12);"><span class="ms">calendar_view_month</span></div>
+            <h2 class="card-title" id="ghTitle">my year on github</h2>
+            <div class="stats">
+                <div class="stat"><b id="ghTotal">–</b><span>contributions</span></div>
+                <div class="stat"><b id="ghStreak">–</b><span>longest streak</span></div>
+                <div class="stat"><b id="ghNow">–</b><span>current streak</span></div>
+                <div class="stat"><b id="ghBest">–</b><span>best day</span></div>
+            </div>
+            <p class="gh-readout" id="ghReadout">loading the last year…</p>
+            <div class="gh-months" id="ghMonths" aria-hidden="true"></div>
+            <div class="gh-grid" id="ghGrid" role="img" aria-label="GitHub contributions over the last year"></div>
+            <div class="gh-legend" aria-hidden="true">less<span></span><i class="gh-cell"></i><i class="gh-cell l1"></i><i class="gh-cell l2"></i><i class="gh-cell l3"></i><i class="gh-cell l4"></i><span></span>more</div>
+        </section>
+
         <section class="card t-played span-4" aria-labelledby="playedTitle">
             <div class="played-info">
                 <div class="shape-icon tonal" style="--shape-a: var(--shape-burst10); --shape-b: var(--shape-cookie9);"><span class="ms">stadia_controller</span></div>
@@ -1316,11 +1433,24 @@
     </div>
     <div class="footer-bottom">
         <a class="wordmark" href="https://sc.is-a.dev/"><b>sc</b>.is-a.dev</a>
+        <button class="keys-hint" id="keysHint" type="button">press <kbd>?</kbd> for shortcuts</button>
         <a class="btn" href="mailto:hello@swar.is-a.dev"><span class="ms">mail</span>Contact</a>
     </div>
 </footer>
 
 <div class="rich-tip" id="richTip" aria-hidden="true"></div>
+
+<div class="keys-dialog" id="keysDialog" role="dialog" aria-labelledby="keysTitle">
+    <h2 id="keysTitle">shortcuts</h2>
+    <dl class="keys-list">
+        <dt><kbd>T</kbd></dt><dd>light or dark</dd>
+        <dt><kbd>C</kbd></dt><dd>next colour</dd>
+        <dt><kbd>A</kbd></dt><dd>next avatar</dd>
+        <dt><kbd>S</kbd></dt><dd>next sticker</dd>
+        <dt><kbd>?</kbd></dt><dd>this list</dd>
+        <dt><kbd>Esc</kbd></dt><dd>close</dd>
+    </dl>
+</div>
 
 <script>
 (function () {
@@ -1990,6 +2120,159 @@
         .then((d) => d['dist-tags'] && setText('npmVersion', 'v' + d['dist-tags'].latest)).catch(() => {});
     fetch('https://api.npmjs.org/downloads/point/last-year/sc136').then((r) => r.json())
         .then((d) => d.downloads != null && setText('npmDownloads', d.downloads.toLocaleString() + ' downloads this year')).catch(() => {});
+    // ---------- Discord: live presence over Lanyard's websocket ----------
+    const DISCORD_ID = '594504468931018752';
+    const STATUS = { online: ['online', '#23a55a'], idle: ['idle', '#f0b232'], dnd: ['do not disturb', '#f23f43'], offline: ['offline', '#80848e'] };
+    let discordSince = 0, discordBase = '', spotifyTimes = null;
+    const assetUrl = (appId, key) => {
+        if (!key) return '';
+        if (key.startsWith('mp:')) return 'https://media.discordapp.net/' + key.slice(3);
+        if (key.startsWith('spotify:')) return 'https://i.scdn.co/image/' + key.slice(8);
+        return `https://cdn.discordapp.com/app-assets/${appId}/${key}.png`;
+    };
+    const ago = (ms) => {
+        const m = Math.floor(ms / 60000);
+        return m < 1 ? 'just now' : m < 60 ? `for ${m}m` : `for ${Math.floor(m / 60)}h ${m % 60}m`;
+    };
+    function paintDiscord(p) {
+        if (!p) return;
+        const [label, colour] = STATUS[p.discord_status] || STATUS.offline;
+        $('discordDot').style.setProperty('--status', colour);
+        const u = p.discord_user || {};
+        if (u.avatar) $('discordAvatar').src = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${u.avatar}.png?size=128`;
+        const acts = p.activities || [];
+        const custom = acts.find((x) => x.type === 4);
+        const game = acts.find((x) => x.type !== 4 && x.type !== 2);
+        const music = p.listening_to_spotify && p.spotify;
+        const art = $('discordArt'), bar = $('discordBar');
+        spotifyTimes = null;
+        discordSince = 0;
+        if (game) {
+            setText('discordStatus', `${label} · ${game.type === 3 ? 'watching' : game.type === 1 ? 'streaming' : 'playing'}`);
+            setText('discordWhat', game.name);
+            setText('discordDetail', [game.details, game.state].filter(Boolean).join(' · ') || (music ? `${music.song} · ${music.artist}` : ''));
+            const img = assetUrl(game.application_id, game.assets && (game.assets.large_image || game.assets.small_image));
+            art.hidden = !img;
+            if (img) art.src = img;
+            discordSince = game.timestamps && game.timestamps.start || 0;
+            discordBase = $('discordDetail').textContent;
+            bar.hidden = true;
+        } else if (music) {
+            setText('discordStatus', `${label} · listening on spotify`);
+            setText('discordWhat', music.song);
+            setText('discordDetail', music.artist.replace(/;/g, ','));
+            art.hidden = !music.album_art_url;
+            art.src = music.album_art_url || '';
+            spotifyTimes = music.timestamps;
+            bar.hidden = !spotifyTimes;
+        } else {
+            setText('discordStatus', 'on discord');
+            setText('discordWhat', label);
+            setText('discordDetail', custom ? [custom.emoji && !custom.emoji.id ? custom.emoji.name : '', custom.state].filter(Boolean).join(' ') : (p.discord_status === 'offline' ? 'probably asleep' : 'not up to anything'));
+            art.hidden = true;
+            bar.hidden = true;
+        }
+        tickDiscord();
+    }
+    function tickDiscord() {
+        if (discordSince) {
+            $('discordDetail').textContent = [discordBase, ago(Date.now() - discordSince)].filter(Boolean).join(' · ');
+        }
+        if (spotifyTimes && spotifyTimes.end) {
+            const pct = Math.min(100, Math.max(0, (Date.now() - spotifyTimes.start) / (spotifyTimes.end - spotifyTimes.start) * 100));
+            $('discordBar').firstElementChild.style.width = pct + '%';
+        }
+    }
+    setInterval(tickDiscord, 1000);
+    fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`).then((r) => r.json()).then((d) => d.success && paintDiscord(d.data)).catch(() => {});
+    (function connect(retry) {
+        let ws, beat;
+        try { ws = new WebSocket('wss://api.lanyard.rest/socket'); } catch (e) { return; }
+        ws.addEventListener('message', (e) => {
+            const m = JSON.parse(e.data);
+            if (m.op === 1) {
+                beat = setInterval(() => ws.readyState === 1 && ws.send(JSON.stringify({ op: 3 })), m.d.heartbeat_interval);
+                ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: DISCORD_ID } }));
+            } else if (m.op === 0) paintDiscord(m.d);
+        });
+        ws.addEventListener('close', () => { clearInterval(beat); setTimeout(() => connect(Math.min(retry * 2, 60000)), retry); });
+    })(3000);
+
+    // ---------- GitHub: the last year of contributions ----------
+    let ghDays = null;
+    const ghDate = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }).toLowerCase();
+    function drawGithub() {
+        if (!ghDays) return;
+        // Phones get the last six months so the squares stay tappable
+        const days = innerWidth < 600 ? ghDays.slice(-182) : ghDays;
+        const lead = new Date(days[0].date + 'T00:00:00').getDay();
+        const cells = Array.from({ length: lead }, () => '<i class="pad"></i>')
+            .concat(days.map((d, i) => `<i class="l${d.level}" data-i="${i}"></i>`));
+        $('ghGrid').innerHTML = cells.join('');
+        const weeks = Math.ceil(cells.length / 7);
+        let months = '', last = -1;
+        for (let w = 0; w < weeks; w++) {
+            const day = days[Math.max(0, w * 7 - lead)];
+            const m = new Date(day.date + 'T00:00:00').getMonth();
+            if (m !== last && w < weeks - 2) { months += `<span style="grid-column:${w + 1} / span 3">${new Date(day.date + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short' }).toLowerCase()}</span>`; last = m; }
+        }
+        $('ghMonths').innerHTML = months;
+        $('ghMonths').style.gridTemplateColumns = $('ghGrid').style.gridTemplateColumns = `repeat(${weeks}, minmax(0, 1fr))`;
+        $('ghGrid').dataset.offset = ghDays.length - days.length;
+    }
+    fetch('https://github-contributions-api.jogruber.de/v4/SC136?y=last').then((r) => r.json()).then((d) => {
+        ghDays = d.contributions;
+        const total = d.total.lastYear;
+        let run = 0, longest = 0, best = ghDays[0];
+        ghDays.forEach((x) => { run = x.count ? run + 1 : 0; longest = Math.max(longest, run); if (x.count > best.count) best = x; });
+        // Today might not have a commit yet; the streak counts until yesterday then
+        let now = 0;
+        for (let i = ghDays.length - 1; i >= 0; i--) { if (ghDays[i].count) now++; else if (i < ghDays.length - 1) break; }
+        const days = (n) => n + (n === 1 ? ' day' : ' days');
+        setText('ghTotal', total.toLocaleString());
+        setText('ghStreak', days(longest));
+        setText('ghNow', days(now));
+        setText('ghBest', best.count);
+        const idle = `<b>${total.toLocaleString()}</b> contributions in the last year · best day was ${ghDate(best.date)}`;
+        $('ghReadout').innerHTML = idle;
+        drawGithub();
+        $('ghGrid').addEventListener('pointerover', (e) => {
+            const i = e.target.dataset && e.target.dataset.i;
+            if (i == null) return;
+            const day = ghDays[+i + +$('ghGrid').dataset.offset];
+            $('ghReadout').innerHTML = `<b>${day.count || 'no'} contribution${day.count === 1 ? '' : 's'}</b> on ${ghDate(day.date)}`;
+        });
+        $('ghGrid').addEventListener('pointerleave', () => { $('ghReadout').innerHTML = idle; });
+        matchMedia('(max-width: 599px)').addEventListener('change', drawGithub);
+    }).catch(() => setText('ghReadout', 'github is taking a nap'));
+
+    // ---------- keyboard shortcuts ----------
+    const keysDialog = $('keysDialog');
+    function toggleKeys(open) {
+        keysDialog.classList.toggle('open', open);
+        if (open) keysDialog.setAttribute('tabindex', '-1'), keysDialog.focus({ preventScroll: true });
+    }
+    $('keysHint').addEventListener('click', () => toggleKeys(true));
+    document.addEventListener('click', (e) => {
+        if (keysDialog.classList.contains('open') && !keysDialog.contains(e.target) && !$('keysHint').contains(e.target)) toggleKeys(false);
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        const t = e.target;
+        if (t.closest && t.closest('input, textarea, select, [contenteditable="true"]')) return;
+        if (e.key === 'Escape' && keysDialog.classList.contains('open')) { toggleKeys(false); return; }
+        const k = e.key.toLowerCase();
+        if (k === '?') toggleKeys(!keysDialog.classList.contains('open'));
+        else if (k === 't') themeBtn.click();
+        else if (k === 'c') {
+            const names = [...swatchBtns].map((b) => b.dataset.palette);
+            const next = names[(names.indexOf(root.dataset.palette || 'coral') + 1) % names.length];
+            sweep(paletteBtn, () => setPalette(next));
+        } else if (k === 'a') $('avatarBtn').click();
+        else if (k === 's') nextMascot(true);
+        else return;
+        e.preventDefault();
+    });
 })();
 </script>
 </body>
