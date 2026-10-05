@@ -29,7 +29,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Google+Sans+Flex:wght@400;500;600;700&display=swap">
     <!-- Only the icons this page uses (about 27 KB instead of the whole 540 KB set). Add a name here when using a new icon. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=alternate_email,animation,antigravity,apps,arrow_back,artist,aspect_ratio,asterisk,auto_awesome,badge,bento,bluetooth,bolt,build,cached,calendar_month,calendar_view_month,cards,check,chevron_forward,chips,circle,clear,clear_day,clear_night,close,cloud,code,commit,computer,construction,contrast,dark_mode,delete,deployed_code,description,desktop_windows,details,developer_board,directions_walk,distance,done,equal,error,favorite,feed,filter,foggy,folder,folder_open,forum,function,games,genres,gradient,graphic_eq,grid_view,group,groups,hail,hard_drive,headphones,history,home,html,hub,iframe,info,input,iso,join,keep,key,keyboard,label,language,laptop,laptop_windows,layers,light,light_mode,link,list,lists,live_tv,local_fire_department,mail,map,memory,message,monitor,monitoring,more,mouse,move,movie,music_note,nest_clock_farsight_analog,notifications,numbers,opacity,open_in_new,package,palette,partly_cloudy_day,partly_cloudy_night,phone,photo_camera,play_circle,public,push_pin,rainy,resume,rocket_launch,room,route,save,scale,schedule,school,script,select,shapes,share,smart_display,smart_toy,speed,sports_esports,stadia_controller,star,stars,start,sticker,stop,storage,storm,straight,stream,style,sweep,switch,terminal,thermostat,thunderstorm,title,transform,translate,travel,try,tune,tv,update,videocam,videogame_asset,visibility,visibility_off,waving_hand,weather_snowy,web,work,workspace_premium&display=block">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=alternate_email,animation,antigravity,apps,arrow_back,artist,aspect_ratio,asterisk,auto_awesome,badge,bento,bluetooth,bolt,build,cached,calendar_month,calendar_view_month,cards,check,chevron_forward,chips,circle,clear,clear_day,clear_night,close,cloud,code,commit,computer,construction,contrast,dark_mode,delete,deployed_code,description,desktop_windows,details,developer_board,directions_walk,distance,done,download,equal,error,favorite,feed,filter,foggy,folder,folder_open,forum,function,games,genres,gradient,graphic_eq,grid_view,group,groups,hail,hard_drive,headphones,history,home,html,hub,iframe,info,input,iso,join,keep,key,keyboard,label,language,laptop,laptop_windows,layers,light,light_mode,link,list,lists,live_tv,local_fire_department,mail,map,memory,message,monitor,monitoring,more,mouse,move,movie,music_note,nest_clock_farsight_analog,notifications,numbers,opacity,open_in_new,package,palette,partly_cloudy_day,partly_cloudy_night,phone,photo_camera,play_circle,public,push_pin,rainy,resume,rocket_launch,room,route,save,scale,schedule,school,script,select,shapes,share,smart_display,smart_toy,speed,sports_esports,stadia_controller,star,stars,start,sticker,stop,storage,storm,straight,stream,style,sweep,switch,terminal,thermostat,thunderstorm,title,transform,translate,travel,try,tune,tv,update,videocam,videogame_asset,visibility,visibility_off,waving_hand,weather_snowy,web,work,workspace_premium&display=block">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/brands.min.css">
     <script>
@@ -798,6 +798,26 @@
         .keys-hint kbd { min-width: 24px; height: 24px; margin: 0 2px; border-radius: 7px; font-size: 0.8rem; }
         @media (hover: hover) and (pointer: fine) { .keys-hint { display: inline-flex; align-items: center; } }
 
+        /* ===== Snapshot: right now as a story-sized picture (opens like the shortcuts card) ===== */
+        .snap-dialog { width: min(calc(min(62vh, 580px) * 9 / 16 + 36px), calc(100vw - 32px)); padding: 18px; display: grid; justify-items: center; gap: 14px; }
+        .snap-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; }
+        .snap-head h2 { margin: 0 0 0 6px; font-size: 1.15rem; }
+        .snap-frame {
+            display: grid;
+            place-items: center;
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            border-radius: 20px;
+            background: var(--surface-container);
+            overflow: hidden;
+            color: var(--on-surface-variant);
+            font-size: 0.9rem;
+        }
+        .snap-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .snap-frame p { margin: 0; padding: 16px; text-align: center; }
+        .snap-actions { display: flex; gap: 8px; }
+        .snap-actions [hidden] { display: none; }
+
         /* Setup, numbers first */
         .specs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
         .spec { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 14px 14px 12px; border-radius: 18px; background: var(--surface-high); transition: border-radius 0.35s var(--ease); }
@@ -1368,6 +1388,7 @@
 <header class="topbar">
     <a class="icon-btn" href="https://swar.is-a.dev/" aria-label="Back to my portfolio"><span class="ms">arrow_back</span></a>
     <div class="topbar-actions">
+        <button class="icon-btn" id="snapBtn" type="button" aria-label="Save a picture of right now" aria-haspopup="dialog"><span class="ms">photo_camera</span></button>
         <button class="icon-btn" id="paletteBtn" type="button" aria-label="Colour theme" aria-haspopup="dialog" aria-expanded="false" aria-controls="paletteMenu"><span class="ms">palette</span></button>
         <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch theme"><span class="ms" id="themeIcon">dark_mode</span></button>
     </div>
@@ -1789,9 +1810,25 @@
         <dt><kbd>C</kbd></dt><dd>next colour</dd>
         <dt><kbd>A</kbd></dt><dd>next avatar</dd>
         <dt><kbd>S</kbd></dt><dd>next sticker</dd>
+        <dt><kbd>P</kbd></dt><dd>picture of right now</dd>
         <dt><kbd>?</kbd></dt><dd>this list</dd>
         <dt><kbd>Esc</kbd></dt><dd>close</dd>
     </dl>
+</div>
+
+<div class="keys-dialog snap-dialog" id="snapDialog" role="dialog" aria-labelledby="snapTitle">
+    <div class="snap-head">
+        <h2 id="snapTitle">right now, as a picture</h2>
+        <button class="icon-btn" id="snapClose" type="button" aria-label="Close"><span class="ms">close</span></button>
+    </div>
+    <div class="snap-frame" id="snapFrame">
+        <p id="snapNote">painting the sky…</p>
+        <img id="snapImg" alt="A story-sized picture of what Swar is up to right now" hidden>
+    </div>
+    <div class="snap-actions">
+        <button class="btn" id="snapShare" type="button" hidden><span class="ms">share</span>Share</button>
+        <a class="btn filled" id="snapSave" href="#" hidden><span class="ms">download</span>Save</a>
+    </div>
 </div>
 
 <script>
@@ -2954,6 +2991,364 @@
     loadLastfm();
     setInterval(() => { if (!document.hidden) loadLastfm(); }, 45000); // keeps "playing right now" honest
 
+    // ---------- snapshot: the sky, my time, the weather, the song and Discord as one story-sized picture ----------
+    const SW = 1080, SH = 1920;
+    const F = (weight, size) => `${weight} ${size}px "Google Sans Flex", system-ui, sans-serif`;
+    const ICON = (size) => `${size}px "Material Symbols Rounded"`;
+    const NAME = (size) => `${size}px Docallisme, sans-serif`;
+    // a colour exactly as the page paints it inside `scope`, so in "default" each card keeps its brand
+    function paintOf(scope, expr) {
+        const probe = document.createElement('i');
+        probe.style.color = expr;
+        scope.appendChild(probe);
+        const c = getComputedStyle(probe).color;
+        probe.remove();
+        return c;
+    }
+    const px = Object.assign(document.createElement('canvas'), { width: 1, height: 1 }).getContext('2d', { willReadFrequently: true });
+    const rgbOf = (c) => {
+        px.clearRect(0, 0, 1, 1);
+        px.fillStyle = '#000';
+        px.fillStyle = String(c).trim();
+        px.fillRect(0, 0, 1, 1);
+        return [...px.getImageData(0, 0, 1, 1).data].slice(0, 3);
+    };
+    const rgba = (c, a) => `rgba(${c.map(Math.round).join(',')},${Math.max(0, Math.min(1, a)).toFixed(3)})`;
+    // only pictures that allow it, so the finished canvas can still be saved; a slow one is left out
+    const pictureOf = (src) => new Promise((done) => {
+        if (!src) return done(null);
+        const img = new Image();
+        const timer = setTimeout(() => done(null), 6000);
+        img.crossOrigin = 'anonymous';
+        img.onload = () => { clearTimeout(timer); done(img); };
+        img.onerror = () => { clearTimeout(timer); done(null); };
+        img.src = src;
+    });
+    const drawCover = (ctx, img, x, y, w, h) => {
+        const s = Math.max(w / img.width, h / img.height);
+        ctx.drawImage(img, x + (w - img.width * s) / 2, y + (h - img.height * s) / 2, img.width * s, img.height * s);
+    };
+    const fitText = (ctx, text, max) => {
+        text = String(text || '');
+        if (ctx.measureText(text).width <= max) return text;
+        while (text.length > 1 && ctx.measureText(text + '…').width > max) text = text.slice(0, -1);
+        return text.trimEnd() + '…';
+    };
+    function wrapText(ctx, text, max, lines) {
+        const out = [];
+        let line = '';
+        for (const word of String(text || '').split(/\s+/)) {
+            const next = line ? line + ' ' + word : word;
+            if (!line || ctx.measureText(next).width <= max) line = next;
+            else { out.push(line); line = word; }
+        }
+        if (line) out.push(line);
+        if (out.length > lines) out.splice(lines - 1, out.length, out.slice(lines - 1).join(' '));
+        return out.map((l) => fitText(ctx, l, max));
+    }
+    // the same cookie-cutter shapes the page uses, read straight from its clip-paths
+    function shapeOf(ctx, el, cx, cy, size) {
+        const m = el && getComputedStyle(el).clipPath.match(/polygon\(([^)]*)\)/);
+        ctx.beginPath();
+        if (!m) { ctx.arc(cx, cy, size / 2, 0, Math.PI * 2); return; }
+        m[1].split(',').forEach((pt, i) => {
+            const [x, y] = pt.trim().split(/\s+/).map(parseFloat);
+            ctx[i ? 'lineTo' : 'moveTo'](cx + (x / 100 - 0.5) * size, cy + (y / 100 - 0.5) * size);
+        });
+        ctx.closePath();
+    }
+    // a soft round glow; `core` keeps the middle solid (clouds) or not (light)
+    function soft(ctx, x, y, rx, ry, rgb, a, core = 0) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.scale(1, ry / rx);
+        const g = ctx.createRadialGradient(0, 0, 0, 0, 0, rx);
+        g.addColorStop(0, rgba(rgb, a));
+        if (core) g.addColorStop(core, rgba(rgb, a));
+        g.addColorStop(1, rgba(rgb, 0));
+        ctx.fillStyle = g;
+        ctx.fillRect(-rx, -rx, rx * 2, rx * 2);
+        ctx.restore();
+    }
+    const seeded = (s) => () => ((s = (s * 16807) % 2147483647) / 2147483647);
+
+    // The sky exactly as it is on the page right now: time of day, stars, clouds and rain
+    function paintSnapSky(ctx) {
+        const cs = getComputedStyle(root), ss = sky.style, B = document.body;
+        const k = parseFloat(cs.getPropertyValue('--sky-k')) || 0.6;
+        const w = {};
+        let total = 0;
+        ['night', 'dawn', 'day', 'dusk'].forEach((n) => { w[n] = parseFloat(ss.getPropertyValue('--' + n)) || 0; total += w[n]; });
+        if (!total) w.night = total = 1;
+        const pc = rgbOf(paintOf(B, 'var(--primary-container)'));
+        let top = [0, 0, 0], hz = [0, 0, 0];
+        Object.keys(w).forEach((n) => {
+            const t = w[n] / total, s = rgbOf(cs.getPropertyValue('--sky-' + n)), h = rgbOf(cs.getPropertyValue('--hz-' + n));
+            top = top.map((v, i) => v + (pc[i] + (s[i] - pc[i]) * 0.62) * t);
+            hz = hz.map((v, i) => v + h[i] * t);
+        });
+        const g = ctx.createLinearGradient(0, 0, 0, 1180);
+        g.addColorStop(0, rgba(top, k));
+        g.addColorStop(0.6, rgba(top, k * 0.45));
+        g.addColorStop(1, rgba(top, 0));
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, SW, 1180);
+        soft(ctx, 540, 860, 760, 300, hz, k * 0.7);
+        soft(ctx, 170, 240, 460, 420, pc, k * 0.45);
+        soft(ctx, 900, 520, 420, 380, rgbOf(paintOf(B, 'var(--tertiary-container)')), k * 0.35);
+
+        const cloud = parseFloat(ss.getPropertyValue('--cloud')) || 0;
+        const starA = (w.night / total) * (1 - cloud);
+        if (starA > 0.05) {
+            const r = seeded(136);
+            ctx.fillStyle = cs.getPropertyValue('--star').trim();
+            for (let i = 0; i < 90; i++) {
+                const x = r() * SW, y = r() * 1000, sparkle = i % 12 === 0, s = sparkle ? 9 + r() * 5 : 1.6 + r() * 2.4;
+                ctx.globalAlpha = starA * (0.3 + r() * 0.6);
+                ctx.beginPath();
+                if (sparkle) [0, 1, 2, 3, 4, 5, 6, 7].forEach((j) => { const d = j % 2 ? s * 0.22 : s, a = j * Math.PI / 4; ctx.lineTo(x + Math.sin(a) * d, y - Math.cos(a) * d); });
+                else ctx.arc(x, y, s, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+        }
+        const overcast = parseFloat(ss.getPropertyValue('--overcast')) || 0;
+        if (overcast) {
+            const lid = rgbOf(paintOf(sky, 'var(--cloud-wet)')), v = ctx.createLinearGradient(0, 0, 0, 1180);
+            v.addColorStop(0, rgba(lid, overcast * k));
+            v.addColorStop(0.65, rgba(lid, overcast * k * 0.5));
+            v.addColorStop(1, rgba(lid, 0));
+            ctx.fillStyle = v;
+            ctx.fillRect(0, 0, SW, 1180);
+        }
+        const clouds = $('skyClouds').querySelectorAll('i.on').length;
+        if (clouds) {
+            const cc = rgbOf(paintOf($('skyClouds'), 'var(--lit)')), ck = parseFloat(cs.getPropertyValue('--cloud-k')) || 1, r = seeded(41);
+            for (let i = 0; i < clouds; i++) {
+                const x = r() * SW, y = 90 + r() * 640, cw = 320 + r() * 280, a = (0.55 + r() * 0.3) * ck;
+                [[-0.3, 0.1, 0.24, 0.17], [-0.1, -0.08, 0.24, 0.24], [0.14, -0.04, 0.26, 0.22], [0.33, 0.1, 0.2, 0.15], [0, 0.14, 0.5, 0.13]]
+                    .forEach(([dx, dy, rx, ry]) => soft(ctx, x + dx * cw, y + dy * cw, rx * cw, ry * cw, cc, a, 0.35));
+            }
+        }
+        const wet = sky.dataset.wet;
+        if (wet && RAIN[wet]) {
+            const [n, , len] = RAIN[wet], drop = rgbOf(paintOf(sky, 'var(--drop-c)')), r = seeded(7);
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            for (let i = 0; i < n * 1.4; i++) {
+                const x = r() * (SW + 240), y = r() * 1100, l = len * 2 * (0.7 + r() * 0.6);
+                const s = ctx.createLinearGradient(x, y, x - l * 0.21, y + l);
+                s.addColorStop(0, rgba(drop, 0));
+                s.addColorStop(1, rgba(drop, (0.3 + r() * 0.45) * (1 - y / 1250)));
+                ctx.strokeStyle = s;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x - l * 0.21, y + l);
+                ctx.stroke();
+            }
+        }
+    }
+
+    async function makeSnapshot() {
+        await Promise.all([F(400, 60), F(500, 60), NAME(60), ICON(60)].map((f) => document.fonts.load(f).catch(() => null)));
+        const lfImg = $('lfArt').querySelector('img'), dArt = $('discordArt');
+        const [avatar, cover, face, sticker, game] = await Promise.all([
+            pictureOf($('avatarImg').currentSrc || $('avatarImg').src),
+            pictureOf(lfImg && lfImg.src),
+            pictureOf($('discordAvatar').src),
+            pictureOf($('mascot').currentSrc || $('mascot').src),
+            pictureOf(!dArt.hidden && dArt.src),
+        ]);
+        const cv = Object.assign(document.createElement('canvas'), { width: SW, height: SH });
+        const ctx = cv.getContext('2d');
+        const B = document.body, listen = $('listenTitle').closest('.card'), discord = $('discordTile');
+        const C = {
+            surface: paintOf(B, 'var(--surface)'), card: paintOf(B, 'var(--surface-low)'), high: paintOf(B, 'var(--surface-high)'),
+            on: paintOf(B, 'var(--on-surface)'), onVar: paintOf(B, 'var(--on-surface-variant)'), primary: paintOf(B, 'var(--primary)'),
+        };
+        const roles = (el) => ({ primary: paintOf(el, 'var(--primary)'), pc: paintOf(el, 'var(--primary-container)'), onPc: paintOf(el, 'var(--on-primary-container)') });
+        const text = (str, x, y, font, colour, align = 'left') => { ctx.font = font; ctx.fillStyle = colour; ctx.textAlign = align; ctx.fillText(str, x, y); };
+        const panel = (x, y, w, h) => { ctx.fillStyle = C.card; ctx.beginPath(); ctx.roundRect(x, y, w, h, 48); ctx.fill(); };
+        const now = live('nowTime');
+
+        ctx.fillStyle = C.surface;
+        ctx.fillRect(0, 0, SW, SH);
+        paintSnapSky(ctx);
+        ctx.textBaseline = 'alphabetic';
+
+        // top: where it's from, and the weather pill
+        text('sc', 72, 134, NAME(66), C.on);
+        ctx.font = NAME(66);
+        text('.is-a.dev', 76 + ctx.measureText('sc').width, 132, F(500, 36), C.onVar);
+        ctx.font = F(500, 32);
+        const pill = 'mumbai · ' + (live('wxTemp') || now), pw = ctx.measureText(pill).width + 100;
+        ctx.fillStyle = C.high;
+        ctx.beginPath();
+        ctx.roundRect(SW - 72 - pw, 78, pw, 72, 36);
+        ctx.fill();
+        ctx.textBaseline = 'middle';
+        text(live('wxIcon') || 'schedule', SW - 72 - pw + 30, 115, ICON(38), C.primary);
+        text(pill, SW - 72 - pw + 78, 115, F(500, 32), C.on);
+        ctx.textBaseline = 'alphabetic';
+
+        // the avatar in its cookie cutter, on the backdrop, with today's sticker
+        ctx.fillStyle = paintOf(B, 'color-mix(in oklab, var(--primary-container) 55%, var(--surface))');
+        shapeOf(ctx, document.querySelector('.hero-backdrop'), 540, 520, 640);
+        ctx.fill();
+        if (avatar) {
+            ctx.save();
+            shapeOf(ctx, $('avatarBtn'), 540, 520, 420);
+            ctx.clip();
+            drawCover(ctx, avatar, 330, 310, 420, 420);
+            ctx.restore();
+        }
+        if (sticker) {
+            const s = 300 / Math.max(sticker.width, sticker.height);
+            ctx.save();
+            ctx.translate(880, 650);
+            ctx.rotate(-0.1);
+            ctx.drawImage(sticker, -sticker.width * s / 2, -sticker.height * s / 2, sticker.width * s, sticker.height * s);
+            ctx.restore();
+        }
+
+        // "swar, right now"
+        ctx.font = NAME(150);
+        const nameW = ctx.measureText('swar').width;
+        ctx.font = F(500, 88);
+        const tx = (SW - nameW - ctx.measureText(', right now').width) / 2;
+        text('swar', tx, 936, NAME(150), C.primary);
+        text(', right now', tx + nameW, 936, F(500, 88), C.on);
+        text('what i’m up to, live from mumbai', 540, 1000, F(400, 36), C.onVar, 'center');
+
+        // my time and the weather, side by side
+        const mini = (x, card, icon, label, value, sub) => {
+            const R = roles(card), y = 1060;
+            panel(x, y, 468, 250);
+            ctx.fillStyle = R.pc;
+            shapeOf(ctx, card.querySelector('.shape-icon'), x + 80, y + 78, 84);
+            ctx.fill();
+            ctx.textBaseline = 'middle';
+            text(icon, x + 80, y + 80, ICON(42), R.onPc, 'center');
+            text(label, x + 140, y + 80, F(500, 32), C.onVar);
+            ctx.textBaseline = 'alphabetic';
+            ctx.font = F(500, 70);
+            text(fitText(ctx, value, 388), x + 40, y + 188, F(500, 70), C.on);
+            ctx.font = F(400, 30);
+            text(fitText(ctx, sub, 388), x + 40, y + 228, F(400, 30), C.onVar);
+        };
+        const [timeCard, wxCard] = document.querySelectorAll('.bento > .card.mini:not([id])');
+        mini(60, timeCard, 'nest_clock_farsight_analog', 'my time', now, live('nowDate'));
+        mini(552, wxCard, live('wxIcon') || 'partly_cloudy_day', 'weather here', live('wxTemp'), live('wxDesc'));
+
+        // the song
+        let y = 1334;
+        const L = roles(listen);
+        panel(60, y, 960, 330);
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(100, y + 35, 260, 260, 40);
+        ctx.clip();
+        if (cover) drawCover(ctx, cover, 100, y + 35, 260, 260);
+        else {
+            ctx.fillStyle = L.pc;
+            ctx.fillRect(100, y + 35, 260, 260);
+            ctx.textBaseline = 'middle';
+            text('music_note', 230, y + 167, ICON(110), L.onPc, 'center');
+            ctx.textBaseline = 'alphabetic';
+        }
+        ctx.restore();
+        ctx.textBaseline = 'middle';
+        text($('lfStatus').firstElementChild.textContent, 400, y + 82, ICON(36), L.primary);
+        ctx.font = F(500, 32);
+        text(fitText(ctx, live('lfStatusText'), 530), 448, y + 82, F(500, 32), L.primary);
+        ctx.textBaseline = 'alphabetic';
+        ctx.font = F(500, 54);
+        const lines = wrapText(ctx, live('lfTitle') || 'nothing playing', 580, 2);
+        lines.forEach((l, i) => text(l, 400, y + 170 + i * 64, F(500, 54), C.on));
+        ctx.font = F(400, 38);
+        text(fitText(ctx, live('lfArtist'), 580), 400, y + 170 + lines.length * 64 + 10, F(400, 38), C.onVar);
+
+        // Discord
+        y = 1688;
+        const D = roles(discord);
+        panel(60, y, 960, 140);
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(146, y + 70, 46, 0, Math.PI * 2);
+        ctx.clip();
+        if (face) drawCover(ctx, face, 100, y + 24, 92, 92);
+        else { ctx.fillStyle = D.pc; ctx.fill(); }
+        ctx.restore();
+        ctx.fillStyle = C.card;
+        ctx.beginPath();
+        ctx.arc(180, y + 104, 18, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = $('discordDot').style.getPropertyValue('--status') || '#80848e'; // not the painted colour, which may be mid-fade
+        ctx.beginPath();
+        ctx.arc(180, y + 104, 12, 0, Math.PI * 2);
+        ctx.fill();
+        const dw = game ? 640 : 760;
+        ctx.font = F(400, 30);
+        text(fitText(ctx, live('discordStatus'), dw), 224, y + 56, F(400, 30), C.onVar);
+        ctx.font = F(500, 44);
+        text(fitText(ctx, live('discordWhat') || 'on discord', dw), 224, y + 106, F(500, 44), C.on);
+        if (game) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.roundRect(880, y + 24, 92, 92, 24);
+            ctx.clip();
+            drawCover(ctx, game, 880, y + 24, 92, 92);
+            ctx.restore();
+        }
+
+        // where to see it live
+        ctx.font = F(400, 32);
+        const lead = 'see it live at ', leadW = ctx.measureText(lead).width;
+        ctx.font = F(500, 32);
+        const fx = (SW - leadW - ctx.measureText('sc.is-a.dev').width) / 2;
+        text(lead, fx, 1888, F(400, 32), C.onVar);
+        text('sc.is-a.dev', fx + leadW, 1888, F(500, 32), C.on);
+        return new Promise((done, fail) => cv.toBlob((b) => (b ? done(b) : fail(new Error('no picture'))), 'image/png'));
+    }
+
+    const snapDialog = $('snapDialog');
+    let snapUrl = '', snapFile = null, snapBusy = false;
+    async function openSnapshot() {
+        if (snapBusy) return;
+        snapBusy = true;
+        snapDialog.classList.add('open');
+        $('snapClose').focus({ preventScroll: true });
+        $('snapNote').textContent = 'painting the sky…';
+        $('snapNote').hidden = false;
+        ['snapImg', 'snapSave', 'snapShare'].forEach((id) => { $(id).hidden = true; });
+        try {
+            const blob = await makeSnapshot();
+            const name = `swar-right-now-${new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' })}.png`;
+            if (snapUrl) URL.revokeObjectURL(snapUrl);
+            snapUrl = URL.createObjectURL(blob);
+            snapFile = new File([blob], name, { type: 'image/png' });
+            $('snapImg').src = snapUrl;
+            $('snapSave').href = snapUrl;
+            $('snapSave').download = name;
+            $('snapNote').hidden = true;
+            $('snapImg').hidden = $('snapSave').hidden = false;
+            $('snapShare').hidden = !(navigator.canShare && navigator.canShare({ files: [snapFile] }));
+        } catch (e) {
+            $('snapNote').textContent = "couldn't paint it this time, try again in a bit";
+        }
+        snapBusy = false;
+    }
+    function closeSnapshot() {
+        snapDialog.classList.remove('open');
+        $('snapBtn').focus({ preventScroll: true });
+    }
+    $('snapBtn').addEventListener('click', () => (snapDialog.classList.contains('open') ? closeSnapshot() : openSnapshot()));
+    $('snapClose').addEventListener('click', closeSnapshot);
+    $('snapShare').addEventListener('click', () => navigator.share({ files: [snapFile], title: 'Swar, right now' }).catch(() => {}));
+    document.addEventListener('click', (e) => {
+        if (snapDialog.classList.contains('open') && !snapDialog.contains(e.target) && !$('snapBtn').contains(e.target)) closeSnapshot();
+    });
+
     // ---------- keyboard shortcuts ----------
     const keysDialog = $('keysDialog');
     function toggleKeys(open) {
@@ -2969,6 +3364,7 @@
         const t = e.target;
         if (t.closest && t.closest('input, textarea, select, [contenteditable="true"]')) return;
         if (e.key === 'Escape' && keysDialog.classList.contains('open')) { toggleKeys(false); return; }
+        if (e.key === 'Escape' && snapDialog.classList.contains('open')) { closeSnapshot(); return; }
         const k = e.key.toLowerCase();
         if (k === '?') toggleKeys(!keysDialog.classList.contains('open'));
         else if (k === 't') themeBtn.click();
@@ -2978,6 +3374,7 @@
             sweep(paletteBtn, () => setPalette(next));
         } else if (k === 'a') $('avatarBtn').click();
         else if (k === 's') nextMascot(true);
+        else if (k === 'p') openSnapshot();
         else return;
         e.preventDefault();
     });
