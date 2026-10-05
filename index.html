@@ -2258,14 +2258,21 @@
             const shown = films.slice(0, 5);
             const starsFor = (r) => (r ? '★'.repeat(Math.floor(r)) + (r % 1 >= 0.5 ? '½' : '') : '');
             const LB_DOTS = ['#ff8000', '#00e054', '#40bcf4'];
+            // Backdrops I saved for the films logged so far; a film logged later gets a banner cut from its poster until one is added here
+            const LB_BACKDROPS = ['trigger-2025-4', 'bloodhounds-2023', 'mercy-for-none', 'midsommar', 'dhurandhar'];
+            const lbSlug = (link) => (String(link).match(/\/film\/([^/]+)/) || [])[1];
             $('lbFilms').innerHTML = shown.map((f, i) => `<a class="poster" data-glow="${LB_DOTS[i % 3]}" href="${esc(f.link)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(f.title)}${f.rating ? ', rated ' + esc(f.rating) + ' out of 5' : ''}">
                     <img src="${esc(f.poster)}" alt="" loading="lazy">
                     ${f.rating ? `<span class="poster-tag">${starsFor(f.rating)}</span>` : ''}</a>`).join('');
             $('lbFilms').querySelectorAll('.poster').forEach((el, i) => {
                 const f = shown[i];
                 const watched = f.watchedDate ? new Date(f.watchedDate + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).toLowerCase() : '';
+                const slug = lbSlug(f.link);
+                const backdrop = LB_BACKDROPS.includes(slug) ? `assets/letterboxd/recent/${slug}.webp` : '';
+                if (backdrop) new Image().src = backdrop;
                 tipContent.set(el, {
-                    content: `<p class="tip-title">${esc(f.title)}</p>
+                    content: `<div class="tip-banner${backdrop ? '' : ' is-cover'}"><img src="${esc(backdrop || f.poster)}" alt="" onload="this.classList.add('is-loaded')"></div>
+                        <p class="tip-title">${esc(f.title)}</p>
                         <p class="tip-meta">film${watched ? ' · watched ' + esc(watched) : ''}</p>
                         ${f.rating ? `<p class="tip-line"><span class="ms">star</span>${starsFor(f.rating)} · ${esc(f.rating)} out of 5</p>` : '<p class="tip-line">no rating yet</p>'}`,
                 });
