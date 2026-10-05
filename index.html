@@ -1066,6 +1066,9 @@
             transition: opacity 0.2s var(--ease), scale 0.4s var(--spring);
         }
         .swatch-btn[aria-pressed="true"] .ms { opacity: 1; scale: 1; }
+        /* "music": the cover art itself once it's known, otherwise a swirl of the current colours */
+        .swatch[data-seed="music"] { background: conic-gradient(var(--primary), var(--tertiary), var(--primary-container), var(--primary)) center / cover; }
+        .swatch[data-seed="music"].has-cover { background-position: center; background-size: cover; }
         [data-theme="dark"] .swatch[data-seed="coral"] { --sw-a: #ffb4a1; --sw-b: #e7bdb3; --sw-c: #d9c58d; }
         [data-theme="light"] .swatch[data-seed="coral"] { --sw-a: #8f4b39; --sw-b: #77574e; --sw-c: #6c5d2e; }
         [data-theme="dark"] .swatch[data-seed="pink"] { --sw-a: #feb0d1; --sw-b: #e1bdca; --sw-c: #f2bb98; }
@@ -1244,6 +1247,7 @@
             <button class="swatch-btn" type="button" data-palette="mint" aria-pressed="false"><span class="swatch" data-seed="mint"><span class="ms">check</span></span>mint</button>
             <button class="swatch-btn" type="button" data-palette="sand" aria-pressed="false"><span class="swatch" data-seed="sand"><span class="ms">check</span></span>sand</button>
             <button class="swatch-btn" type="button" data-palette="lime" aria-pressed="false"><span class="swatch" data-seed="lime"><span class="ms">check</span></span>lime</button>
+            <button class="swatch-btn" type="button" data-palette="music" aria-pressed="false" title="Colours picked from the cover of the song I'm playing"><span class="swatch" data-seed="music" id="musicSwatch"><span class="ms">check</span></span><span id="musicLabel">music</span></button>
         </div>
     </div>
 </div>
@@ -1668,6 +1672,7 @@
     }
     function setTheme(theme) {
         root.dataset.theme = theme;
+        if (root.dataset.palette === 'music' && musicSeed) paintMusicColours();
         if (window.__nextMascot) window.__nextMascot();
         if (window.__nextAvatar) window.__nextAvatar();
         try { localStorage.setItem('theme', theme); } catch (e) {}
@@ -1695,7 +1700,74 @@
         const current = root.dataset.palette || 'coral';
         swatchBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.palette === current)));
     }
+    // ---------- "music" colour theme: a Material 3 scheme made from the cover art of the latest track ----------
+    const MUSIC_VARS = ['primary', 'on-primary', 'primary-container', 'on-primary-container', 'secondary-container', 'on-secondary-container', 'tertiary', 'tertiary-container', 'on-tertiary-container', 'surface', 'surface-lowest', 'surface-low', 'surface-container', 'surface-high', 'surface-highest', 'on-surface', 'on-surface-variant', 'outline', 'outline-variant'];
+    let musicCover = '';      // the newest track's cover that Last.fm actually has
+    let musicCoverUsed = '';  // the cover the current colours came from
+    let colourLib = null, musicSeed = null;
+    const loadColourLib = () => (colourLib = colourLib || import('https://cdn.jsdelivr.net/npm/@material/material-color-utilities@0.3.0/+esm'));
+    function clearMusicVars() { MUSIC_VARS.forEach((v) => root.style.removeProperty('--' + v)); }
+    async function seedFromCover(url) {
+        const lib = await loadColourLib();
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        await new Promise((done, fail) => { img.onload = done; img.onerror = () => fail(new Error('cover would not load')); img.src = url; });
+        const c = document.createElement('canvas');
+        c.width = c.height = 64;
+        const ctx = c.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(img, 0, 0, 64, 64);
+        const px = ctx.getImageData(0, 0, 64, 64).data, argbs = [];
+        for (let i = 0; i < px.length; i += 4) if (px[i + 3] > 200) argbs.push(((255 << 24) | (px[i] << 16) | (px[i + 1] << 8) | px[i + 2]) >>> 0);
+        return lib.Score.score(lib.QuantizerCelebi.quantize(argbs, 128))[0];
+    }
+    async function paintMusicColours() {
+        const lib = await loadColourLib();
+        const dark = root.dataset.theme === 'dark';
+        const scheme = new lib.SchemeTonalSpot(lib.Hct.fromInt(musicSeed), dark, 0);
+        const n = (tone) => lib.hexFromArgb(scheme.neutralPalette.tone(tone));
+        const hex = (argb) => lib.hexFromArgb(argb);
+        const v = {
+            'primary': hex(scheme.primary), 'on-primary': hex(scheme.onPrimary), 'primary-container': hex(scheme.primaryContainer), 'on-primary-container': hex(scheme.onPrimaryContainer),
+            'secondary-container': hex(scheme.secondaryContainer), 'on-secondary-container': hex(scheme.onSecondaryContainer),
+            'tertiary': hex(scheme.tertiary), 'tertiary-container': hex(scheme.tertiaryContainer), 'on-tertiary-container': hex(scheme.onTertiaryContainer),
+            'surface': dark ? n(6) : n(98), 'surface-lowest': dark ? n(4) : n(100), 'surface-low': dark ? n(10) : n(96), 'surface-container': dark ? n(12) : n(94),
+            'surface-high': dark ? n(17) : n(92), 'surface-highest': dark ? n(22) : n(90),
+            'on-surface': hex(scheme.onSurface), 'on-surface-variant': hex(scheme.onSurfaceVariant), 'outline': hex(scheme.outline), 'outline-variant': hex(scheme.outlineVariant),
+        };
+        Object.entries(v).forEach(([k, val]) => root.style.setProperty('--' + k, val));
+    }
+    // Returns true when the music colours are on; if there's no cover to take colours from, nothing changes
+    async function setMusicPalette() {
+        if (!musicCover) { flashMusicLabel('no cover yet'); return false; }
+        try {
+            if (!musicSeed || musicCoverUsed !== musicCover) { musicSeed = await seedFromCover(musicCover); musicCoverUsed = musicCover; }
+            await paintMusicColours();
+        } catch (e) { flashMusicLabel("couldn't read it"); return false; }
+        root.dataset.palette = 'music';
+        try { localStorage.setItem('sc136-palette', 'music'); } catch (e) {}
+        if (window.__nextMascot) window.__nextMascot();
+        if (window.__nextAvatar) window.__nextAvatar();
+        markPalette();
+        return true;
+    }
+    function flashMusicLabel(text) {
+        const l = $('musicLabel'); l.textContent = text;
+        setTimeout(() => { l.textContent = 'music'; }, 2200);
+    }
+    // A new track while the music colours are on: the page follows the song
+    async function followTheMusic() {
+        if (root.dataset.palette !== 'music' || !musicCover || musicCover === musicCoverUsed) return;
+        try { musicSeed = await seedFromCover(musicCover); musicCoverUsed = musicCover; await paintMusicColours(); } catch (e) {}
+    }
+    function offerMusicCover(url) {
+        musicCover = url;
+        const sw = $('musicSwatch');
+        if (url) { sw.style.backgroundImage = `url("${url}")`; sw.classList.add('has-cover'); }
+        followTheMusic();
+    }
     function setPalette(name) {
+        if (name === 'music') return setMusicPalette();
+        clearMusicVars();
         if (name === 'coral') delete root.dataset.palette; else root.dataset.palette = name;
         if (window.__nextMascot) window.__nextMascot();
         if (window.__nextAvatar) window.__nextAvatar();
@@ -2587,7 +2659,7 @@
     async function loadLastfm() {
         try {
             const [rec, info, top] = await Promise.all([
-                fetch(LFM + '&method=user.getrecenttracks&limit=3').then((r) => r.json()),
+                fetch(LFM + '&method=user.getrecenttracks&limit=8').then((r) => r.json()),
                 fetch(LFM + '&method=user.getinfo').then((r) => r.json()),
                 fetch(LFM + '&method=user.gettopartists&period=1month&limit=3').then((r) => r.json()),
             ]);
@@ -2596,6 +2668,9 @@
             const first = tracks[0];
             const playing = !!(first['@attr'] && first['@attr'].nowplaying === 'true');
             const art = lfArt(first, 'extralarge');
+            // the page's "music" colours use the newest track that has a cover (the one playing may not)
+            const withCover = tracks.map((t) => lfArt(t, 'extralarge')).find(Boolean) || '';
+            offerMusicCover(withCover);
             $('lfArt').innerHTML = art ? `<img src="${esc(art)}" alt="" loading="lazy">` : '<span class="ms">music_note</span>';
             setText('lfStatusText', playing ? 'playing right now' : 'last played ' + lfAgo(+first.date.uts));
             $('lfStatus').firstElementChild.textContent = playing ? 'graphic_eq' : 'history';
@@ -2639,7 +2714,7 @@
         if (k === '?') toggleKeys(!keysDialog.classList.contains('open'));
         else if (k === 't') themeBtn.click();
         else if (k === 'c') {
-            const names = [...swatchBtns].map((b) => b.dataset.palette);
+            const names = [...swatchBtns].map((b) => b.dataset.palette).filter((n) => n !== 'music' || musicCover); // skip music until there's a cover
             const next = names[(names.indexOf(root.dataset.palette || 'coral') + 1) % names.length];
             sweep(paletteBtn, () => setPalette(next));
         } else if (k === 'a') $('avatarBtn').click();
