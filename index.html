@@ -435,6 +435,7 @@
         .lf-title { font-size: 1.05rem; font-weight: 600; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .lf-artist { font-size: 0.86rem; color: var(--on-surface-variant); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .lf-recent { display: grid; margin: 0; padding: 4px 8px 2px; list-style: none; border-top: 1px solid var(--outline-variant); }
+        .lf-recent > li { min-width: 0; } /* lets long titles shorten instead of pushing the time off the card */
         .lf-recent a { display: flex; align-items: center; gap: 10px; padding: 3px 8px; border-radius: 12px; color: inherit; text-decoration: none; transition: background 0.2s, border-radius 0.3s var(--ease); }
         .lf-recent a:hover { background: color-mix(in srgb, var(--on-surface) 7%, transparent); border-radius: 18px; }
         .lf-recent img, .lf-recent .lf-mini { flex: none; width: 26px; height: 26px; border-radius: 7px; object-fit: cover; background: var(--primary-container); }
@@ -484,6 +485,11 @@
         .panel[hidden] { display: none; }
 
         .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+        /* on phones the stat tiles sit two by two instead of wrapping as three plus a lonely one */
+        @media (max-width: 600px) {
+            .stats { display: grid; grid-template-columns: 1fr 1fr; }
+            .stats > :last-child:nth-child(odd) { grid-column: 1 / -1; } /* an odd one out takes the whole row */
+        }
         .stat {
             padding: 10px 16px;
             border-radius: 16px;
@@ -1590,7 +1596,7 @@
             </div>
             <div class="strava-latest" id="stravaLatest">
                 <div class="strava-info">
-                    <span class="tile-label"><span class="ms">directions_walk</span>latest activity · yesterday</span>
+                    <span class="tile-label"><span class="ms">directions_walk</span>latest activity · <span id="stravaWhen" data-date="2026-10-04">4 oct</span></span>
                     <p class="strava-big">9.35<small>km</small></p>
                     <p class="strava-sub">an outdoor walk · 1h 54m · 26 m climbed</p>
                     <span class="strava-badge"><span class="ms">workspace_premium</span>my longest walk yet</span>
@@ -2690,6 +2696,16 @@
 
     // Banner pictures load the first time someone points at the socials, so they're ready by the hover card
     ['.t-find', '.t-setup'].forEach((sel) => document.querySelector(sel).addEventListener('pointerenter', () => socialPictures.forEach((src) => { new Image().src = src; }), { once: true }));
+
+    // When the walk was, worked out from its date so it never goes stale ("yesterday", "3 days ago", then the date)
+    (function () {
+        const el = $('stravaWhen');
+        const then = new Date(el.dataset.date + 'T12:00:00+05:30');
+        const today = new Date(new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' }) + 'T12:00:00+05:30');
+        const days = Math.round((today - then) / 86400000);
+        el.textContent = days <= 0 ? 'today' : days === 1 ? 'yesterday' : days < 7 ? days + ' days ago'
+            : then.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }).toLowerCase();
+    })();
 
     // The walk's route draws itself the first time the Strava card is on screen
     (function () {
