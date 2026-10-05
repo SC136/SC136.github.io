@@ -852,7 +852,7 @@
         .strava-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
         /* The shape of the walk (no map, no coordinates, the first and last 400 m left off) */
         .strava-route { width: 100%; height: auto; max-height: 190px; overflow: visible; }
-        .strava-route .path { fill: none; stroke: var(--primary); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+        .strava-route .path { fill: none; stroke: var(--primary); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--primary) 50%, transparent)); }
         .strava-route .ghost { fill: none; stroke: color-mix(in srgb, var(--on-surface) 14%, transparent); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
         .strava-route .end { fill: var(--primary); }
         .strava-route .end.start { fill: var(--surface-lowest); stroke: var(--primary); stroke-width: 2.4; }
@@ -1538,7 +1538,7 @@
             <div class="gh-bars" id="ghBars" role="img" aria-label="Contributions per month"></div>
         </section>
 
-        <section class="card t-strava span-2" aria-labelledby="stravaTitle">
+        <section class="card t-strava span-2" data-glow="#fc4c02" aria-labelledby="stravaTitle">
             <div>
                 <div class="shape-icon" style="--shape-a: var(--shape-burst10); --shape-b: var(--shape-cookie9);"><i class="fa-brands fa-strava"></i></div>
                 <h2 class="card-title" id="stravaTitle">on the move</h2>
