@@ -816,10 +816,10 @@
         .strava-note { margin: 14px 0 0; font-size: 0.74rem; color: var(--on-surface-variant); }
         .strava-latest {
             margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 4px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+            align-items: center;
+            gap: 4px 12px;
             padding: 20px 22px;
             border-radius: 24px;
             background: color-mix(in srgb, var(--surface-lowest) 55%, transparent);
@@ -828,6 +828,16 @@
         .t-strava:hover .strava-latest { border-radius: 34px; }
         .strava-latest .tile-label { display: flex; align-items: center; gap: 8px; }
         .strava-latest .tile-label .ms { font-size: 18px; color: #fc4c02; }
+        .strava-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        /* The shape of the walk (no map, no coordinates, the first and last 400 m left off) */
+        .strava-route { width: 100%; height: auto; max-height: 190px; overflow: visible; }
+        .strava-route .path { fill: none; stroke: #fc4c02; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; filter: drop-shadow(0 0 6px rgba(252, 76, 2, 0.45)); }
+        .strava-route .ghost { fill: none; stroke: color-mix(in srgb, var(--on-surface) 14%, transparent); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .strava-route .end { fill: #fc4c02; }
+        .strava-route .end.start { fill: var(--surface-lowest); stroke: #fc4c02; stroke-width: 2.4; }
+        .js .strava-latest:not(.is-drawn) .strava-route .path { stroke-dashoffset: 1; }
+        .strava-latest .strava-route .path { transition: stroke-dashoffset 2.6s cubic-bezier(0.45, 0, 0.2, 1); }
+        @media (max-width: 460px) { .strava-latest { grid-template-columns: 1fr; } .strava-route { max-height: 150px; } }
         .strava-big { margin: 4px 0 0; font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
         .strava-big small { margin-left: 4px; font-size: 1.1rem; font-weight: 500; color: var(--on-surface-variant); }
         .strava-sub { margin: 6px 0 0; color: var(--on-surface-variant); font-size: 0.9rem; }
@@ -1509,11 +1519,19 @@
                     <a class="btn" href="https://www.strava.com/athletes/194590606" target="_blank" rel="noopener noreferrer"><span class="ms">open_in_new</span>Strava</a>
                 </div>
             </div>
-            <div class="strava-latest">
-                <span class="tile-label"><span class="ms">directions_walk</span>latest activity · yesterday</span>
-                <p class="strava-big">9.35<small>km</small></p>
-                <p class="strava-sub">an outdoor walk · 1h 54m · 26 m climbed</p>
-                <span class="strava-badge"><span class="ms">workspace_premium</span>my longest walk yet</span>
+            <div class="strava-latest" id="stravaLatest">
+                <div class="strava-info">
+                    <span class="tile-label"><span class="ms">directions_walk</span>latest activity · yesterday</span>
+                    <p class="strava-big">9.35<small>km</small></p>
+                    <p class="strava-sub">an outdoor walk · 1h 54m · 26 m climbed</p>
+                    <span class="strava-badge"><span class="ms">workspace_premium</span>my longest walk yet</span>
+                </div>
+                <svg class="strava-route" viewBox="0 0 220 190" role="img" aria-label="The shape of the walk's route, with no map">
+                    <path class="ghost" d="M193.4,22.2 L177.5,28.3 L175.7,26.8 L172.2,20.2 L161.7,18.5 L156.4,16.2 L152.2,15.8 L152.5,24.6 L151.7,29.2 L152.6,35.4 L152.3,38.9 L156.5,60.4 L158.9,64.4 L161.1,70.2 L162.6,72.0 L162.2,81.3 L168.0,90.4 L167.5,93.6 L171.3,94.0 L173.2,95.0 L177.4,99.7 L183.7,103.2 L188.9,105.0 L193.9,104.8 L195.0,105.8 L197.2,112.3 L202.4,115.0 L204.1,120.3 L204.4,123.7 L206.1,127.5 L208.0,138.0 L207.6,142.0 L204.4,143.1 L194.5,145.1 L192.4,144.7 L187.8,140.9 L184.5,136.1 L182.0,135.7 L167.2,136.9 L165.3,131.6 L163.5,130.0 L158.3,127.4 L152.2,127.6 L151.5,128.2 L151.6,129.6 L150.2,129.5 L149.9,128.7 L151.2,129.4 L152.1,143.4 L152.9,146.0 L154.1,158.1 L152.1,150.2 L144.3,151.2 L139.3,153.0 L134.6,152.5 L128.4,153.3 L119.1,152.5 L114.7,153.9 L109.1,154.6 L107.3,157.9 L105.4,158.9 L83.9,164.6 L80.2,166.2 L78.5,165.7 L71.5,167.7 L62.8,168.5 L38.1,173.8 L33.7,174.2 L33.1,173.6 L27.8,151.3 L28.0,144.9 L21.1,127.4 L12.0,108.8 L12.3,107.3 L29.4,102.1 L34.1,99.1 L45.1,94.0 L59.4,90.7 L66.2,90.0 L82.6,84.1 L86.9,81.8 L96.1,76.5 L96.5,74.9 L98.5,73.1 L100.3,67.6 L104.2,65.3 L115.2,61.2 L115.2,57.2 L116.0,54.1 L121.6,49.7 L127.5,48.0 L126.7,43.7"/>
+                    <path class="path" id="stravaPath" pathLength="1" d="M193.4,22.2 L177.5,28.3 L175.7,26.8 L172.2,20.2 L161.7,18.5 L156.4,16.2 L152.2,15.8 L152.5,24.6 L151.7,29.2 L152.6,35.4 L152.3,38.9 L156.5,60.4 L158.9,64.4 L161.1,70.2 L162.6,72.0 L162.2,81.3 L168.0,90.4 L167.5,93.6 L171.3,94.0 L173.2,95.0 L177.4,99.7 L183.7,103.2 L188.9,105.0 L193.9,104.8 L195.0,105.8 L197.2,112.3 L202.4,115.0 L204.1,120.3 L204.4,123.7 L206.1,127.5 L208.0,138.0 L207.6,142.0 L204.4,143.1 L194.5,145.1 L192.4,144.7 L187.8,140.9 L184.5,136.1 L182.0,135.7 L167.2,136.9 L165.3,131.6 L163.5,130.0 L158.3,127.4 L152.2,127.6 L151.5,128.2 L151.6,129.6 L150.2,129.5 L149.9,128.7 L151.2,129.4 L152.1,143.4 L152.9,146.0 L154.1,158.1 L152.1,150.2 L144.3,151.2 L139.3,153.0 L134.6,152.5 L128.4,153.3 L119.1,152.5 L114.7,153.9 L109.1,154.6 L107.3,157.9 L105.4,158.9 L83.9,164.6 L80.2,166.2 L78.5,165.7 L71.5,167.7 L62.8,168.5 L38.1,173.8 L33.7,174.2 L33.1,173.6 L27.8,151.3 L28.0,144.9 L21.1,127.4 L12.0,108.8 L12.3,107.3 L29.4,102.1 L34.1,99.1 L45.1,94.0 L59.4,90.7 L66.2,90.0 L82.6,84.1 L86.9,81.8 L96.1,76.5 L96.5,74.9 L98.5,73.1 L100.3,67.6 L104.2,65.3 L115.2,61.2 L115.2,57.2 L116.0,54.1 L121.6,49.7 L127.5,48.0 L126.7,43.7"/>
+                    <circle class="end start" cx="193.4" cy="22.2" r="5"/>
+                    <circle class="end" cx="126.7" cy="43.7" r="5"/>
+                </svg>
             </div>
         </section>
 
@@ -2515,6 +2533,15 @@
 
     // Banner pictures load the first time someone points at the socials, so they're ready by the hover card
     ['.t-find', '.t-setup'].forEach((sel) => document.querySelector(sel).addEventListener('pointerenter', () => socialPictures.forEach((src) => { new Image().src = src; }), { once: true }));
+
+    // The walk's route draws itself the first time the Strava card is on screen
+    (function () {
+        const latest = $('stravaLatest');
+        if (reduceMotion || !('IntersectionObserver' in window)) { latest.classList.add('is-drawn'); return; }
+        new IntersectionObserver((entries, io) => {
+            if (entries[0].isIntersecting) { latest.classList.add('is-drawn'); io.disconnect(); }
+        }, { threshold: 0.5 }).observe(latest);
+    })();
 
     // ---------- keyboard shortcuts ----------
     const keysDialog = $('keysDialog');
