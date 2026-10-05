@@ -1112,7 +1112,9 @@
         [data-palette="default"] .strava-route .end { fill: var(--primary-container); }
         [data-palette="default"] .strava-route .end.start { stroke: var(--primary-container); }
         [data-palette="default"] .strava-badge { background: var(--primary-container); color: var(--on-primary-container); }
-        .swatch[data-seed="default"] { background: conic-gradient(#5865f2, #d51007, #02a9ff, #ff8000, #2da44e, #fc4c02, #fc6399, #5865f2); }
+        /* a tiny bento: a neutral page with cards in Discord, Last.fm, AniList and GitHub colours */
+        [data-theme="dark"] .swatch[data-seed="default"] { background: #e8e1e1 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 46'%3E%3Crect x='9' y='10' width='16' height='12' rx='3' fill='%235865f2'/%3E%3Crect x='27' y='10' width='10' height='12' rx='3' fill='%23d51007'/%3E%3Crect x='9' y='24' width='10' height='12' rx='3' fill='%2302a9ff'/%3E%3Crect x='21' y='24' width='16' height='12' rx='3' fill='%232fa54f'/%3E%3C/svg%3E") center / 100% no-repeat; }
+        [data-theme="light"] .swatch[data-seed="default"] { background: #4d4446 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 46'%3E%3Crect x='9' y='10' width='16' height='12' rx='3' fill='%23bec2ff'/%3E%3Crect x='27' y='10' width='10' height='12' rx='3' fill='%23ffb4a8'/%3E%3Crect x='9' y='24' width='10' height='12' rx='3' fill='%2394ccff'/%3E%3Crect x='21' y='24' width='16' height='12' rx='3' fill='%236bde80'/%3E%3C/svg%3E") center / 100% no-repeat; }
         /* "music": the cover art itself once it's known, otherwise a swirl of the current colours */
         .swatch[data-seed="music"] { background: conic-gradient(var(--primary), var(--tertiary), var(--primary-container), var(--primary)) center / cover; }
         .swatch[data-seed="music"].has-cover { background-position: center; background-size: cover; }
