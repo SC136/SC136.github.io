@@ -476,9 +476,11 @@
         .lf-play:active { scale: 0.94; }
         .lf-play.playing { border-radius: 16px; }
         .lf-play .ms { font-size: 28px; font-variation-settings: "FILL" 1; }
-        .lf-ring { position: absolute; inset: -9px; width: 66px; height: 66px; rotate: -90deg; overflow: visible; pointer-events: none; }
-        .lf-ring circle { fill: none; stroke: var(--primary); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--p, 0) * 100); opacity: 0; transition: opacity 0.3s; }
-        .lf-play.started .lf-ring circle { opacity: 1; }
+        /* how far into the preview, along the bottom of the song row (like the Spotify bar on the Discord tile) */
+        .lf-now { position: relative; }
+        .lf-progress { position: absolute; left: 14px; right: 14px; bottom: 0; height: 4px; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--on-surface) 12%, transparent); }
+        .lf-progress[hidden] { display: none; }
+        .lf-progress span { display: block; height: 100%; border-radius: inherit; background: var(--primary); transform-origin: left; scale: var(--p, 0) 1; }
         .lf-now { display: flex; align-items: center; gap: 14px; padding: 12px 14px; color: inherit; text-decoration: none; transition: background 0.2s; }
         .lf-now:hover { background: color-mix(in srgb, var(--on-surface) 6%, transparent); }
         .lf-art { position: relative; display: grid; place-items: center; flex: none; width: 62px; height: 62px; border-radius: 14px; overflow: hidden; background: var(--primary-container); color: var(--on-primary-container); transition: border-radius 0.35s var(--ease); }
@@ -1575,11 +1577,9 @@
                         <span class="lf-title" id="lfTitle">–</span>
                         <span class="lf-artist" id="lfArtist"></span>
                     </span>
+                    <span class="lf-progress" id="lfProgress" hidden><span></span></span>
                 </a>
-                <button class="lf-play" id="lfPlay" type="button" aria-label="Play a preview" hidden>
-                    <svg class="lf-ring" viewBox="0 0 66 66" aria-hidden="true"><circle cx="33" cy="33" r="30" pathLength="100"/></svg>
-                    <span class="ms" id="lfPlayIcon">play_arrow</span>
-                </button>
+                <button class="lf-play" id="lfPlay" type="button" aria-label="Play a preview" hidden><span class="ms" id="lfPlayIcon">play_arrow</span></button>
                 <ul class="lf-recent" id="lfRecent"></ul>
                 <p class="lf-foot" id="lfFoot"></p>
             </div>
@@ -3114,11 +3114,18 @@
     const preview = new Audio();
     preview.preload = 'none';
     preview.volume = 0.7;
-    const lfPlay = $('lfPlay');
-    let previewKey = '', previewTitle = '', ringFrame = 0;
-    function paintRing() {
-        lfPlay.style.setProperty('--p', preview.duration ? (preview.currentTime / preview.duration).toFixed(4) : 0);
-        ringFrame = preview.paused ? 0 : requestAnimationFrame(paintRing);
+    const lfPlay = $('lfPlay'), lfProgress = $('lfProgress');
+    let previewKey = '', previewTitle = '', barFrame = 0;
+    const setBar = () => lfProgress.style.setProperty('--p', preview.duration ? (preview.currentTime / preview.duration).toFixed(4) : 0);
+    // smooth while you watch it; timeupdate keeps it right when frames aren't being drawn (a background tab)
+    function paintBar() {
+        setBar();
+        barFrame = preview.paused ? 0 : requestAnimationFrame(paintBar);
+    }
+    preview.addEventListener('timeupdate', setBar);
+    function resetBar() {
+        lfProgress.hidden = true;
+        lfProgress.style.setProperty('--p', 0);
     }
     function offerPreview(song) {
         const key = plain(song.artist + song.name);
@@ -3127,8 +3134,7 @@
         previewKey = key;
         preview.pause();
         preview.removeAttribute('src');
-        lfPlay.classList.remove('started');
-        lfPlay.style.setProperty('--p', 0);
+        resetBar();
         lfPlay.hidden = true;
         findPreview(song).then((url) => {
             if (previewKey !== key || !url) return;
@@ -3144,11 +3150,12 @@
         preview.play().catch(() => {});
     });
     preview.addEventListener('play', () => {
-        lfPlay.classList.add('playing', 'started');
+        lfPlay.classList.add('playing');
         setText('lfPlayIcon', 'pause');
         lfPlay.setAttribute('aria-label', `Pause ${previewTitle}`);
-        cancelAnimationFrame(ringFrame);
-        paintRing();
+        lfProgress.hidden = false;
+        cancelAnimationFrame(barFrame);
+        paintBar();
     });
     preview.addEventListener('pause', () => {
         lfPlay.classList.remove('playing');
@@ -3156,8 +3163,7 @@
         lfPlay.setAttribute('aria-label', `Play 30 seconds of ${previewTitle}`);
     });
     preview.addEventListener('ended', () => {
-        lfPlay.classList.remove('started');
-        lfPlay.style.setProperty('--p', 0);
+        resetBar();
         preview.currentTime = 0;
     });
 
