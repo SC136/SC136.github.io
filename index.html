@@ -798,6 +798,38 @@
             .t-server::before { background: linear-gradient(90deg, #0a0102 45%, rgba(10, 1, 2, 0.55)); }
         }
 
+        /* ===== Strava: totals and the latest walk, in its orange ===== */
+        .t-strava {
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+            gap: 28px;
+            align-items: stretch;
+            background: linear-gradient(120deg, color-mix(in oklab, #fc4c02 34%, var(--surface-low)), var(--surface-low) 72%);
+        }
+        .t-strava .shape-icon { --icon-bg: #fc4c02; --icon-fg: #fff; }
+        .t-strava .stats { margin-bottom: 0; }
+        .t-strava .stat b small { margin-left: 3px; font-size: 0.8rem; font-weight: 500; color: var(--on-surface-variant); }
+        .strava-note { margin: 14px 0 0; font-size: 0.74rem; color: var(--on-surface-variant); }
+        .strava-latest {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            padding: 20px 22px;
+            border-radius: 24px;
+            background: color-mix(in srgb, var(--surface-lowest) 55%, transparent);
+            transition: border-radius 0.35s var(--ease);
+        }
+        .t-strava:hover .strava-latest { border-radius: 34px; }
+        .strava-latest .tile-label { display: flex; align-items: center; gap: 8px; }
+        .strava-latest .tile-label .ms { font-size: 18px; color: #fc4c02; }
+        .strava-big { margin: 4px 0 0; font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
+        .strava-big small { margin-left: 4px; font-size: 1.1rem; font-weight: 500; color: var(--on-surface-variant); }
+        .strava-sub { margin: 6px 0 0; color: var(--on-surface-variant); font-size: 0.9rem; }
+        .strava-badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 4px 12px 4px 8px; border-radius: 999px; background: #fc4c02; color: #fff; font-size: 0.78rem; font-weight: 500; }
+        .strava-badge .ms { font-size: 16px; }
+        @media (max-width: 800px) { .t-strava { grid-template-columns: 1fr; gap: 20px; } }
+
         /* Backloggd: a shelf across the full width, the numbers on the left and favourites on the right */
         @media (min-width: 1001px) {
             .t-played { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 32px; align-items: start; }
@@ -1455,6 +1487,29 @@
             <div class="gh-months" id="ghMonths" aria-hidden="true"></div>
             <div class="gh-grid" id="ghGrid" role="img" aria-label="GitHub contributions over the last year"></div>
             <div class="gh-legend" aria-hidden="true">less<span></span><i class="gh-cell"></i><i class="gh-cell l1"></i><i class="gh-cell l2"></i><i class="gh-cell l3"></i><i class="gh-cell l4"></i><span></span>more</div>
+        </section>
+
+        <section class="card t-strava span-4" data-glow="#fc4c02" aria-labelledby="stravaTitle">
+            <div>
+                <div class="shape-icon" style="--shape-a: var(--shape-burst10); --shape-b: var(--shape-cookie9);"><i class="fa-brands fa-strava"></i></div>
+                <h2 class="card-title" id="stravaTitle">on the move</h2>
+                <div class="stats">
+                    <div class="stat"><b>9</b><span>activities</span></div>
+                    <div class="stat"><b>29.1<small>km</small></b><span>all-time distance</span></div>
+                    <div class="stat"><b>4h 49m</b><span>time moving</span></div>
+                    <div class="stat"><b>82<small>m</small></b><span>climbed</span></div>
+                </div>
+                <p class="strava-note">as of 5 oct 2026, copied from my strava since it has no free live feed</p>
+                <div class="card-actions" style="justify-content: flex-start;">
+                    <a class="btn" href="https://www.strava.com/athletes/194590606" target="_blank" rel="noopener noreferrer"><span class="ms">open_in_new</span>Strava</a>
+                </div>
+            </div>
+            <div class="strava-latest">
+                <span class="tile-label"><span class="ms">directions_walk</span>latest activity · yesterday</span>
+                <p class="strava-big">9.35<small>km</small></p>
+                <p class="strava-sub">an outdoor walk · 1h 54m · 26 m climbed</p>
+                <span class="strava-badge"><span class="ms">workspace_premium</span>my longest walk yet</span>
+            </div>
         </section>
 
         <section class="card t-played span-4" aria-labelledby="playedTitle">
