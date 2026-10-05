@@ -2259,10 +2259,13 @@
         })
         .catch(() => {});
 
-    // Site visits (read only: this page never adds a view)
-    fetch('https://vixnfmutdbaprqflgzpr.supabase.co/rest/v1/page_views?select=page,count', {
-        headers: { apikey: 'sb_publishable_2s5mFF0V7DqjzoYMAc6VqQ_2VC5U7CR', Authorization: 'Bearer sb_publishable_2s5mFF0V7DqjzoYMAc6VqQ_2VC5U7CR' },
-    })
+    // Site visits: this page counts itself as "sc", but only on the real site, so local testing never adds a view
+    const SB = 'https://vixnfmutdbaprqflgzpr.supabase.co/rest/v1';
+    const SB_HEADERS = { apikey: 'sb_publishable_2s5mFF0V7DqjzoYMAc6VqQ_2VC5U7CR', Authorization: 'Bearer sb_publishable_2s5mFF0V7DqjzoYMAc6VqQ_2VC5U7CR' };
+    if (location.hostname === 'sc.is-a.dev') {
+        fetch(SB + '/rpc/increment_view', { method: 'POST', headers: { ...SB_HEADERS, 'Content-Type': 'application/json' }, body: JSON.stringify({ page_slug: 'sc' }) }).catch(() => {});
+    }
+    fetch(SB + '/page_views?select=page,count', { headers: SB_HEADERS })
         .then((r) => r.json())
         .then((rows) => {
             const total = Array.isArray(rows) && rows.find((r) => r.page === 'total');
