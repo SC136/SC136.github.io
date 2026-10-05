@@ -830,9 +830,9 @@
             display: flex;
             flex-direction: column;
             gap: 18px;
-            background: linear-gradient(150deg, color-mix(in oklab, #fc4c02 34%, var(--surface-low)), var(--surface-low) 72%);
+            background: linear-gradient(150deg, color-mix(in oklab, var(--primary-container) 38%, var(--surface-low)), var(--surface-low) 70%);
         }
-        .t-strava .shape-icon { --icon-bg: #fc4c02; --icon-fg: #fff; }
+        .t-strava .shape-icon { --icon-bg: var(--primary); --icon-fg: var(--on-primary); }
         .t-strava .stats { margin-bottom: 0; }
         .t-strava .stat b small { margin-left: 3px; font-size: 0.8rem; font-weight: 500; color: var(--on-surface-variant); }
         .strava-note { margin: 14px 0 0; font-size: 0.74rem; color: var(--on-surface-variant); }
@@ -849,21 +849,21 @@
         }
         .t-strava:hover .strava-latest { border-radius: 34px; }
         .strava-latest .tile-label { display: flex; align-items: center; gap: 8px; }
-        .strava-latest .tile-label .ms { font-size: 18px; color: #fc4c02; }
+        .strava-latest .tile-label .ms { font-size: 18px; color: var(--primary); }
         .strava-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
         /* The shape of the walk (no map, no coordinates, the first and last 400 m left off) */
         .strava-route { width: 100%; height: auto; max-height: 190px; overflow: visible; }
-        .strava-route .path { fill: none; stroke: #fc4c02; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; filter: drop-shadow(0 0 6px rgba(252, 76, 2, 0.45)); }
+        .strava-route .path { fill: none; stroke: var(--primary); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--primary) 50%, transparent)); }
         .strava-route .ghost { fill: none; stroke: color-mix(in srgb, var(--on-surface) 14%, transparent); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
-        .strava-route .end { fill: #fc4c02; }
-        .strava-route .end.start { fill: var(--surface-lowest); stroke: #fc4c02; stroke-width: 2.4; }
+        .strava-route .end { fill: var(--primary); }
+        .strava-route .end.start { fill: var(--surface-lowest); stroke: var(--primary); stroke-width: 2.4; }
         .js .strava-latest:not(.is-drawn) .strava-route .path { stroke-dashoffset: 1; }
         .strava-latest .strava-route .path { transition: stroke-dashoffset 2.6s cubic-bezier(0.45, 0, 0.2, 1); }
         @media (max-width: 460px) { .strava-latest { grid-template-columns: 1fr; } .strava-route { max-height: 150px; } }
         .strava-big { margin: 4px 0 0; font-size: clamp(2.4rem, 5vw, 3.4rem); font-weight: 600; line-height: 1; letter-spacing: -0.02em; }
         .strava-big small { margin-left: 4px; font-size: 1.1rem; font-weight: 500; color: var(--on-surface-variant); }
         .strava-sub { margin: 6px 0 0; color: var(--on-surface-variant); font-size: 0.9rem; }
-        .strava-badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 4px 12px 4px 8px; border-radius: 999px; background: #fc4c02; color: #fff; font-size: 0.78rem; font-weight: 500; }
+        .strava-badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 4px 12px 4px 8px; border-radius: 999px; background: var(--primary); color: var(--on-primary); font-size: 0.78rem; font-weight: 500; }
         .strava-badge .ms { font-size: 16px; }
 
         /* Backloggd: a shelf across the full width, the numbers on the left and favourites on the right */
