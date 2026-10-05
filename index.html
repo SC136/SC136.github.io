@@ -38,7 +38,7 @@
             } catch (e) {}
             document.documentElement.setAttribute('data-theme', theme);
             // A random colour theme on every visit, never the same one twice in a row
-            var palettes = ['coral', 'pink', 'lavender', 'teal', 'mint', 'sand', 'lime'];
+            var palettes = ['default', 'coral', 'pink', 'lavender', 'teal', 'mint', 'sand', 'lime'];
             var last = null;
             try { last = localStorage.getItem('sc136-palette'); } catch (e) {}
             var options = palettes.filter(function (p) { return p !== last; });
@@ -998,7 +998,7 @@
             top: 68px;
             right: 16px;
             z-index: 30;
-            width: 296px;
+            width: 330px;
             padding: 16px 16px 18px;
             border-radius: 24px;
             background: var(--surface-high);
@@ -1019,7 +1019,7 @@
             text-transform: uppercase;
             color: var(--on-surface-variant);
         }
-        .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 8px; }
+        .swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px 6px; }
         .swatch-btn {
             display: flex;
             flex-direction: column;
@@ -1040,8 +1040,8 @@
             position: relative;
             display: grid;
             place-items: center;
-            width: 50px;
-            height: 50px;
+            width: 46px;
+            height: 46px;
             background:
                 linear-gradient(to bottom, var(--sw-a) 50%, transparent 50%),
                 linear-gradient(to right, var(--sw-b) 50%, var(--sw-c) 50%);
@@ -1065,6 +1065,37 @@
             transition: opacity 0.2s var(--ease), scale 0.4s var(--spring);
         }
         .swatch-btn[aria-pressed="true"] .ms { opacity: 1; scale: 1; }
+        /* ===== "default": the page goes neutral and every card wears the colours of where its data comes from.
+           Each brand gets a full Material role set (Content scheme), so buttons, chips and charts stay readable ===== */
+        [data-palette="default"][data-theme="dark"] { --surface: #151313; --surface-lowest: #100d0e; --surface-low: #1e1b1b; --surface-container: #221f1f; --surface-high: #2d292a; --surface-highest: #383434; --on-surface: #e8e1e1; --on-surface-variant: #d0c3c5; --outline: #998e90; --outline-variant: #4d4446; --secondary-container: #3e3a3b; --on-secondary-container: #e8e1e1; }
+        [data-palette="default"][data-theme="light"] { --surface: #fff8f8; --surface-lowest: #ffffff; --surface-low: #faf2f2; --surface-container: #f4ecec; --surface-high: #eee6e7; --surface-highest: #e8e1e1; --on-surface: #1e1b1b; --on-surface-variant: #4d4446; --outline: #7f7476; --outline-variant: #d0c3c5; --secondary-container: #e8e1e1; --on-secondary-container: #1e1b1b; }
+        [data-palette="default"][data-theme="dark"] [data-brand="discord"] { --brand: #5865f2; --primary: #bec2ff; --on-primary: #000da4; --primary-container: #5865f2; --on-primary-container: #fffdff; --secondary-container: #3f447d; --on-secondary-container: #aeb4f4; --tertiary: #bec2ff; --tertiary-container: #5865f2; --on-tertiary-container: #fffdff; }
+        [data-palette="default"][data-theme="dark"] [data-brand="lastfm"] { --brand: #d51007; --primary: #ffb4a8; --on-primary: #690100; --primary-container: #d51007; --on-primary-container: #ffe7e3; --secondary-container: #8b1a10; --on-secondary-container: #ff9a8a; --tertiary: #ffb4a8; --tertiary-container: #d51007; --on-tertiary-container: #ffe7e3; }
+        [data-palette="default"][data-theme="dark"] [data-brand="spotify"] { --brand: #1ed760; --primary: #4cf479; --on-primary: #003913; --primary-container: #1ed760; --on-primary-container: #005721; --secondary-container: #005520; --on-secondary-container: #7fc986; --tertiary: #4cf479; --tertiary-container: #1ed760; --on-tertiary-container: #005721; }
+        [data-palette="default"][data-theme="dark"] [data-brand="anilist"] { --brand: #02a9ff; --primary: #94ccff; --on-primary: #003352; --primary-container: #02a9ff; --on-primary-container: #003b5d; --secondary-container: #244c6c; --on-secondary-container: #96bce1; --tertiary: #94ccff; --tertiary-container: #02a9ff; --on-tertiary-container: #003b5d; }
+        [data-palette="default"][data-theme="dark"] [data-brand="letterboxd"] { --brand: #ff8000; --primary: #ffb787; --on-primary: #502400; --primary-container: #ff8000; --on-primary-container: #5e2b00; --secondary-container: #6f380c; --on-secondary-container: #f1a36f; --tertiary: #ffb787; --tertiary-container: #ff8000; --on-tertiary-container: #5e2b00; }
+        [data-palette="default"][data-theme="dark"] [data-brand="steam"] { --brand: #66c0f4; --primary: #a1d9ff; --on-primary: #00344b; --primary-container: #66c0f4; --on-primary-container: #004d6c; --secondary-container: #2b4a5d; --on-secondary-container: #9ab9d0; --tertiary: #a1d9ff; --tertiary-container: #66c0f4; --on-tertiary-container: #004d6c; }
+        [data-palette="default"][data-theme="dark"] [data-brand="wakatime"] { --brand: #3b82f6; --primary: #adc6ff; --on-primary: #002e6a; --primary-container: #4d8eff; --on-primary-container: #001c46; --secondary-container: #304671; --on-secondary-container: #9fb5e7; --tertiary: #adc6ff; --tertiary-container: #4d8eff; --on-tertiary-container: #001c46; }
+        [data-palette="default"][data-theme="dark"] [data-brand="github"] { --brand: #2da44e; --primary: #6bde80; --on-primary: #003913; --primary-container: #2fa54f; --on-primary-container: #00300f; --secondary-container: #29522f; --on-secondary-container: #97c498; --tertiary: #6bde80; --tertiary-container: #2fa54f; --on-tertiary-container: #00300f; }
+        [data-palette="default"][data-theme="dark"] [data-brand="strava"] { --brand: #fc4c02; --primary: #ffb59f; --on-primary: #5e1700; --primary-container: #ff571b; --on-primary-container: #491000; --secondary-container: #872806; --on-secondary-container: #ffa083; --tertiary: #ffb59f; --tertiary-container: #ff571b; --on-tertiary-container: #491000; }
+        [data-palette="default"][data-theme="dark"] [data-brand="backloggd"] { --brand: #fc6399; --primary: #ffb1c6; --on-primary: #650030; --primary-container: #fc6399; --on-primary-container: #670031; --secondary-container: #733047; --on-secondary-container: #f49bb4; --tertiary: #ffb1c6; --tertiary-container: #fc6399; --on-tertiary-container: #670031; }
+        [data-palette="default"][data-theme="light"] [data-brand="discord"] { --brand: #5865f2; --primary: #3d4ad8; --on-primary: #ffffff; --primary-container: #5865f2; --on-primary-container: #fffdff; --secondary-container: #b7bcfe; --on-secondary-container: #444a83; --tertiary: #3d4ad8; --tertiary-container: #5865f2; --on-tertiary-container: #fffdff; }
+        [data-palette="default"][data-theme="light"] [data-brand="lastfm"] { --brand: #d51007; --primary: #a90100; --on-primary: #ffffff; --primary-container: #d51007; --on-primary-container: #ffe7e3; --secondary-container: #fd6e5a; --on-secondary-container: #6d0100; --tertiary: #a90100; --tertiary-container: #d51007; --on-tertiary-container: #ffe7e3; }
+        [data-palette="default"][data-theme="light"] [data-brand="spotify"] { --brand: #1ed760; --primary: #006e2c; --on-primary: #ffffff; --primary-container: #1ed760; --on-primary-container: #005721; --secondary-container: #a5f2ab; --on-secondary-container: #277038; --tertiary: #006e2c; --tertiary-container: #1ed760; --on-tertiary-container: #005721; }
+        [data-palette="default"][data-theme="light"] [data-brand="anilist"] { --brand: #02a9ff; --primary: #006398; --on-primary: #ffffff; --primary-container: #02a9ff; --on-primary-container: #003b5d; --secondary-container: #b2d9ff; --on-secondary-container: #385f7f; --tertiary: #006398; --tertiary-container: #02a9ff; --on-tertiary-container: #003b5d; }
+        [data-palette="default"][data-theme="light"] [data-brand="letterboxd"] { --brand: #ff8000; --primary: #964900; --on-primary: #ffffff; --primary-container: #ff8000; --on-primary-container: #5e2b00; --secondary-container: #ffaf7a; --on-secondary-container: #784014; --tertiary: #964900; --tertiary-container: #ff8000; --on-tertiary-container: #5e2b00; }
+        [data-palette="default"][data-theme="light"] [data-brand="steam"] { --brand: #66c0f4; --primary: #00658d; --on-primary: #ffffff; --primary-container: #66c0f4; --on-primary-container: #004d6c; --secondary-container: #c4e4fb; --on-secondary-container: #48667a; --tertiary: #00658d; --tertiary-container: #66c0f4; --on-tertiary-container: #004d6c; }
+        [data-palette="default"][data-theme="light"] [data-brand="wakatime"] { --brand: #3b82f6; --primary: #0058be; --on-primary: #ffffff; --primary-container: #2170e4; --on-primary-container: #fefcff; --secondary-container: #b6ccff; --on-secondary-container: #405682; --tertiary: #0058be; --tertiary-container: #2170e4; --on-tertiary-container: #fefcff; }
+        [data-palette="default"][data-theme="light"] [data-brand="github"] { --brand: #2da44e; --primary: #006b2a; --on-primary: #ffffff; --primary-container: #008737; --on-primary-container: #f7fff2; --secondary-container: #bdebbd; --on-secondary-container: #436c47; --tertiary: #006b2a; --tertiary-container: #008737; --on-tertiary-container: #f7fff2; }
+        [data-palette="default"][data-theme="light"] [data-brand="strava"] { --brand: #fc4c02; --primary: #aa3000; --on-primary: #ffffff; --primary-container: #d53e00; --on-primary-container: #fffbff; --secondary-container: #fd7f57; --on-secondary-container: #6e1c00; --tertiary: #aa3000; --tertiary-container: #d53e00; --on-tertiary-container: #fffbff; }
+        [data-palette="default"][data-theme="light"] [data-brand="backloggd"] { --brand: #fc6399; --primary: #af255e; --on-primary: #ffffff; --primary-container: #fc6399; --on-primary-container: #670031; --secondary-container: #fea4be; --on-secondary-container: #7b364d; --tertiary: #af255e; --tertiary-container: #fc6399; --on-tertiary-container: #670031; }
+        /* icons in a branded card wear the brand itself, not a pastel of it */
+        [data-palette="default"] [data-brand]:not([data-brand="sc"]) .shape-icon { --icon-bg: var(--primary-container); --icon-fg: var(--on-primary-container); }
+        [data-palette="default"] .strava-route .path { stroke: var(--primary-container); }
+        [data-palette="default"] .strava-route .end { fill: var(--primary-container); }
+        [data-palette="default"] .strava-route .end.start { stroke: var(--primary-container); }
+        [data-palette="default"] .strava-badge { background: var(--primary-container); color: var(--on-primary-container); }
+        .swatch[data-seed="default"] { background: conic-gradient(#5865f2, #d51007, #02a9ff, #ff8000, #2da44e, #fc4c02, #fc6399, #5865f2); }
         /* "music": the cover art itself once it's known, otherwise a swirl of the current colours */
         .swatch[data-seed="music"] { background: conic-gradient(var(--primary), var(--tertiary), var(--primary-container), var(--primary)) center / cover; }
         .swatch[data-seed="music"].has-cover { background-position: center; background-size: cover; }
@@ -1239,6 +1270,7 @@
     <div class="palette-menu" id="paletteMenu" role="dialog" aria-label="Colour theme">
         <p class="palette-title">colour</p>
         <div class="swatches">
+            <button class="swatch-btn" type="button" data-palette="default" aria-pressed="false" title="Every card in the colours of where its data comes from"><span class="swatch" data-seed="default"><span class="ms">check</span></span>default</button>
             <button class="swatch-btn" type="button" data-palette="coral" aria-pressed="true"><span class="swatch" data-seed="coral"><span class="ms">check</span></span>coral</button>
             <button class="swatch-btn" type="button" data-palette="pink" aria-pressed="false"><span class="swatch" data-seed="pink"><span class="ms">check</span></span>pink</button>
             <button class="swatch-btn" type="button" data-palette="lavender" aria-pressed="false"><span class="swatch" data-seed="lavender"><span class="ms">check</span></span>lavender</button>
@@ -1282,7 +1314,7 @@
         </div>
     </section>
 
-    <section class="card intro" aria-labelledby="introTitle">
+    <section data-brand="sc" class="card intro" aria-labelledby="introTitle">
         <div class="shape-icon" style="--shape-a: var(--shape-cookie9); --shape-b: var(--shape-burst10);"><span class="ms">waving_hand</span></div>
         <h1 id="introTitle">hey, i'm <span class="name">swar</span></h1>
         <ul>
@@ -1325,7 +1357,7 @@
     </section>
 
     <div class="bento">
-        <div class="card mini">
+        <div data-brand="sc" class="card mini">
             <div class="mini-head">
                 <span class="shape-icon sm tonal" style="--shape-a: var(--shape-soft6); --shape-b: var(--shape-clover4);"><span class="ms">nest_clock_farsight_analog</span></span>
                 <span class="tile-label">my time</span>
@@ -1334,7 +1366,7 @@
             <span class="tile-sub" id="nowDate">IST · UTC+5:30</span>
         </div>
 
-        <div class="card mini">
+        <div data-brand="sc" class="card mini">
             <div class="mini-head">
                 <span class="shape-icon sm tonal" style="--shape-a: var(--shape-cookie9); --shape-b: var(--shape-sunny8);"><span class="ms" id="wxIcon">partly_cloudy_day</span></span>
                 <span class="tile-label">weather here</span>
@@ -1344,7 +1376,7 @@
         </div>
 
 
-        <a class="card mini span-2 t-discord" id="discordTile" data-glow="#5865f2" href="https://discord.com/users/594504468931018752" target="_blank" rel="noopener noreferrer" aria-live="polite">
+        <a data-brand="discord" class="card mini span-2 t-discord" id="discordTile" data-glow="#5865f2" href="https://discord.com/users/594504468931018752" target="_blank" rel="noopener noreferrer" aria-live="polite">
             <span class="discord-face">
                 <img id="discordAvatar" src="assets/avatars/github.webp" alt="" width="64" height="64">
                 <span class="discord-dot" id="discordDot"></span>
@@ -1358,7 +1390,7 @@
             <img class="discord-art" id="discordArt" alt="" width="64" height="64" hidden>
         </a>
 
-        <section class="card span-2" aria-labelledby="listenTitle" data-glow="#1ed760">
+        <section data-brand="lastfm" class="card span-2" aria-labelledby="listenTitle" data-glow="#d51007">
             <div class="shape-icon" style="--shape-a: var(--shape-flower8); --shape-b: var(--shape-cookie12);"><span class="ms">headphones</span></div>
             <h2 class="card-title" id="listenTitle">what i'm listening to</h2>
             <div class="lastfm" id="lastfm" aria-live="polite">
@@ -1374,15 +1406,15 @@
                 <p class="lf-foot" id="lfFoot"></p>
             </div>
             <p class="subhead">current favourite</p>
-            <div class="fav-song">
+            <div class="fav-song" data-brand="spotify">
                 <iframe src="https://open.spotify.com/embed/track/0zlZVdP0ddhqjaGcDVd8oo?utm_source=generator&amp;theme=0" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="My current favourite song on Spotify"></iframe>
             </div>
             <div class="card-actions">
-                <a class="btn" href="https://open.spotify.com/user/vxsgbx1d31s54nju55e60oz7n" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-spotify"></i>Spotify</a>
+                <a data-brand="spotify" class="btn" href="https://open.spotify.com/user/vxsgbx1d31s54nju55e60oz7n" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-spotify"></i>Spotify</a>
             </div>
         </section>
 
-        <section class="card span-2 rows-2" aria-labelledby="watchTitle">
+        <section data-brand="anilist" class="card span-2 rows-2" aria-labelledby="watchTitle">
             <div class="shape-icon gold" style="--shape-a: var(--shape-clover4); --shape-b: var(--shape-sunny8);"><span class="ms">live_tv</span></div>
             <h2 class="card-title" id="watchTitle">what i'm watching</h2>
             <div class="seg" role="group" aria-label="Show">
@@ -1425,7 +1457,7 @@
             </div>
         </section>
 
-        <a class="card t-game span-2" id="steamGame" data-glow="#66c0f4" href="https://steamcommunity.com/id/SC136" target="_blank" rel="noopener noreferrer">
+        <a data-brand="steam" class="card t-game span-2" id="steamGame" data-glow="#66c0f4" href="https://steamcommunity.com/id/SC136" target="_blank" rel="noopener noreferrer">
             <!-- A round of mine, played on hover once the top game is CS2; only downloaded on the first hover -->
             <video class="game-video" id="gameVideo" playsinline loop preload="none" data-src="assets/videos/cs2-clip" aria-hidden="true"></video>
             <span class="game-chip"><span class="ms">sports_esports</span>what i'm playing</span>
@@ -1435,7 +1467,7 @@
         </a>
 
 
-        <section class="card span-2 rows-2" aria-labelledby="codeTitle">
+        <section data-brand="wakatime" class="card span-2 rows-2" aria-labelledby="codeTitle">
             <div class="shape-icon" style="--shape-a: var(--shape-sunny8); --shape-b: var(--shape-flower8);"><span class="ms">terminal</span></div>
             <h2 class="card-title" id="codeTitle">how i code</h2>
             <div class="stats">
@@ -1453,7 +1485,7 @@
             </div>
         </section>
 
-        <section class="card span-2" aria-labelledby="madeTitle">
+        <section data-brand="github" class="card span-2" aria-labelledby="madeTitle">
             <div class="shape-icon gold" style="--shape-a: var(--shape-cookie12); --shape-b: var(--shape-soft6);"><span class="ms">deployed_code</span></div>
             <h2 class="card-title" id="madeTitle">what i've made</h2>
             <ul class="list">
@@ -1464,7 +1496,7 @@
             </ul>
         </section>
 
-        <a class="card mini span-2" id="pushTile" href="https://github.com/SC136" target="_blank" rel="noopener noreferrer">
+        <a data-brand="github" class="card mini span-2" id="pushTile" href="https://github.com/SC136" target="_blank" rel="noopener noreferrer">
             <div class="mini-head">
                 <span class="shape-icon sm tonal" style="--shape-a: var(--shape-flower8); --shape-b: var(--shape-burst10);"><span class="ms">commit</span></span>
                 <span class="tile-label">latest push</span>
@@ -1473,7 +1505,7 @@
             <span class="tile-sub" id="pushWhen">on github</span>
         </a>
 
-        <section class="card span-2" aria-labelledby="toolTitle">
+        <section data-brand="sc" class="card span-2" aria-labelledby="toolTitle">
             <div class="shape-icon gold" style="--shape-a: var(--shape-sunny8); --shape-b: var(--shape-soft6);"><span class="ms">construction</span></div>
             <h2 class="card-title" id="toolTitle">toolbox</h2>
             <div class="chips">
@@ -1488,7 +1520,7 @@
             </div>
         </section>
 
-        <section class="card span-2 rows-2 t-setup" aria-labelledby="setupTitle">
+        <section data-brand="sc" class="card span-2 rows-2 t-setup" aria-labelledby="setupTitle">
             <div class="shape-icon tonal" style="--shape-a: var(--shape-cookie12); --shape-b: var(--shape-clover4);"><span class="ms">desktop_windows</span></div>
             <h2 class="card-title" id="setupTitle">setup</h2>
             <div class="specs">
@@ -1510,7 +1542,7 @@
             </div>
         </section>
 
-        <section class="card span-2" aria-labelledby="numTitle">
+        <section data-brand="github" class="card span-2" aria-labelledby="numTitle">
             <div class="shape-icon tonal" style="--shape-a: var(--shape-soft6); --shape-b: var(--shape-sunny8);"><span class="ms">monitoring</span></div>
             <h2 class="card-title" id="numTitle">by the numbers</h2>
             <div class="stats" style="margin: 0;">
@@ -1522,7 +1554,7 @@
         </section>
 
 
-        <section class="card span-2" aria-labelledby="ghTitle">
+        <section data-brand="github" class="card span-2" aria-labelledby="ghTitle">
             <div class="shape-icon tonal" style="--shape-a: var(--shape-clover4); --shape-b: var(--shape-cookie12);"><span class="ms">calendar_view_month</span></div>
             <h2 class="card-title" id="ghTitle">my year on github</h2>
             <div class="stats">
@@ -1538,7 +1570,7 @@
             <div class="gh-bars" id="ghBars" role="img" aria-label="Contributions per month"></div>
         </section>
 
-        <section class="card t-strava span-2" aria-labelledby="stravaTitle">
+        <section data-brand="strava" class="card t-strava span-2" aria-labelledby="stravaTitle">
             <div>
                 <div class="shape-icon" style="--shape-a: var(--shape-burst10); --shape-b: var(--shape-cookie9);"><i class="fa-brands fa-strava"></i></div>
                 <h2 class="card-title" id="stravaTitle">on the move</h2>
@@ -1569,7 +1601,7 @@
             </div>
         </section>
 
-        <section class="card t-played span-4" aria-labelledby="playedTitle">
+        <section data-brand="backloggd" class="card t-played span-4" aria-labelledby="playedTitle">
             <div class="played-info">
                 <div class="shape-icon tonal" style="--shape-a: var(--shape-burst10); --shape-b: var(--shape-cookie9);"><span class="ms">stadia_controller</span></div>
                 <h2 class="card-title" id="playedTitle">games i've played</h2>
@@ -1592,7 +1624,7 @@
             </div>
         </section>
 
-        <section class="card t-server span-4" id="serverCard" data-glow="#d4202a" aria-labelledby="serverName">
+        <section data-brand="discord" class="card t-server span-4" id="serverCard" data-glow="#d4202a" aria-labelledby="serverName">
             <img class="server-icon" id="serverIcon" alt="" width="84" height="84">
             <div class="server-text">
                 <p class="server-kicker">my discord server</p>
@@ -1603,7 +1635,7 @@
             <a class="btn filled" href="https://discord.gg/UVWjuAh" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i>join the server</a>
         </section>
 
-        <section class="card t-find span-4" aria-labelledby="findTitle">
+        <section data-brand="sc" class="card t-find span-4" aria-labelledby="findTitle">
             <div class="shape-icon" style="--shape-a: var(--shape-clover4); --shape-b: var(--shape-cookie9);"><span class="ms">alternate_email</span></div>
             <h2 class="card-title" id="findTitle">where to find me</h2>
             <ul class="list">
@@ -1879,6 +1911,7 @@
             b.setAttribute('aria-pressed', String(on));
             $(b.dataset.panel).hidden = !on;
         });
+        $('watchTitle').closest('.card').dataset.brand = btn.dataset.panel === 'filmsPanel' ? 'letterboxd' : 'anilist';
     }));
 
     // ---------- rich tooltip for posters (mouse and keyboard; touch just follows the link) ----------
@@ -1941,7 +1974,7 @@
         glowEl = el;
         // Coming from nothing, start where (and in the colour) it should be instead of sliding over
         if (fresh) root.classList.add('glow-jump');
-        root.style.setProperty('--glow-c', el.dataset.glow);
+        root.style.setProperty('--glow-c', glowColour(el));
         placeGlow();
         if (fresh) { getComputedStyle(glow).opacity; root.classList.remove('glow-jump'); }
         root.classList.add('glowing');
@@ -1951,14 +1984,25 @@
         // A short grace period, so moving between neighbouring posters doesn't flicker
         glowOff = setTimeout(() => { glowEl = null; glowIdleAt = performance.now() + 700; root.classList.remove('glowing'); }, 160);
     }
-    const glowFrom = (node) => node && node.closest && node.closest('[data-glow]');
+    // In the "default" theme every card also washes the page, in the colour of its brand; the nearest one wins,
+    // so a poster or a social row inside a card keeps its own colour
+    const BRAND_GLOW = {"discord": "#5865f2", "lastfm": "#d51007", "anilist": "#02a9ff", "letterboxd": "#ff8000", "steam": "#66c0f4", "wakatime": "#3b82f6", "github": "#2da44e", "strava": "#fc4c02", "backloggd": "#fc6399", "sc": "#e8826a", "spotify": "#1ed760"};
+    const glowFrom = (node) => {
+        if (!node || !node.closest) return null;
+        const own = node.closest('[data-glow]');
+        if (root.dataset.palette !== 'default') return own;
+        const card = node.closest('[data-brand]');
+        if (own && card) return card.contains(own) ? own : card;
+        return own || card;
+    };
+    const glowColour = (el) => el.dataset.glow || BRAND_GLOW[el.dataset.brand];
     document.addEventListener('pointerover', (e) => {
         if (e.pointerType === 'touch') return;
         const g = glowFrom(e.target);
-        if (g && g.dataset.glow) glowOn(g); else if (glowEl) glowFade();
+        if (g && glowColour(g)) glowOn(g); else if (glowEl) glowFade();
     });
     document.addEventListener('pointerout', (e) => { if (!e.relatedTarget && glowEl) glowFade(); });
-    document.addEventListener('focusin', (e) => { const g = glowFrom(e.target); if (g && g.dataset.glow) glowOn(g); });
+    document.addEventListener('focusin', (e) => { const g = glowFrom(e.target); if (g && glowColour(g)) glowOn(g); });
     document.addEventListener('focusout', (e) => { if (glowEl && glowFrom(e.target) === glowEl) glowFade(); });
     addEventListener('scroll', () => { if (glowEl && !glowFrame) glowFrame = requestAnimationFrame(placeGlow); }, { passive: true });
 
