@@ -175,6 +175,14 @@
         }
         .icon-btn:hover { background: color-mix(in srgb, var(--on-surface) 10%, var(--surface-high)); }
         .icon-btn:active { border-radius: 14px; transform: scale(0.94); }
+        /* text only for screen readers */
+        .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+        /* Anything you can reach with Tab shows where you are; components with their own ring override this */
+        :focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+        .card:focus-visible { outline-offset: 2px; }
+        /* the avatar is cut to a shape, which would clip its ring, so the ring is drawn around it instead */
+        .hero::after { content: ""; position: absolute; width: calc(min(220px, 56vw) + 22px); aspect-ratio: 1; border: 3px solid var(--primary); border-radius: 50%; opacity: 0; pointer-events: none; transition: opacity 0.15s; }
+        .hero:has(.avatar-btn:focus-visible)::after { opacity: 1; }
         .icon-btn:focus-visible, .btn:focus-visible, .row:focus-visible, .seg button:focus-visible, .poster:focus-visible, .avatar-btn:focus-visible {
             outline: 3px solid var(--primary);
             outline-offset: 2px;
@@ -1270,7 +1278,7 @@
 </div>
 <div class="glow" id="glow" aria-hidden="true"></div>
 
-<div class="topbar">
+<header class="topbar">
     <a class="icon-btn" href="https://swar.is-a.dev/" aria-label="Back to my portfolio"><span class="ms">arrow_back</span></a>
     <div class="topbar-actions">
         <button class="icon-btn" id="paletteBtn" type="button" aria-label="Colour theme" aria-haspopup="dialog" aria-expanded="false" aria-controls="paletteMenu"><span class="ms">palette</span></button>
@@ -1290,7 +1298,7 @@
             <button class="swatch-btn" type="button" data-palette="music" aria-pressed="false" title="Colours picked from the cover of the song I'm playing"><span class="swatch" data-seed="music" id="musicSwatch"><span class="ms">check</span></span><span id="musicLabel">music</span></button>
         </div>
     </div>
-</div>
+</header>
 
 <main class="page">
 
@@ -1348,7 +1356,7 @@
             <span class="chip">photography</span>
         </div>
         <!-- Yveltal or one of my stickers: a different one on every visit, theme change and tap -->
-        <img class="mascot" id="mascot" data-glow="#d0263f" tabindex="0" alt="Yveltal, my favourite Pokémon" width="475" height="475">
+        <img class="mascot" id="mascot" role="button" aria-describedby="mascotHelp" data-glow="#d0263f" tabindex="0" alt="Yveltal, my favourite Pokémon" width="475" height="475">
         <script>
             (function () {
                 var list = ['https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/717.png', 'assets/stickers/turbo-granny.webp', 'assets/stickers/eva-01.webp', 'assets/stickers/gojo.webp'];
@@ -1685,6 +1693,7 @@
 </footer>
 
 <div class="rich-tip" id="richTip" aria-hidden="true"></div>
+<p class="sr-only" id="mascotHelp">press to show another sticker</p>
 
 <div class="keys-dialog" id="keysDialog" role="dialog" aria-labelledby="keysTitle">
     <h2 id="keysTitle">shortcuts</h2>
@@ -1701,6 +1710,14 @@
 <script>
 (function () {
     const root = document.documentElement;
+    // Icons are drawn from words ("open_in_new", "check"); keep screen readers from reading those words out
+    const hideIconWords = (scope) => scope.querySelectorAll && scope.querySelectorAll('.ms:not([aria-hidden])').forEach((el) => el.setAttribute('aria-hidden', 'true'));
+    hideIconWords(document);
+    new MutationObserver((changes) => changes.forEach((c) => c.addedNodes.forEach((n) => {
+        if (n.nodeType !== 1) return;
+        if (n.classList.contains('ms')) n.setAttribute('aria-hidden', 'true');
+        hideIconWords(n);
+    }))).observe(document.body, { childList: true, subtree: true });
     // Pictures that are only needed later (avatar and sticker swaps, hover-card banners) load once the page is up
     const whenIdle = (fn) => {
         const go = () => (window.requestIdleCallback ? requestIdleCallback(fn, { timeout: 3000 }) : setTimeout(fn, 1200));
@@ -2070,6 +2087,9 @@
     }
     window.__nextMascot = () => nextMascot(false);
     let mascotTimer = null;
+    mascot.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); mascot.click(); }
+    });
     mascot.addEventListener('click', () => {
         hideTip();
         nextMascot(true).then(() => {
