@@ -2652,6 +2652,39 @@
         const i = (t.image || []).find((x) => x.size === size) || (t.image || []).slice(-1)[0];
         return i && i['#text'] && !i['#text'].includes(NO_ART) ? i['#text'] : '';
     };
+    // Scrobbles from other apps often arrive without an album, so Last.fm has no cover. Look one up elsewhere:
+    // Last.fm's own album for the track, then iTunes (only if it's clearly the same artist). Hits are remembered.
+    const artStore = (() => { try { return JSON.parse(localStorage.getItem('sc136-art-v1')) || {}; } catch (e) { return {}; } })();
+    const artMiss = new Set();
+    const plain = (v) => String(v || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+    async function findArt(t) {
+        const direct = lfArt(t, 'extralarge');
+        if (direct) return direct;
+        const artist = t.artist['#text'] || t.artist.name, key = plain(artist + t.name);
+        if (artStore[key]) return artStore[key];
+        if (artMiss.has(key)) return '';
+        let url = '';
+        try {
+            const d = await fetch(LFM + '&method=track.getInfo&autocorrect=1&track=' + encodeURIComponent(t.name) + '&artist=' + encodeURIComponent(artist)).then((r) => r.json());
+            const images = d.track && d.track.album && d.track.album.image;
+            url = images ? lfArt({ image: images }, 'extralarge') : '';
+        } catch (e) {}
+        if (!url) {
+            try {
+                const q = t.name.replace(/\s*[(\[].*?[)\]]\s*/g, ' ').trim() + ' ' + artist;
+                const d = await fetch('https://itunes.apple.com/search?entity=song&limit=3&term=' + encodeURIComponent(q)).then((r) => r.json());
+                const hit = (d.results || []).find((r) => plain(r.artistName).includes(plain(artist)) || plain(artist).includes(plain(r.artistName)));
+                if (hit) url = hit.artworkUrl100.replace(/\/\d+x\d+bb\./, '/600x600bb.');
+            } catch (e) {}
+        }
+        if (url) {
+            artStore[key] = url;
+            const keys = Object.keys(artStore);
+            if (keys.length > 80) delete artStore[keys[0]];
+            try { localStorage.setItem('sc136-art-v1', JSON.stringify(artStore)); } catch (e) {}
+        } else artMiss.add(key);
+        return url;
+    }
     const lfAgo = (uts) => {
         const m = Math.max(0, Math.round((Date.now() / 1000 - uts) / 60));
         return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m / 60) + ' h ago' : Math.round(m / 1440) + ' d ago';
@@ -2667,18 +2700,18 @@
             if (!tracks || !tracks.length) throw new Error('no tracks');
             const first = tracks[0];
             const playing = !!(first['@attr'] && first['@attr'].nowplaying === 'true');
-            const art = lfArt(first, 'extralarge');
-            // the page's "music" colours use the newest track that has a cover (the one playing may not)
-            const withCover = tracks.map((t) => lfArt(t, 'extralarge')).find(Boolean) || '';
-            offerMusicCover(withCover);
+            const arts = await Promise.all(tracks.slice(0, 3).map(findArt));
+            const art = arts[0];
+            // the page's "music" colours use the newest track that has a cover
+            offerMusicCover(arts.find(Boolean) || tracks.slice(3).map((t) => lfArt(t, 'extralarge')).find(Boolean) || '');
             $('lfArt').innerHTML = art ? `<img src="${esc(art)}" alt="" loading="lazy">` : '<span class="ms">music_note</span>';
             setText('lfStatusText', playing ? 'playing right now' : 'last played ' + lfAgo(+first.date.uts));
             $('lfStatus').firstElementChild.textContent = playing ? 'graphic_eq' : 'history';
             setText('lfTitle', first.name);
             setText('lfArtist', first.artist['#text'] || first.artist.name);
             $('lfNow').href = first.url;
-            $('lfRecent').innerHTML = tracks.slice(1, 3).map((t) => {
-                const a = lfArt(t, 'small');
+            $('lfRecent').innerHTML = tracks.slice(1, 3).map((t, i) => {
+                const a = lfArt(t, 'small') || arts[i + 1];
                 const who = t.artist['#text'] || t.artist.name;
                 return `<li><a href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">${a ? `<img src="${esc(a)}" alt="" loading="lazy">` : '<span class="lf-mini"></span>'}<span class="lf-line">${esc(t.name)} <span>· ${esc(who)}</span></span><time>${t.date ? lfAgo(+t.date.uts) : 'now'}</time></a></li>`;
             }).join('');
