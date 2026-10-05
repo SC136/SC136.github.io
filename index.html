@@ -701,7 +701,7 @@
         /* ===== GitHub: the last year of contributions, in the page's colours ===== */
         .gh-readout { margin: 0 0 12px; min-height: 1.5em; font-size: 0.9rem; color: var(--on-surface-variant); }
         .gh-readout b { color: var(--on-surface); font-weight: 600; }
-        .gh-months, .gh-grid { display: grid; grid-auto-columns: minmax(0, 1fr); gap: 3px; }
+        .gh-months, .gh-grid { display: grid; grid-auto-columns: minmax(0, 1fr); gap: 2px; }
         .gh-months { grid-auto-flow: column; margin-bottom: 6px; font-size: 0.72rem; color: var(--on-surface-variant); }
         .gh-months span { white-space: nowrap; }
         .gh-grid { grid-template-rows: repeat(7, auto); grid-auto-flow: column; }
@@ -712,6 +712,11 @@
         .gh-grid i.l4, .gh-legend i.l4 { background: var(--primary); }
         .gh-grid i.pad { visibility: hidden; }
         .gh-grid i:hover { scale: 1.5; border-radius: 50%; position: relative; z-index: 1; }
+        /* contributions month by month, under the heatmap */
+        .gh-bars { display: grid; grid-template-columns: repeat(var(--n, 12), minmax(0, 1fr)); gap: 6px; height: 118px; margin-top: 22px; }
+        .gh-bar { display: grid; grid-template-rows: 1fr auto; gap: 6px; min-width: 0; font-size: 0.68rem; color: var(--on-surface-variant); text-align: center; cursor: default; }
+        .gh-bar i { align-self: end; height: var(--h); min-height: 3px; border-radius: 6px 6px 3px 3px; background: color-mix(in oklab, var(--primary) 62%, var(--surface-high)); transition: background 0.2s, border-radius 0.3s var(--ease); }
+        .gh-bar:hover i { background: var(--primary); border-radius: 10px 10px 4px 4px; }
         .gh-legend { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 10px; font-size: 0.72rem; color: var(--on-surface-variant); }
         .gh-legend i { display: block; width: 12px; height: 12px; border-radius: 3px; background: color-mix(in srgb, var(--on-surface) 8%, transparent); }
         .gh-legend span { margin: 0 4px; }
@@ -800,17 +805,17 @@
 
         /* ===== Strava: totals and the latest walk, in its orange ===== */
         .t-strava {
-            display: grid;
-            grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-            gap: 28px;
-            align-items: stretch;
-            background: linear-gradient(120deg, color-mix(in oklab, #fc4c02 34%, var(--surface-low)), var(--surface-low) 72%);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            background: linear-gradient(150deg, color-mix(in oklab, #fc4c02 34%, var(--surface-low)), var(--surface-low) 72%);
         }
         .t-strava .shape-icon { --icon-bg: #fc4c02; --icon-fg: #fff; }
         .t-strava .stats { margin-bottom: 0; }
         .t-strava .stat b small { margin-left: 3px; font-size: 0.8rem; font-weight: 500; color: var(--on-surface-variant); }
         .strava-note { margin: 14px 0 0; font-size: 0.74rem; color: var(--on-surface-variant); }
         .strava-latest {
+            margin-top: auto;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -828,7 +833,6 @@
         .strava-sub { margin: 6px 0 0; color: var(--on-surface-variant); font-size: 0.9rem; }
         .strava-badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 4px 12px 4px 8px; border-radius: 999px; background: #fc4c02; color: #fff; font-size: 0.78rem; font-weight: 500; }
         .strava-badge .ms { font-size: 16px; }
-        @media (max-width: 800px) { .t-strava { grid-template-columns: 1fr; gap: 20px; } }
 
         /* Backloggd: a shelf across the full width, the numbers on the left and favourites on the right */
         @media (min-width: 1001px) {
@@ -1474,7 +1478,7 @@
         </section>
 
 
-        <section class="card span-4" aria-labelledby="ghTitle">
+        <section class="card span-2" aria-labelledby="ghTitle">
             <div class="shape-icon tonal" style="--shape-a: var(--shape-clover4); --shape-b: var(--shape-cookie12);"><span class="ms">calendar_view_month</span></div>
             <h2 class="card-title" id="ghTitle">my year on github</h2>
             <div class="stats">
@@ -1487,9 +1491,10 @@
             <div class="gh-months" id="ghMonths" aria-hidden="true"></div>
             <div class="gh-grid" id="ghGrid" role="img" aria-label="GitHub contributions over the last year"></div>
             <div class="gh-legend" aria-hidden="true">less<span></span><i class="gh-cell"></i><i class="gh-cell l1"></i><i class="gh-cell l2"></i><i class="gh-cell l3"></i><i class="gh-cell l4"></i><span></span>more</div>
+            <div class="gh-bars" id="ghBars" role="img" aria-label="Contributions per month"></div>
         </section>
 
-        <section class="card t-strava span-4" data-glow="#fc4c02" aria-labelledby="stravaTitle">
+        <section class="card t-strava span-2" data-glow="#fc4c02" aria-labelledby="stravaTitle">
             <div>
                 <div class="shape-icon" style="--shape-a: var(--shape-burst10); --shape-b: var(--shape-cookie9);"><i class="fa-brands fa-strava"></i></div>
                 <h2 class="card-title" id="stravaTitle">on the move</h2>
@@ -2370,6 +2375,15 @@
         $('ghMonths').innerHTML = months;
         $('ghMonths').style.gridTemplateColumns = $('ghGrid').style.gridTemplateColumns = `repeat(${weeks}, minmax(0, 1fr))`;
         $('ghGrid').dataset.offset = ghDays.length - days.length;
+        // Month by month: the days split into twelve (or six on phones) equal runs
+        const n = days.length > 200 ? 12 : 6, size = days.length / n;
+        const runs = Array.from({ length: n }, (_, k) => days.slice(Math.round(k * size), Math.round((k + 1) * size)));
+        const sums = runs.map((r) => r.reduce((t, d) => t + d.count, 0)), top = Math.max(...sums, 1);
+        $('ghBars').style.setProperty('--n', n);
+        $('ghBars').innerHTML = runs.map((r, k) => `<div class="gh-bar" data-k="${k}"><i style="--h:${Math.round(sums[k] / top * 100)}%"></i><span>${new Date(r[0].date + 'T00:00:00').toLocaleDateString('en-IN', { month: 'short' }).toLowerCase()}</span></div>`).join('');
+        $('ghBars').dataset.sums = sums.join(',');
+        $('ghBars').dataset.from = runs.map((r) => r[0].date).join(',');
+        $('ghBars').dataset.to = runs.map((r) => r[r.length - 1].date).join(',');
     }
     fetch('https://github-contributions-api.jogruber.de/v4/SC136?y=last').then((r) => r.json()).then((d) => {
         ghDays = d.contributions;
@@ -2394,6 +2408,14 @@
             $('ghReadout').innerHTML = `<b>${day.count || 'no'} contribution${day.count === 1 ? '' : 's'}</b> on ${ghDate(day.date)}`;
         });
         $('ghGrid').addEventListener('pointerleave', () => { $('ghReadout').innerHTML = idle; });
+        $('ghBars').addEventListener('pointerover', (e) => {
+            const bar = e.target.closest && e.target.closest('.gh-bar');
+            if (!bar) return;
+            const k = +bar.dataset.k, b = $('ghBars').dataset;
+            const short = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }).toLowerCase();
+            $('ghReadout').innerHTML = `<b>${b.sums.split(',')[k]} contributions</b> from ${short(b.from.split(',')[k])} to ${short(b.to.split(',')[k])}`;
+        });
+        $('ghBars').addEventListener('pointerleave', () => { $('ghReadout').innerHTML = idle; });
         matchMedia('(max-width: 599px)').addEventListener('change', drawGithub);
     }).catch(() => setText('ghReadout', 'github is taking a nap'));
 
