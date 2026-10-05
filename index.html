@@ -2385,8 +2385,9 @@
             line('videocam', 'the occasional stream') + line('sports_esports', 'mostly games'), ['streams']],
         'reddit.com/user/SC-136': ['fa-brands fa-reddit-alien', 'reddit', 'u/SC-136', '#ff4500', 'top:assets/socials/reddit-banner.webp', () =>
             line('forum', 'lurking in tech and anime subs'), ['lurker']],
+        // Strava has no free API, so these numbers are copied from my profile (as of 5 oct 2026) and don't update on their own
         'strava.com/athletes/194590606': ['fa-brands fa-strava', 'strava', 'SC 136', '#fc4c02', '', () =>
-            line('directions_run', 'where my workouts get logged') + line('location_on', 'india'), ['fitness']],
+            line('route', '9 activities · 29.1 km · 4h 49m all-time') + line('directions_walk', 'latest: a 9.35 km walk in 1h 54m, my longest yet') + line('calendar_month', '28 km so far in 2026'), ['fitness', 'walks']],
         'anilist.co/user/SC136': ['ms live_tv', 'anilist', 'SC136', '#02a9ff', 'top:assets/socials/anilist-banner.webp', () =>
             line('live_tv', live('alCount') && `${live('alCount')} anime watched`) + line('schedule', live('alHours') && `${live('alHours')} hours · ${live('alEpisodes')} episodes`) + line('star', live('alScore') && `mean score ${live('alScore')}`), ['anime']],
     };
