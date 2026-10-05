@@ -1213,16 +1213,94 @@
         @keyframes sky-drift-a { to { translate: 38% 10%; } }
         @keyframes sky-drift-b { to { translate: -45% -12%; } }
         @keyframes sky-drift-c { to { translate: -60% 18%; } }
-        /* Stars stay put: no twinkling */
+        /* Stars stay put: no twinkling. Clouds hide them */
         .sky-stars {
             position: absolute;
             inset: 0 0 auto;
             height: var(--horizon, 340px);
-            opacity: var(--night, 0);
+            opacity: calc(var(--night, 0) * (1 - var(--cloud, 0)));
             transition: opacity 2s var(--ease);
         }
         .sky-stars i { position: absolute; border-radius: 50%; background: var(--star); }
         .sky-stars i.sparkle { border-radius: 0; clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%); }
+
+        /* ===== Weather in the sky: clouds drift across when Mumbai has them, and soft rain falls when it's raining ===== */
+        [data-theme="dark"] {
+            --cloud-c: color-mix(in oklab, var(--on-surface) 30%, var(--surface-high));
+            --cloud-wet: color-mix(in oklab, var(--on-surface) 12%, var(--surface-container));
+            --drop-c: color-mix(in oklab, var(--on-surface) 60%, transparent);
+            --cloud-k: 0.75;
+        }
+        [data-theme="light"] {
+            --cloud-c: color-mix(in oklab, #fff 88%, var(--primary-container));
+            --cloud-wet: color-mix(in oklab, var(--outline) 40%, var(--surface-high));
+            --drop-c: color-mix(in oklab, var(--on-surface-variant) 55%, transparent);
+            --cloud-k: 1;
+        }
+        .sky[data-wet] { --cloud-c: var(--cloud-wet); }
+        /* a grey lid over the whole sky when it's overcast or raining; the stars go behind it */
+        .sky-veil {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(var(--cloud-wet), color-mix(in oklab, var(--cloud-wet) 50%, transparent) var(--horizon, 340px), transparent);
+            opacity: calc(var(--overcast, 0) * var(--sky-k));
+            transition: opacity 3s var(--ease);
+        }
+        /* clouds catch the colour of the horizon at dawn and dusk */
+        .sky-clouds {
+            position: absolute;
+            inset: 0 0 auto;
+            height: var(--horizon, 340px);
+            --lit: color-mix(in oklab, var(--hz-dawn) calc(var(--dawn, 0) * 45%), color-mix(in oklab, var(--hz-dusk) calc(var(--dusk, 0) * 45%), var(--cloud-c)));
+        }
+        .sky-clouds i {
+            position: absolute;
+            left: 0;
+            top: var(--y);
+            width: min(var(--s), 72vw);
+            aspect-ratio: 5 / 2;
+            background:
+                radial-gradient(closest-side, var(--lit) 35%, transparent) 0 100% / 42% 66% no-repeat,
+                radial-gradient(closest-side, var(--lit) 35%, transparent) 26% 20% / 42% 92% no-repeat,
+                radial-gradient(closest-side, var(--lit) 35%, transparent) 60% 0 / 46% 100% no-repeat,
+                radial-gradient(closest-side, var(--lit) 35%, transparent) 100% 90% / 40% 64% no-repeat,
+                radial-gradient(closest-side, var(--lit) 55%, transparent) 50% 100% / 92% 52% no-repeat;
+            filter: blur(9px);
+            opacity: 0;
+            translate: -110% 0;
+            animation: cloud-drift var(--t) linear var(--d) infinite;
+            transition: opacity 3s var(--ease);
+            will-change: translate;
+        }
+        .sky-clouds i.on { opacity: calc(var(--o) * var(--cloud-k)); }
+        @keyframes cloud-drift { from { translate: -110% 0; } to { translate: 100vw 0; } }
+        /* rain: thin slanted streaks, falling the height of the sky and fading out with it */
+        .sky-rain { position: absolute; inset: 0; }
+        .sky-rain i {
+            position: absolute;
+            top: 0;
+            left: var(--x);
+            width: 1.5px;
+            height: var(--l);
+            border-radius: 1px;
+            background: linear-gradient(transparent, var(--drop-c));
+            opacity: var(--o);
+            rotate: 12deg;
+            animation: rain-fall var(--t) linear var(--d) infinite;
+        }
+        @keyframes rain-fall {
+            from { translate: 0 calc(-100% - 20px); }
+            to { translate: calc(var(--fall, 700px) * -0.21) var(--fall, 700px); }
+        }
+        /* now and then in a thunderstorm, the clouds light up from inside */
+        .sky-flash {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 55% at var(--fx, 60%) 0, color-mix(in oklab, #fff 75%, var(--primary-container)), transparent 70%);
+            opacity: 0;
+        }
+        .sky-flash.go { animation: sky-flash 1s ease-out; }
+        @keyframes sky-flash { 0%, 100% { opacity: 0; } 5% { opacity: 0.3; } 14% { opacity: 0.06; } 22% { opacity: 0.22; } }
 
         /* ===== Glow: the page takes on the colour of whatever you point at ===== */
         @property --glow-c { syntax: "<color>"; inherits: true; initial-value: transparent; }
@@ -1252,6 +1330,9 @@
             .js .card { opacity: 1; translate: none; }
             .loader-shape { animation: none; }
             .hero-backdrop, .avatar-btn, .avatar-btn img, .avatar-hint-arrow, .sky-drift i { animation: none !important; }
+            /* clouds hold still where they are; no falling rain or lightning */
+            .sky-clouds i { animation-duration: var(--t) !important; animation-play-state: paused; }
+            .sky-rain, .sky-flash { display: none; }
             /* Colours still fade; the glow just doesn't travel */
             html { transition-duration: 0.4s !important; }
             .glow { transition: none !important; }
@@ -1275,6 +1356,10 @@
     <div class="sky-tint dusk"></div>
     <div class="sky-drift"><i></i><i></i><i></i></div>
     <div class="sky-stars" id="skyStars"></div>
+    <div class="sky-veil"></div>
+    <div class="sky-clouds" id="skyClouds"></div>
+    <div class="sky-flash" id="skyFlash"></div>
+    <div class="sky-rain" id="skyRain"></div>
 </div>
 <div class="glow" id="glow" aria-hidden="true"></div>
 
@@ -2134,6 +2219,7 @@
         const base = document.querySelector('.intro').offsetTop - (innerWidth < 720 ? 26 : 40);
         sky.style.height = base + 320 + 'px';
         sky.style.setProperty('--horizon', base + 'px');
+        sky.style.setProperty('--fall', base + 360 + 'px');
     }
     function paintSky() {
         const now = Date.now(), min = 60000;
@@ -2153,6 +2239,48 @@
     layoutSky();
     paintSky();
     new ResizeObserver(layoutSky).observe(document.body);
+
+    // ---------- weather in the sky: clouds and rain when Mumbai has them ----------
+    // Eight clouds, already scattered along their slow drift; the forecast decides how many show
+    $('skyClouds').innerHTML = Array.from({ length: 8 }, () => {
+        const t = 150 + rand() * 120;
+        return `<i style="--y:${(rand() * 60 - 8).toFixed(1)}%;--s:${Math.round(240 + rand() * 300)}px;--t:${t.toFixed(0)}s;--d:${(-rand() * t).toFixed(0)}s;--o:${(0.55 + rand() * 0.35).toFixed(2)}"></i>`;
+    }).join('');
+    // drops, seconds to fall, streak length
+    const RAIN = { drizzle: [45, 1.8, 22], rain: [90, 1.1, 48], storm: [130, 0.8, 72] };
+    let wetNow = '', flashTimer = 0;
+    function flash() {
+        const f = $('skyFlash');
+        f.style.setProperty('--fx', 20 + Math.random() * 60 + '%');
+        f.classList.remove('go');
+        void f.offsetWidth;
+        f.classList.add('go');
+        flashTimer = setTimeout(flash, 7000 + Math.random() * 14000);
+    }
+    function skyWeather(code, cover) {
+        const wet = code >= 95 ? 'storm' : (code >= 61 && code <= 67) || (code >= 80 && code <= 82) ? 'rain' : code >= 51 && code <= 57 ? 'drizzle' : '';
+        const fog = code === 45 || code === 48;
+        const clouds = wet ? 8 : code === 3 || fog ? 7 : Math.round(cover / 100 * 6);
+        const overcast = wet === 'storm' ? 0.95 : wet ? 0.75 : fog ? 0.8 : code === 3 ? 0.55 : Math.max(0, (cover - 60) / 40) * 0.5;
+        [...$('skyClouds').children].forEach((c, i) => c.classList.toggle('on', i < clouds));
+        sky.style.setProperty('--cloud', (clouds / 9).toFixed(2));
+        sky.style.setProperty('--overcast', overcast.toFixed(2));
+        if (wet) sky.dataset.wet = wet; else delete sky.dataset.wet;
+        if (wet !== wetNow) {
+            const [n, t, l] = RAIN[wet] || [0];
+            // as dense on a phone as on a wide screen, not more
+            $('skyRain').innerHTML = Array.from({ length: Math.round(n * Math.min(1, Math.max(0.4, innerWidth / 1440))) }, () => {
+                const s = t * (0.85 + Math.random() * 0.3);
+                return `<i style="--x:${(Math.random() * 120).toFixed(1)}%;--l:${Math.round(l * (0.7 + Math.random() * 0.6))}px;--t:${s.toFixed(2)}s;--d:${(-Math.random() * s).toFixed(2)}s;--o:${(0.3 + Math.random() * 0.5).toFixed(2)}"></i>`;
+            }).join('');
+            clearTimeout(flashTimer);
+            if (wet === 'storm' && !reduceMotion) flashTimer = setTimeout(flash, 2500);
+            wetNow = wet;
+        }
+    }
+    // ?sky=rain (or clear, cloudy, overcast, fog, drizzle, storm) shows that weather instead of Mumbai's
+    const SKY_PREVIEW = { clear: [0, 0], cloudy: [2, 55], overcast: [3, 100], fog: [45, 100], drizzle: [53, 100], rain: [63, 100], storm: [95, 100] }[new URLSearchParams(location.search).get('sky')];
+    if (SKY_PREVIEW) skyWeather(...SKY_PREVIEW);
 
     // Favourite games and films: a banner, title and year in the hover card
     document.querySelectorAll('.poster[data-tip]').forEach((el) => {
@@ -2186,18 +2314,23 @@
         80: ['rainy', 'rain showers'], 81: ['rainy', 'heavy showers'], 82: ['thunderstorm', 'violent rain'],
         95: ['thunderstorm', 'thunderstorm'], 96: ['thunderstorm', 'storm with hail'], 99: ['thunderstorm', 'severe storm'],
     };
-    fetch('https://api.open-meteo.com/v1/forecast?latitude=19.4654&longitude=72.8086&current=temperature_2m,apparent_temperature,weathercode,is_day&timezone=Asia/Kolkata')
-        .then((r) => r.json())
-        .then((d) => {
-            const c = d && d.current;
-            if (!c) return;
-            let [icon, desc] = WMO[c.weathercode] || ['thermostat', 'unknown'];
-            if (!c.is_day) icon = icon.replace('_day', '_night');
-            setText('wxIcon', icon);
-            setText('wxTemp', Math.round(c.temperature_2m) + '°C');
-            setText('wxDesc', desc + ' · feels ' + Math.round(c.apparent_temperature) + '°');
-        })
-        .catch(() => setText('wxDesc', 'weather unavailable'));
+    function loadWeather() {
+        fetch('https://api.open-meteo.com/v1/forecast?latitude=19.4654&longitude=72.8086&current=temperature_2m,apparent_temperature,weathercode,cloud_cover,is_day&timezone=Asia/Kolkata')
+            .then((r) => r.json())
+            .then((d) => {
+                const c = d && d.current;
+                if (!c) return;
+                let [icon, desc] = WMO[c.weathercode] || ['thermostat', 'unknown'];
+                if (!c.is_day) icon = icon.replace('_day', '_night');
+                setText('wxIcon', icon);
+                setText('wxTemp', Math.round(c.temperature_2m) + '°C');
+                setText('wxDesc', desc + ' · feels ' + Math.round(c.apparent_temperature) + '°');
+                if (!SKY_PREVIEW) skyWeather(c.weathercode, c.cloud_cover || 0);
+            })
+            .catch(() => setText('wxDesc', 'weather unavailable'));
+    }
+    loadWeather();
+    setInterval(loadWeather, 20 * 60 * 1000);
 
     // ---------- GitHub: shares projects.html's cache, falls back to the bundled snapshot ----------
     const CACHE_TTL = 30 * 60 * 1000;
