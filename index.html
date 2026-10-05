@@ -1505,6 +1505,7 @@
                 <li><a class="row" data-glow="#9146ff" href="https://www.twitch.tv/SC_136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-twitch"></i></span><span class="row-text"><span class="row-title">SC_136</span><span class="row-sub">Twitch</span></span><span class="ms row-trail">open_in_new</span></a></li>
                 <li><a class="row" data-glow="#ff4500" href="https://www.reddit.com/user/SC-136" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-reddit-alien"></i></span><span class="row-text"><span class="row-title">u/SC-136</span><span class="row-sub">Reddit</span></span><span class="ms row-trail">open_in_new</span></a></li>
                 <li><a class="row" data-glow="#02a9ff" href="https://anilist.co/user/SC136/" target="_blank" rel="noopener noreferrer"><span class="row-lead"><span class="ms">live_tv</span></span><span class="row-text"><span class="row-title">SC136</span><span class="row-sub">AniList</span></span><span class="ms row-trail">open_in_new</span></a></li>
+                <li><a class="row" data-glow="#fc4c02" href="https://www.strava.com/athletes/194590606" target="_blank" rel="noopener noreferrer"><span class="row-lead"><i class="fa-brands fa-strava"></i></span><span class="row-text"><span class="row-title">SC 136</span><span class="row-sub">Strava</span></span><span class="ms row-trail">open_in_new</span></a></li>
             </ul>
             <div class="card-actions">
                 <a class="btn" href="https://swar.is-a.dev/socials.html"><span class="ms">hub</span>all socials</a>
@@ -2384,6 +2385,8 @@
             line('videocam', 'the occasional stream') + line('sports_esports', 'mostly games'), ['streams']],
         'reddit.com/user/SC-136': ['fa-brands fa-reddit-alien', 'reddit', 'u/SC-136', '#ff4500', 'top:assets/socials/reddit-banner.webp', () =>
             line('forum', 'lurking in tech and anime subs'), ['lurker']],
+        'strava.com/athletes/194590606': ['fa-brands fa-strava', 'strava', 'SC 136', '#fc4c02', '', () =>
+            line('directions_run', 'where my workouts get logged') + line('location_on', 'india'), ['fitness']],
         'anilist.co/user/SC136': ['ms live_tv', 'anilist', 'SC136', '#02a9ff', 'top:assets/socials/anilist-banner.webp', () =>
             line('live_tv', live('alCount') && `${live('alCount')} anime watched`) + line('schedule', live('alHours') && `${live('alHours')} hours · ${live('alEpisodes')} episodes`) + line('star', live('alScore') && `mean score ${live('alScore')}`), ['anime']],
     };
