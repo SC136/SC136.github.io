@@ -782,9 +782,21 @@
         }
         .discord-art[hidden] { display: none; }
         .t-discord:hover .discord-art { border-radius: 24px; }
-        .discord-bar { height: 4px; margin-top: 6px; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--on-surface) 12%, transparent); }
+        /* Android's squiggly media progress: a wave travels along the played part, the rest is a flat track */
+        .discord-bar { display: flex; align-items: center; gap: 5px; height: 12px; margin-top: 6px; }
         .discord-bar[hidden] { display: none; }
-        .discord-bar span { display: block; height: 100%; width: 0; border-radius: inherit; background: #1ed760; transition: width 1s linear; }
+        .discord-bar span {
+            flex: none;
+            height: 10px;
+            width: 0;
+            background: #1ed760;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10'%3E%3Cpath d='M0 5Q6 0.5 12 5T24 5' fill='none' stroke='%23000' stroke-width='3'/%3E%3C/svg%3E") 0 50% / 24px 10px repeat-x;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10'%3E%3Cpath d='M0 5Q6 0.5 12 5T24 5' fill='none' stroke='%23000' stroke-width='3'/%3E%3C/svg%3E") 0 50% / 24px 10px repeat-x;
+            transition: width 1s linear;
+            animation: squiggle 1.2s linear infinite;
+        }
+        .discord-bar::after { content: ""; flex: 1; height: 4px; border-radius: 999px; background: color-mix(in srgb, var(--on-surface) 14%, transparent); }
+        @keyframes squiggle { to { -webkit-mask-position: 24px 50%; mask-position: 24px 50%; } }
 
         /* ===== GitHub: the last year of contributions, in the page's colours ===== */
         .gh-readout { margin: 0 0 12px; min-height: 1.5em; font-size: 0.9rem; color: var(--on-surface-variant); }
@@ -1404,6 +1416,7 @@
             /* clouds hold still where they are; no falling rain or lightning */
             .sky-clouds i { animation-duration: var(--t) !important; animation-play-state: paused; }
             .sky-rain, .sky-flash { display: none; }
+            .discord-bar span { animation: none !important; }
             /* Colours still fade; the glow just doesn't travel */
             html { transition-duration: 0.4s !important; }
             .glow { transition: none !important; }
