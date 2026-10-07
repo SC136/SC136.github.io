@@ -29,7 +29,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Google+Sans+Flex:wght@400;500;600;700&display=swap">
     <!-- Only the icons this page uses (about 27 KB instead of the whole 540 KB set). Add a name here when using a new icon. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,alternate_email,animation,antigravity,apps,arrow_back,artist,aspect_ratio,asterisk,auto_awesome,badge,bedtime,bento,bluetooth,bolt,build,cached,calendar_month,calendar_view_month,cards,check,chevron_forward,chips,circle,clear,clear_day,clear_night,close,cloud,code,coffee,commit,computer,construction,contrast,dark_mode,delete,deployed_code,description,desktop_windows,details,developer_board,directions_walk,distance,do_not_disturb_on,done,download,edit_note,equal,error,favorite,feed,filter,foggy,folder,folder_open,forum,function,games,genres,gradient,graphic_eq,grid_view,group,groups,hail,hard_drive,headphones,history,home,html,hub,iframe,info,input,iso,join,keep,key,keyboard,label,language,laptop,laptop_windows,layers,light,light_mode,link,list,lists,live_tv,local_fire_department,mail,map,memory,message,monitor,monitoring,more,mouse,move,movie,music_note,nest_clock_farsight_analog,notifications,numbers,opacity,open_in_new,package,palette,partly_cloudy_day,partly_cloudy_night,pause,phone,photo_camera,play_arrow,play_circle,power_settings_new,public,push_pin,rainy,remove,resume,rocket_launch,room,route,save,scale,schedule,school,script,select,send,shapes,share,smart_display,smart_toy,speed,sports_esports,stadia_controller,star,stars,start,sticker,sticky_note_2,stop,storage,storm,straight,stream,style,sweep,switch,terminal,thermostat,thunderstorm,title,transform,translate,travel,travel_explore,try,tune,tv,update,videocam,videogame_asset,visibility,visibility_off,waving_hand,weather_snowy,web,work,workspace_premium&display=block">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,alternate_email,animation,antigravity,apps,arrow_back,artist,aspect_ratio,asterisk,auto_awesome,badge,bedtime,bento,bluetooth,bolt,build,cached,calendar_month,calendar_view_month,cards,check,chevron_forward,chips,circle,clear,clear_day,clear_night,close,cloud,code,coffee,commit,computer,construction,contrast,dark_mode,delete,deployed_code,description,desktop_windows,details,developer_board,directions_walk,distance,do_not_disturb_on,done,download,edit_note,equal,error,favorite,feed,filter,foggy,folder,folder_open,forum,function,games,genres,gradient,graphic_eq,grid_view,group,groups,hail,hard_drive,headphones,history,home,html,hub,iframe,info,input,iso,join,keep,key,keyboard,label,language,laptop,laptop_windows,layers,light,light_mode,link,list,lists,live_tv,local_fire_department,mail,map,memory,message,monitor,monitoring,mood,more,mouse,move,movie,music_note,nest_clock_farsight_analog,notifications,numbers,opacity,open_in_new,package,palette,partly_cloudy_day,partly_cloudy_night,pause,phone,photo_camera,play_arrow,play_circle,power_settings_new,public,push_pin,rainy,remove,resume,rocket_launch,room,route,save,scale,schedule,school,script,select,send,sentiment_dissatisfied,shapes,share,smart_display,smart_toy,speed,sports_esports,stadia_controller,star,stars,start,sticker,sticky_note_2,stop,storage,storm,straight,stream,style,sweep,switch,terminal,thermostat,thunderstorm,title,transform,translate,travel,travel_explore,try,tune,tv,update,videocam,videogame_asset,visibility,visibility_off,waving_hand,weather_snowy,web,work,workspace_premium&display=block">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/brands.min.css">
     <script>
@@ -1630,7 +1630,7 @@
         <img class="mascot" id="mascot" role="button" aria-describedby="mascotHelp" data-glow="#d0263f" tabindex="0" alt="Yveltal, my favourite Pokémon" width="475" height="475">
         <script>
             (function () {
-                var list = ['https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/717.png', 'assets/stickers/turbo-granny.webp', 'assets/stickers/eva-01.webp', 'assets/stickers/gojo.webp'];
+                var list = ['https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/717.png', 'assets/stickers/turbo-granny.webp', 'assets/stickers/eva-01.webp', 'assets/stickers/gojo.webp', 'assets/stickers/bird.webp', 'assets/stickers/dimple.webp', 'assets/stickers/pochita.webp', 'assets/stickers/eyes-dice.webp', 'assets/stickers/hands.webp', 'assets/stickers/saitama.webp', 'assets/stickers/pen-pen.webp'];
                 var last = -1;
                 try { var saved = localStorage.getItem('sc136-mascot'); if (saved !== null) last = +saved; } catch (e) {}
                 var pick = Math.floor(Math.random() * (list.length - (last >= 0 ? 1 : 0)));
@@ -2446,6 +2446,38 @@
                 <p class="tip-title">satoru gojo</p>
                 <p class="tip-line"><span class="ms">visibility_off</span>jujutsu kaisen</p>
                 <p class="tip-line"><span class="ms">auto_awesome</span>the strongest sorcerer</p>${chips('anime', 'jjk')}` },
+        { src: 'assets/stickers/bird.webp', alt: 'A grumpy navy bird sticker', glow: '#b8434a',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">sticker</p>
+                <p class="tip-title">grumpy bird</p>
+                <p class="tip-line"><span class="ms">mood</span>permanently unimpressed</p>` },
+        { src: 'assets/stickers/dimple.webp', alt: 'A Dimple sticker, from Mob Psycho 100', glow: '#58b95a',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">sticker</p>
+                <p class="tip-title">dimple</p>
+                <p class="tip-line"><span class="ms">live_tv</span>mob psycho 100</p>
+                <p class="tip-line"><span class="ms">bolt</span>a spirit with a lot of opinions</p>${chips('mob psycho', 'anime')}` },
+        { src: 'assets/stickers/pochita.webp', alt: 'A Pochita sticker, from Chainsaw Man', glow: '#e0603f',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">sticker</p>
+                <p class="tip-title">pochita</p>
+                <p class="tip-line"><span class="ms">live_tv</span>chainsaw man</p>
+                <p class="tip-line"><span class="ms">favorite</span>the best boy, no arguments</p>${chips('chainsaw man', 'anime')}` },
+        { src: 'assets/stickers/eyes-dice.webp', alt: 'A grey cube covered in eyes sticker', glow: '#4fb0c6',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">sticker</p>
+                <p class="tip-title">eye cube</p>
+                <p class="tip-line"><span class="ms">visibility</span>it is watching you</p>` },
+        { src: 'assets/stickers/hands.webp', alt: 'A sticker of a man covering his face with his hands', glow: '#8a7a68',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">sticker</p>
+                <p class="tip-title">the face in hands</p>
+                <p class="tip-line"><span class="ms">sentiment_dissatisfied</span>every time the build fails</p>` },
+        { src: 'assets/stickers/saitama.webp', alt: 'A Saitama sticker saying OK, from One Punch Man', glow: '#e0b020',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">sticker</p>
+                <p class="tip-title">saitama</p>
+                <p class="tip-line"><span class="ms">live_tv</span>one punch man</p>
+                <p class="tip-line"><span class="ms">bolt</span>ok.</p>${chips('one punch man', 'anime')}` },
+        { src: 'assets/stickers/pen-pen.webp', alt: 'A Pen-Pen sticker, from Evangelion', glow: '#cf7a2c',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">sticker</p>
+                <p class="tip-title">pen-pen</p>
+                <p class="tip-line"><span class="ms">live_tv</span>neon genesis evangelion</p>
+                <p class="tip-line"><span class="ms">favorite</span>the real hero of the flat</p>${chips('evangelion', 'anime')}` },
     ];
     MASCOTS.forEach((m) => warm(m.src));
     function paintMascot(i) {
