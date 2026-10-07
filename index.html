@@ -941,10 +941,10 @@
         .guest-chip:active { scale: 0.94; }
         .guest-chip[aria-pressed="true"] { border-color: transparent; background: var(--primary-container); color: var(--on-primary-container); }
         .guest-stickers { display: flex; flex-wrap: wrap; gap: 8px; }
-        .guest-sticker { width: 52px; height: 52px; padding: 0; border: 3px solid transparent; border-radius: 50%; background: var(--surface-high); overflow: hidden; cursor: pointer; transition: border-radius 0.4s var(--spring), scale 0.3s var(--spring), border-color 0.2s; }
-        .guest-sticker img { display: block; width: 100%; height: 100%; object-fit: cover; }
-        .guest-sticker:hover { border-radius: 18px; scale: 1.06; }
-        .guest-sticker[aria-pressed="true"] { border-color: var(--primary); border-radius: 18px; scale: 1.1; }
+        .guest-sticker { width: 58px; height: 58px; padding: 4px; border: 3px solid transparent; border-radius: 18px; background: var(--surface-high); cursor: pointer; transition: border-radius 0.4s var(--spring), scale 0.3s var(--spring), border-color 0.2s; }
+        .guest-sticker img { display: block; width: 100%; height: 100%; object-fit: contain; }
+        .guest-sticker:hover { border-radius: 24px; scale: 1.06; }
+        .guest-sticker[aria-pressed="true"] { border-color: var(--primary); border-radius: 24px; scale: 1.1; }
         .guest-name { margin-top: 14px; padding: 11px 16px; }
         .guest-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
         .guest-send { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
@@ -970,12 +970,12 @@
         .guest-note:nth-child(3n) { --n-bg: var(--tertiary-container); --n-fg: var(--on-tertiary-container); }
         .guest-note:hover { rotate: 0deg; scale: 1.03; border-radius: 26px; }
         .guest-note.mine { outline: 2px dashed color-mix(in srgb, var(--n-fg) 55%, transparent); outline-offset: -6px; }
-        .guest-note .gn-head { display: flex; align-items: center; gap: 8px; min-height: 28px; padding-right: 44px; font-weight: 600; font-size: 0.9rem; }
+        .guest-note .gn-head { display: flex; align-items: center; gap: 8px; min-height: 28px; padding-right: 52px; font-weight: 600; font-size: 0.9rem; }
         .guest-note .gn-mood { font-size: 1.15rem; line-height: 1; }
         .guest-note .gn-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .guest-note p { margin: 6px 0 10px; font-size: 0.92rem; line-height: 1.4; overflow-wrap: anywhere; white-space: pre-line; }
         .guest-note time { font-size: 0.72rem; opacity: 0.75; }
-        .guest-note .gn-sticker { position: absolute; top: -14px; right: -8px; width: 52px; height: 52px; border: 3px solid var(--surface-low); border-radius: 50%; object-fit: cover; rotate: 9deg; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22); }
+        .guest-note .gn-sticker { position: absolute; top: -22px; right: -10px; width: 68px; height: 68px; object-fit: contain; rotate: 9deg; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3)); }
         @media (max-width: 800px) { .guest-grid { grid-template-columns: 1fr; gap: 28px; } }
 
         /* Setup, numbers first */
@@ -3784,7 +3784,7 @@
     $('sinceClose').addEventListener('click', () => { $('since').hidden = true; });
 
     // ---------- guestbook: notes, a feeling and a sticker; they show on the wall once I've read them ----------
-    const GUEST_STICKERS = { gojo: 'assets/stickers/gojo.webp', eva: 'assets/stickers/eva-01.webp', granny: 'assets/stickers/turbo-granny.webp', cat: 'assets/avatars/cat.webp', confused: 'assets/avatars/confused.webp', teary: 'assets/avatars/teary.webp', hair: 'assets/avatars/white-hair.webp' };
+    const GUEST_STICKERS = { gojo: 'assets/stickers/gojo.webp', eva: 'assets/stickers/eva-01.webp', granny: 'assets/stickers/turbo-granny.webp' };
     const GUEST_MOODS = { loved: ['😍', 'loved it'], cozy: ['😌', 'cozy'], wow: ['🤩', 'wow'], fun: ['😄', 'fun'], inspired: ['💡', 'inspired'], thanks: ['🫶', 'thanks'] };
     const MINE_KEY = 'sc136-guest-mine', SENT_KEY = 'sc136-guest-sent';
     const guest = { mood: '', sticker: '' };

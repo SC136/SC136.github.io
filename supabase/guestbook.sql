@@ -8,7 +8,7 @@ create table if not exists public.guestbook (
     name       text check (name is null or char_length(name) <= 24),
     note       text not null check (char_length(note) between 2 and 280 and note !~* '(https?://|www\.)'),
     mood       text check (mood is null or mood in ('loved', 'cozy', 'wow', 'fun', 'inspired', 'thanks')),
-    sticker    text check (sticker is null or sticker in ('gojo', 'eva', 'granny', 'cat', 'confused', 'teary', 'hair')),
+    sticker    text check (sticker is null or sticker ~ '^[a-z0-9_-]{1,20}$'),
     approved   boolean not null default false,
     created_at timestamptz not null default now()
 );
