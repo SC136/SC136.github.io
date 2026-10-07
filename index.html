@@ -416,6 +416,9 @@
         a.tile:hover { border-radius: 28px; background: color-mix(in srgb, var(--on-surface) 6%, var(--surface-high)); }
         .tile .ms { color: var(--primary); margin-bottom: 6px; }
         .tile-label { font-size: 0.8rem; color: var(--on-surface-variant); }
+        /* the commit message of the latest push: its first line, in the same quiet type as the labels */
+        .push-msg { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 2px 0 4px; font-size: 0.98rem; line-height: 1.35; color: var(--on-surface); }
+        .push-msg[hidden] { display: none; }
         .tile-value { font-size: 1.55rem; font-weight: 500; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .tile-sub { font-size: 0.82rem; color: var(--on-surface-variant); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -1698,6 +1701,7 @@
                 <span class="tile-label">latest push</span>
             </div>
             <span class="tile-value" id="pushRepo">–</span>
+            <span class="push-msg" id="pushMsg" hidden></span>
             <span class="tile-sub" id="pushWhen">on github</span>
         </a>
 
@@ -2567,7 +2571,7 @@
     loadCached('sc136-gh-push-v1', 'https://api.github.com/users/SC136/events?per_page=30', (events) => {
         const push = Array.isArray(events) && events.find((e) => e.type === 'PushEvent');
         if (!push) return null;
-        return { name: push.repo.name.split('/').pop(), url: 'https://github.com/' + push.repo.name, at: push.created_at };
+        return { name: push.repo.name.split('/').pop(), url: 'https://github.com/' + push.repo.name, at: push.created_at, repo: push.repo.name, head: push.payload && push.payload.head };
     }, 10 * 60 * 1000)
         .then((p) => p || Promise.reject(new Error('no pushes')))
         .catch(() => reposPromise.then((repos) => {
@@ -2580,6 +2584,12 @@
             setText('pushWhen', timeAgo(new Date(p.at)));
             $('pushTile').href = p.url;
             NOW.push = { name: p.name, at: +new Date(p.at) };
+            // the events feed doesn't carry commit messages, so ask for the one commit (kept per commit, so it's fetched once)
+            if (p.repo && p.head) {
+                loadCached('sc136-gh-commit-' + p.head.slice(0, 12), `https://api.github.com/repos/${p.repo}/commits/${p.head}`, (c) => ({ msg: ((c.commit && c.commit.message) || '').split(/\r?\n/)[0] }), 24 * 3600 * 1000)
+                    .then((c) => { if (c && c.msg) { setText('pushMsg', c.msg); $('pushMsg').hidden = false; } })
+                    .catch(() => {});
+            }
             paintGuess();
         })
         .catch(() => {});
