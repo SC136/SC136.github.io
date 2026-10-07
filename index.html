@@ -29,7 +29,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Google+Sans+Flex:wght@400;500;600;700&display=swap">
     <!-- Only the icons this page uses (about 27 KB instead of the whole 540 KB set). Add a name here when using a new icon. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,alternate_email,animation,antigravity,apps,arrow_back,artist,aspect_ratio,asterisk,auto_awesome,badge,bedtime,bento,bluetooth,bolt,build,cached,calendar_month,calendar_view_month,cards,check,chevron_forward,chips,circle,clear,clear_day,clear_night,close,cloud,code,coffee,commit,computer,construction,contrast,dark_mode,delete,deployed_code,description,desktop_windows,details,developer_board,directions_walk,distance,do_not_disturb_on,done,download,edit_note,equal,error,favorite,feed,filter,foggy,folder,folder_open,forum,function,games,genres,gradient,graphic_eq,grid_view,group,groups,hail,hard_drive,headphones,history,home,html,hub,iframe,info,input,iso,join,keep,key,keyboard,label,language,laptop,laptop_windows,layers,light,light_mode,link,list,lists,live_tv,local_fire_department,mail,map,memory,message,monitor,monitoring,more,mouse,move,movie,music_note,nest_clock_farsight_analog,notifications,numbers,opacity,open_in_new,package,palette,partly_cloudy_day,partly_cloudy_night,pause,phone,photo_camera,play_arrow,play_circle,power_settings_new,public,push_pin,rainy,remove,resume,rocket_launch,room,route,save,scale,schedule,school,script,select,shapes,share,smart_display,smart_toy,speed,sports_esports,stadia_controller,star,stars,start,sticker,stop,storage,storm,straight,stream,style,sweep,switch,terminal,thermostat,thunderstorm,title,transform,translate,travel,travel_explore,try,tune,tv,update,videocam,videogame_asset,visibility,visibility_off,waving_hand,weather_snowy,web,work,workspace_premium&display=block">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,alternate_email,animation,antigravity,apps,arrow_back,artist,aspect_ratio,asterisk,auto_awesome,badge,bedtime,bento,bluetooth,bolt,build,cached,calendar_month,calendar_view_month,cards,check,chevron_forward,chips,circle,clear,clear_day,clear_night,close,cloud,code,coffee,commit,computer,construction,contrast,dark_mode,delete,deployed_code,description,desktop_windows,details,developer_board,directions_walk,distance,do_not_disturb_on,done,download,edit_note,equal,error,favorite,feed,filter,foggy,folder,folder_open,forum,function,games,genres,gradient,graphic_eq,grid_view,group,groups,hail,hard_drive,headphones,history,home,html,hub,iframe,info,input,iso,join,keep,key,keyboard,label,language,laptop,laptop_windows,layers,light,light_mode,link,list,lists,live_tv,local_fire_department,mail,map,memory,message,monitor,monitoring,more,mouse,move,movie,music_note,nest_clock_farsight_analog,notifications,numbers,opacity,open_in_new,package,palette,partly_cloudy_day,partly_cloudy_night,pause,phone,photo_camera,play_arrow,play_circle,power_settings_new,public,push_pin,rainy,remove,resume,rocket_launch,room,route,save,scale,schedule,school,script,select,send,shapes,share,smart_display,smart_toy,speed,sports_esports,stadia_controller,star,stars,start,sticker,sticky_note_2,stop,storage,storm,straight,stream,style,sweep,switch,terminal,thermostat,thunderstorm,title,transform,translate,travel,travel_explore,try,tune,tv,update,videocam,videogame_asset,visibility,visibility_off,waving_hand,weather_snowy,web,work,workspace_premium&display=block">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/brands.min.css">
     <script>
@@ -891,6 +891,93 @@
         .snap-actions { display: flex; gap: 8px; }
         .snap-actions [hidden] { display: none; }
 
+        /* ===== Since you were last here ===== */
+        .since {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 16px;
+            padding: 8px 8px 8px 18px;
+            border-radius: 999px;
+            background: var(--primary-container);
+            color: var(--on-primary-container);
+            font-size: 0.92rem;
+            animation: since-in 0.6s var(--spring);
+        }
+        .since[hidden] { display: none; }
+        .since p { flex: 1; min-width: 0; margin: 0; }
+        .since b { font-weight: 600; }
+        .since > .ms { font-size: 20px; }
+        .since-x { display: grid; place-items: center; flex: none; width: 34px; height: 34px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; transition: background 0.2s, border-radius 0.3s var(--ease); }
+        .since-x:hover { background: color-mix(in srgb, currentColor 14%, transparent); border-radius: 12px; }
+        .since-x .ms { font-size: 20px; }
+        @keyframes since-in { from { opacity: 0; translate: 0 -10px; } }
+
+        /* ===== Guestbook: a form on one side, notes stuck on a wall on the other ===== */
+        .guest-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr); gap: 36px; align-items: start; }
+        .guest-form { display: flex; flex-direction: column; }
+        .guest-form .card-title { margin-bottom: 6px; }
+        .guest-form .subhead { margin: 0 0 16px; }
+        .guest-form textarea, .guest-name {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 16px;
+            border: 1px solid var(--outline-variant);
+            border-radius: 20px;
+            background: var(--surface-high);
+            color: var(--on-surface);
+            font: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, border-radius 0.3s var(--ease);
+        }
+        .guest-form textarea { min-height: 112px; resize: vertical; line-height: 1.45; }
+        .guest-form textarea:focus, .guest-name:focus { border-color: var(--primary); border-radius: 26px; outline: none; }
+        .guest-form textarea::placeholder, .guest-name::placeholder { color: var(--on-surface-variant); opacity: 0.85; }
+        .guest-count { align-self: flex-end; margin: 4px 6px 0; font-size: 0.74rem; color: var(--on-surface-variant); }
+        .guest-label { margin: 10px 0 8px; font-size: 0.78rem; letter-spacing: 0.04em; color: var(--on-surface-variant); }
+        .guest-moods { display: flex; flex-wrap: wrap; gap: 6px; }
+        .guest-chip { padding: 6px 12px; border: 1px solid var(--outline-variant); border-radius: 999px; background: none; color: var(--on-surface); font: inherit; font-size: 0.85rem; cursor: pointer; transition: background 0.2s, border-radius 0.3s var(--ease), scale 0.25s var(--spring); }
+        .guest-chip:hover { border-radius: 12px; }
+        .guest-chip:active { scale: 0.94; }
+        .guest-chip[aria-pressed="true"] { border-color: transparent; background: var(--primary-container); color: var(--on-primary-container); }
+        .guest-stickers { display: flex; flex-wrap: wrap; gap: 8px; }
+        .guest-sticker { width: 52px; height: 52px; padding: 0; border: 3px solid transparent; border-radius: 50%; background: var(--surface-high); overflow: hidden; cursor: pointer; transition: border-radius 0.4s var(--spring), scale 0.3s var(--spring), border-color 0.2s; }
+        .guest-sticker img { display: block; width: 100%; height: 100%; object-fit: cover; }
+        .guest-sticker:hover { border-radius: 18px; scale: 1.06; }
+        .guest-sticker[aria-pressed="true"] { border-color: var(--primary); border-radius: 18px; scale: 1.1; }
+        .guest-name { margin-top: 14px; padding: 11px 16px; }
+        .guest-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+        .guest-send { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
+        .guest-msg { flex: 1; min-width: 0; margin: 0; font-size: 0.82rem; color: var(--on-surface-variant); }
+        [data-theme="dark"] .guest-msg.bad { color: #ffb4ab; }
+        [data-theme="light"] .guest-msg.bad { color: #ba1a1a; }
+        .guest-send .btn[disabled] { opacity: 0.55; cursor: progress; }
+        .guest-empty { margin: 0; padding: 36px 8px; text-align: center; color: var(--on-surface-variant); }
+        .guest-empty[hidden] { display: none; }
+        .guest-notes { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 18px 16px; margin: 0; padding: 12px 6px 6px; list-style: none; }
+        /* each note is stuck on a little crooked, in one of the theme's soft colours, with its sticker on the corner */
+        .guest-note {
+            position: relative;
+            padding: 16px 16px 12px;
+            border-radius: 20px 20px 20px 6px;
+            background: var(--n-bg);
+            color: var(--n-fg);
+            rotate: calc(var(--tilt, 0) * 1deg);
+            transition: rotate 0.5s var(--spring), border-radius 0.4s var(--spring), scale 0.4s var(--spring);
+        }
+        .guest-note:nth-child(3n + 1) { --n-bg: var(--primary-container); --n-fg: var(--on-primary-container); }
+        .guest-note:nth-child(3n + 2) { --n-bg: var(--secondary-container); --n-fg: var(--on-secondary-container); }
+        .guest-note:nth-child(3n) { --n-bg: var(--tertiary-container); --n-fg: var(--on-tertiary-container); }
+        .guest-note:hover { rotate: 0deg; scale: 1.03; border-radius: 26px; }
+        .guest-note.mine { outline: 2px dashed color-mix(in srgb, var(--n-fg) 55%, transparent); outline-offset: -6px; }
+        .guest-note .gn-head { display: flex; align-items: center; gap: 8px; min-height: 28px; padding-right: 44px; font-weight: 600; font-size: 0.9rem; }
+        .guest-note .gn-mood { font-size: 1.15rem; line-height: 1; }
+        .guest-note .gn-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .guest-note p { margin: 6px 0 10px; font-size: 0.92rem; line-height: 1.4; overflow-wrap: anywhere; white-space: pre-line; }
+        .guest-note time { font-size: 0.72rem; opacity: 0.75; }
+        .guest-note .gn-sticker { position: absolute; top: -14px; right: -8px; width: 52px; height: 52px; border: 3px solid var(--surface-low); border-radius: 50%; object-fit: cover; rotate: 9deg; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22); }
+        @media (max-width: 800px) { .guest-grid { grid-template-columns: 1fr; gap: 28px; } }
+
         /* Setup, numbers first */
         .specs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
         .spec { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 14px 14px 12px; border-radius: 18px; background: var(--surface-high); transition: border-radius 0.35s var(--ease); }
@@ -1557,6 +1644,13 @@
         <noscript><img class="mascot" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/717.png" alt="Yveltal, my favourite Pokémon" width="475" height="475"></noscript>
     </section>
 
+    <!-- For people who've been here before: what changed since they last looked -->
+    <aside class="since" id="since" role="status" hidden>
+        <span class="ms">history</span>
+        <p id="sinceText"></p>
+        <button class="since-x" id="sinceClose" type="button" aria-label="Dismiss"><span class="ms">close</span></button>
+    </aside>
+
     <div class="bento">
         <div data-brand="sc" class="card mini">
             <div class="mini-head">
@@ -1837,6 +1931,35 @@
                 <div class="server-tags"><span>anime</span><span>programming</span><span>memes</span><span>gaming</span></div>
             </div>
             <a class="btn filled" href="https://discord.gg/UVWjuAh" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i>join the server</a>
+        </section>
+
+        <!-- Guestbook: a note, a feeling and a sticker; notes appear on the wall once I've read them -->
+        <section data-brand="sc" class="card t-guest span-4" aria-labelledby="guestTitle">
+            <div class="guest-grid">
+                <form class="guest-form" id="guestForm" autocomplete="off">
+                    <div class="shape-icon" style="--shape-a: var(--shape-sunny8); --shape-b: var(--shape-soft6);"><span class="ms">sticky_note_2</span></div>
+                    <h2 class="card-title" id="guestTitle">leave a note</h2>
+                    <p class="subhead">how did the site feel? say hi, pick a sticker, leave your mark</p>
+                    <label class="sr-only" for="guestNote">your note</label>
+                    <textarea id="guestNote" maxlength="280" rows="4" placeholder="what did you like, how did it feel…"></textarea>
+                    <div class="guest-count"><span id="guestCount">0</span> / 280</div>
+                    <p class="guest-label" id="guestMoodLabel">how it felt</p>
+                    <div class="guest-moods" id="guestMoods" role="group" aria-labelledby="guestMoodLabel"></div>
+                    <p class="guest-label" id="guestStickerLabel">a sticker for it</p>
+                    <div class="guest-stickers" id="guestStickers" role="group" aria-labelledby="guestStickerLabel"></div>
+                    <label class="sr-only" for="guestName">your name, optional</label>
+                    <input class="guest-name" id="guestName" maxlength="24" placeholder="your name (optional)">
+                    <input class="guest-trap" id="guestSite" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                    <div class="guest-send">
+                        <p class="guest-msg" id="guestMsg" role="status"></p>
+                        <button class="btn filled" id="guestSend" type="submit"><span class="ms">send</span>Leave it</button>
+                    </div>
+                </form>
+                <div class="guest-wall" aria-label="Notes from visitors">
+                    <p class="guest-empty" id="guestEmpty">no notes yet, the wall is waiting for the first one</p>
+                    <ul class="guest-notes" id="guestNotes"></ul>
+                </div>
+            </div>
         </section>
 
         <section data-brand="sc" class="card t-find span-4" aria-labelledby="findTitle">
@@ -3593,33 +3716,151 @@
         if (snapDialog.classList.contains('open') && !snapDialog.contains(e.target) && !$('snapBtn').contains(e.target)) closeSnapshot();
     });
 
-    // ---------- favicon: a flower in the page's colour, or in the brand colour of whatever you're pointing at ----------
+    // ---------- favicon: my SC logo, its letters in the page's colour (or the brand colour of whatever you're pointing at) ----------
     const favLink = document.querySelector('link[rel="icon"]');
+    const favLogo = new Image();
     let favNow = '';
-    const flowerPath = (() => {
-        const pts = [];
-        for (let i = 0; i < 64; i++) {
-            const a = i / 64 * Math.PI * 2, r = 12.6 + 2.6 * Math.cos(a * 8);
-            pts.push((16 + Math.sin(a) * r).toFixed(2) + ' ' + (16 - Math.cos(a) * r).toFixed(2));
-        }
-        return 'M' + pts.join('L') + 'Z';
-    })();
+    favLogo.onload = () => { favNow = ''; updateFavicon(); };
+    favLogo.src = 'SC.png';
     function updateFavicon() {
-        if (!favLink) return;
-        const rgb = rgbOf(glowEl ? glowColour(glowEl) : paintOf(document.body, 'var(--primary)'));
-        const key = rgb.join();
+        if (!favLink || !favLogo.naturalWidth) return;
+        let rgb = rgbOf(glowEl ? glowColour(glowEl) : paintOf(document.body, 'var(--primary)'));
+        // a tab can be dark or light, so a colour that's too dark (the light themes' primaries) is lifted until it reads on both
+        const lum = 0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2];
+        if (lum < 140) { const k = (140 - lum) / (255 - lum); rgb = rgb.map((v) => v + (255 - v) * k); }
+        const key = rgb.map(Math.round).join();
         if (key === favNow) return;
         favNow = key;
-        const dark = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) < 150;
-        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="${flowerPath}" fill="rgb(${key})"/><circle cx="16" cy="16" r="5.2" fill="${dark ? '#fff' : '#1b1b1b'}" fill-opacity=".92"/></svg>`;
-        favLink.type = 'image/svg+xml';
-        favLink.removeAttribute('sizes');
-        favLink.href = 'data:image/svg+xml,' + encodeURIComponent(svg);
+        try {
+            // the logo is black with white letter faces: faces become the colour, the black becomes a deep shade of it
+            const S = 64, c = Object.assign(document.createElement('canvas'), { width: S, height: S }), ctx = c.getContext('2d', { willReadFrequently: true });
+            ctx.drawImage(favLogo, 0, 0, S, S);
+            const img = ctx.getImageData(0, 0, S, S), d = img.data, deep = rgb.map((v) => v * 0.34);
+            for (let i = 0; i < d.length; i += 4) {
+                const t = d[i] / 255;
+                d[i] = deep[0] + (rgb[0] - deep[0]) * t;
+                d[i + 1] = deep[1] + (rgb[1] - deep[1]) * t;
+                d[i + 2] = deep[2] + (rgb[2] - deep[2]) * t;
+            }
+            ctx.putImageData(img, 0, 0);
+            favLink.type = 'image/png';
+            favLink.href = c.toDataURL('image/png');
+        } catch (e) { /* a tainted canvas (opened from a file) just keeps the plain logo */ }
     }
     // colour theme, light or dark, the music colours: anything that changes the page's own colour
     let favTimer = 0;
     new MutationObserver(() => { clearTimeout(favTimer); favTimer = setTimeout(updateFavicon, 60); }).observe(root, { attributes: true, attributeFilter: ['data-palette', 'data-theme', 'style'] });
     updateFavicon();
+
+    // ---------- since you were last here: what moved while a returning visitor was away ----------
+    const VISIT_KEY = 'sc136-visit-v1';
+    let lastVisit = null;
+    try { lastVisit = JSON.parse(localStorage.getItem(VISIT_KEY)); } catch (e) {}
+    const countIn = (el) => { const n = parseInt(String(el ? el.textContent : '').replace(/[^0-9]/g, ''), 10); return Number.isFinite(n) ? n : null; };
+    function whenWas(ms) {
+        const then = new Date(ms), today = new Date();
+        const yesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+        if (then.toDateString() === today.toDateString()) return 'earlier today';
+        if (then.toDateString() === yesterday.toDateString()) return 'yesterday';
+        if (Date.now() - ms < 6 * 86400000) return then.toLocaleDateString(undefined, { weekday: 'long' }).toLowerCase();
+        return then.toLocaleDateString(undefined, { day: 'numeric', month: 'short' }).toLowerCase();
+    }
+    // Once the page has had time to load its numbers: compare them with the ones saved at the last visit, then save these
+    setTimeout(() => {
+        const nowCounts = { songs: countIn(document.querySelector('#lfFoot b')), contribs: countIn($('ghTotal')), episodes: countIn($('alEpisodes')) };
+        const before = lastVisit && lastVisit.counts;
+        if (before && lastVisit.at && Date.now() - lastVisit.at > 3 * 3600000) {
+            const bits = [['songs', 'song'], ['contribs', 'contribution'], ['episodes', 'episode']]
+                .map(([k, word]) => { const d = nowCounts[k] != null && before[k] != null ? nowCounts[k] - before[k] : 0; return d > 0 ? `<b>${d.toLocaleString()}</b> ${word}${d === 1 ? '' : 's'}` : ''; })
+                .filter(Boolean);
+            const when = whenWas(lastVisit.at);
+            $('sinceText').innerHTML = bits.length ? `since ${when}: ${bits.join(' · ')}` : `welcome back, it's been quiet since ${when}`;
+            $('since').hidden = false;
+        }
+        const merged = {};
+        Object.keys(nowCounts).forEach((k) => { merged[k] = nowCounts[k] != null ? nowCounts[k] : (before ? before[k] : null); });
+        try { localStorage.setItem(VISIT_KEY, JSON.stringify({ at: Date.now(), counts: merged })); } catch (e) {}
+    }, 9000);
+    $('sinceClose').addEventListener('click', () => { $('since').hidden = true; });
+
+    // ---------- guestbook: notes, a feeling and a sticker; they show on the wall once I've read them ----------
+    const GUEST_STICKERS = { gojo: 'assets/stickers/gojo.webp', eva: 'assets/stickers/eva-01.webp', granny: 'assets/stickers/turbo-granny.webp', cat: 'assets/avatars/cat.webp', confused: 'assets/avatars/confused.webp', teary: 'assets/avatars/teary.webp', hair: 'assets/avatars/white-hair.webp' };
+    const GUEST_MOODS = { loved: ['😍', 'loved it'], cozy: ['😌', 'cozy'], wow: ['🤩', 'wow'], fun: ['😄', 'fun'], inspired: ['💡', 'inspired'], thanks: ['🫶', 'thanks'] };
+    const MINE_KEY = 'sc136-guest-mine', SENT_KEY = 'sc136-guest-sent';
+    const guest = { mood: '', sticker: '' };
+    const readJSON = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch (e) { return fallback; } };
+    $('guestMoods').innerHTML = Object.entries(GUEST_MOODS).map(([k, [emoji, label]]) => `<button class="guest-chip" type="button" data-mood="${k}" aria-pressed="false">${emoji} ${label}</button>`).join('');
+    $('guestStickers').innerHTML = Object.entries(GUEST_STICKERS).map(([k, src]) => `<button class="guest-sticker" type="button" data-sticker="${k}" aria-pressed="false" aria-label="${k} sticker"><img src="${src}" alt="" loading="lazy" width="52" height="52"></button>`).join('');
+    // each group lets you pick one, and tapping it again puts it back
+    [['guestMoods', 'mood'], ['guestStickers', 'sticker']].forEach(([id, field]) => $(id).addEventListener('click', (e) => {
+        const b = e.target.closest('button');
+        if (!b) return;
+        const val = b.dataset[field], was = guest[field] === val;
+        guest[field] = was ? '' : val;
+        $(id).querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(!was && x === b)));
+    }));
+    $('guestNote').addEventListener('input', () => setText('guestCount', $('guestNote').value.length));
+
+    function noteHTML(n, mine) {
+        const mood = GUEST_MOODS[n.mood], sticker = GUEST_STICKERS[n.sticker];
+        const tilt = ((n.note.length * 7 + (n.name || '').length * 3) % 7 - 3) * 0.55; // the same note always hangs the same way
+        return `<li class="guest-note${mine ? ' mine' : ''}" style="--tilt:${tilt.toFixed(2)}">
+            ${sticker ? `<img class="gn-sticker" src="${esc(sticker)}" alt="" loading="lazy">` : ''}
+            <div class="gn-head">${mood ? `<span class="gn-mood" title="${esc(mood[1])}">${mood[0]}</span>` : ''}<span class="gn-name">${esc(n.name || 'someone kind')}</span></div>
+            <p>${esc(n.note)}</p>
+            <time>${mine ? 'yours, waiting for me to read it' : esc(timeAgo(new Date(n.created_at)))}</time>
+        </li>`;
+    }
+    let wallNotes = [];
+    function paintWall() {
+        // notes you left yourself show up straight away, marked, until they come through on the wall (or after a week)
+        const mine = readJSON(MINE_KEY, []).filter((m) => Date.now() - m.at < 7 * 86400000 && !wallNotes.some((w) => w.note === m.note));
+        try { localStorage.setItem(MINE_KEY, JSON.stringify(mine)); } catch (e) {}
+        $('guestNotes').innerHTML = mine.slice(-3).reverse().map((m) => noteHTML(m, true)).join('') + wallNotes.map((n) => noteHTML(n, false)).join('');
+        $('guestEmpty').hidden = !!($('guestNotes').children.length);
+    }
+    fetch(SB + '/guestbook?select=id,name,note,mood,sticker,created_at&approved=eq.true&order=created_at.desc&limit=24', { headers: SB_HEADERS })
+        .then((r) => (r.ok ? r.json() : []))
+        .then((rows) => { wallNotes = Array.isArray(rows) ? rows : []; paintWall(); })
+        .catch(() => paintWall());
+
+    const guestSay = (text, bad) => { setText('guestMsg', text); $('guestMsg').classList.toggle('bad', !!bad); };
+    $('guestForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const note = $('guestNote').value.trim(), name = $('guestName').value.trim().slice(0, 24);
+        if (note.length < 2) return guestSay('write a few words first', true);
+        if (/https?:\/\/|www\./i.test(note + ' ' + name)) return guestSay("links aren't allowed here, sorry", true);
+        const sent = readJSON(SENT_KEY, []).filter((t) => Date.now() - t < 86400000);
+        if (sent.length && Date.now() - sent[sent.length - 1] < 60000) return guestSay('give it a minute before the next one', true);
+        if (sent.length >= 3) return guestSay("that's three for today, come back tomorrow", true);
+        if ($('guestSite').value) { guestSay('thank you, it will show up once i have read it'); return; } // a form-filling bot: look pleased, send nothing
+        $('guestSend').disabled = true;
+        guestSay('sending…');
+        try {
+            const res = await fetch(SB + '/guestbook', {
+                method: 'POST',
+                headers: { ...SB_HEADERS, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+                body: JSON.stringify({ name: name || null, note, mood: guest.mood || null, sticker: guest.sticker || null }),
+            });
+            if (!res.ok) throw new Error('rejected ' + res.status);
+            sent.push(Date.now());
+            try {
+                localStorage.setItem(SENT_KEY, JSON.stringify(sent));
+                localStorage.setItem(MINE_KEY, JSON.stringify([...readJSON(MINE_KEY, []), { name, note, mood: guest.mood, sticker: guest.sticker, at: Date.now() }]));
+            } catch (err) {}
+            guestSay('thank you ♥ it will show up on the wall once i have read it');
+            $('guestNote').value = '';
+            $('guestName').value = '';
+            setText('guestCount', 0);
+            $('guestMoods').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', 'false'));
+            $('guestStickers').querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', 'false'));
+            guest.mood = guest.sticker = '';
+            paintWall();
+        } catch (err) {
+            guestSay("couldn't leave it just now, try again in a bit", true);
+        }
+        $('guestSend').disabled = false;
+    });
 
     // ---------- keyboard shortcuts ----------
     const keysDialog = $('keysDialog');
