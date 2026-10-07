@@ -488,7 +488,6 @@
         .lf-now { position: relative; }
         .lf-progress.discord-bar { position: absolute; left: 14px; right: 14px; bottom: -2px; margin: 0; }
         .lf-progress[hidden] { display: none; }
-        .lf-progress.discord-bar span { width: calc(var(--p, 0) * 100%); background: var(--primary); transition: none; }
         .lf-now { display: flex; align-items: center; gap: 14px; padding: 12px 14px; color: inherit; text-decoration: none; transition: background 0.2s; }
         .lf-now:hover { background: color-mix(in srgb, var(--on-surface) 6%, transparent); }
         .lf-art { position: relative; display: grid; place-items: center; flex: none; width: 62px; height: 62px; border-radius: 14px; overflow: hidden; background: var(--primary-container); color: var(--on-primary-container); transition: border-radius 0.35s var(--ease); }
@@ -809,12 +808,9 @@
         }
         .discord-bar::after { content: ""; flex: 1; height: 4px; border-radius: 999px; background: color-mix(in srgb, var(--on-surface) 14%, transparent); }
         @keyframes squiggle { to { -webkit-mask-position: 24px 50%; mask-position: 24px 50%; } }
-        /* paused: the wave settles into a straight line, as in Android's media controls */
-        .discord-bar.flat span {
-            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10'%3E%3Cpath d='M0 5H24' fill='none' stroke='%23000' stroke-width='4'/%3E%3C/svg%3E");
-            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='10'%3E%3Cpath d='M0 5H24' fill='none' stroke='%23000' stroke-width='4'/%3E%3C/svg%3E");
-            animation: none;
-        }
+        /* the preview's wave is drawn live, so it can ease down into a straight line when paused (and back up on play) */
+        .lf-wave { flex: none; height: 10px; overflow: visible; }
+        .lf-wave path { fill: none; stroke: var(--primary); }
 
         /* ===== GitHub: the last year of contributions, in the page's colours ===== */
         .gh-readout { margin: 0 0 12px; min-height: 1.5em; font-size: 0.9rem; color: var(--on-surface-variant); }
@@ -1724,7 +1720,7 @@
                         <span class="lf-title" id="lfTitle">–</span>
                         <span class="lf-artist" id="lfArtist"></span>
                     </span>
-                    <span class="lf-progress discord-bar" id="lfProgress" hidden><span></span></span>
+                    <span class="lf-progress discord-bar" id="lfProgress" hidden><svg class="lf-wave" id="lfWave" width="0" height="10" viewBox="0 0 0 10" aria-hidden="true"><path id="lfWavePath" d=""/></svg></span>
                 </a>
                 <button class="lf-play" id="lfPlay" type="button" aria-label="Play a preview" hidden><span class="ms" id="lfPlayIcon">play_arrow</span></button>
                 <ul class="lf-recent" id="lfRecent"></ul>
@@ -3430,16 +3426,46 @@
     preview.volume = 0.7;
     const lfPlay = $('lfPlay'), lfProgress = $('lfProgress');
     let previewKey = '', previewTitle = '', barFrame = 0;
-    const setBar = () => lfProgress.style.setProperty('--p', preview.duration ? (preview.currentTime / preview.duration).toFixed(4) : 0);
+    // The played part of the bar is a live wave: it ripples along while the song plays, and eases down to a straight line when paused
+    const lfWave = $('lfWave'), lfWavePath = $('lfWavePath');
+    const wave = { amp: 0, target: 0, phase: 0, timer: 0, p: 0 };
+    function drawWave() {
+        const w = Math.max(0, lfProgress.clientWidth * wave.p);
+        lfWave.setAttribute('width', w.toFixed(1));
+        lfWave.setAttribute('viewBox', `0 0 ${w.toFixed(1)} 10`);
+        let d = '';
+        for (let x = 0; x <= w + 2; x += 2) d += (x ? 'L' : 'M') + x + ' ' + (5 - 2.5 * wave.amp * Math.cos((x - wave.phase) / 24 * 2 * Math.PI)).toFixed(2);
+        lfWavePath.setAttribute('d', d);
+        lfWavePath.setAttribute('stroke-width', (4 - wave.amp).toFixed(2)); // a flat line is as thick as the track beside it
+    }
+    function stepWave() {
+        const gap = wave.target - wave.amp;
+        wave.amp = Math.abs(gap) < 0.01 || reduceMotion ? wave.target : wave.amp + gap * 0.14;
+        if (wave.amp > 0.02 && !reduceMotion) wave.phase = (wave.phase + 0.32) % 24; // the same 20px a second as the Discord bar
+        drawWave();
+        if (wave.amp === wave.target && (wave.target === 0 || reduceMotion)) { clearInterval(wave.timer); wave.timer = 0; }
+    }
+    function waveTo(target) {
+        wave.target = target;
+        if (!wave.timer) wave.timer = setInterval(stepWave, 16);
+    }
+    const setBar = () => {
+        wave.p = preview.duration ? preview.currentTime / preview.duration : 0;
+        lfProgress.style.setProperty('--p', wave.p.toFixed(4));
+        if (!wave.timer) drawWave();
+    };
     // smooth while you watch it; timeupdate keeps it right when frames aren't being drawn (a background tab)
     function paintBar() {
         setBar();
         barFrame = preview.paused ? 0 : requestAnimationFrame(paintBar);
     }
     preview.addEventListener('timeupdate', setBar);
+    addEventListener('resize', () => { if (!lfProgress.hidden) drawWave(); });
     function resetBar() {
         lfProgress.hidden = true;
-        lfProgress.classList.remove('flat');
+        clearInterval(wave.timer);
+        wave.timer = 0;
+        wave.amp = wave.target = wave.p = 0;
         lfProgress.style.setProperty('--p', 0);
     }
     function offerPreview(song) {
@@ -3469,7 +3495,7 @@
         setText('lfPlayIcon', 'pause');
         lfPlay.setAttribute('aria-label', `Pause ${previewTitle}`);
         lfProgress.hidden = false;
-        lfProgress.classList.remove('flat');
+        waveTo(1);
         cancelAnimationFrame(barFrame);
         paintBar();
     });
@@ -3477,7 +3503,7 @@
         lfPlay.classList.remove('playing');
         setText('lfPlayIcon', 'play_arrow');
         lfPlay.setAttribute('aria-label', `Play 30 seconds of ${previewTitle}`);
-        lfProgress.classList.add('flat');
+        waveTo(0);
     });
     preview.addEventListener('ended', () => {
         resetBar();
