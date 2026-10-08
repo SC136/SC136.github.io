@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>guestbook · owner</title>
+    <link rel="icon" type="image/png" href="SC.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=check,close,logout,refresh&display=block">
+    <style>
+        :root {
+            --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease: cubic-bezier(0.2, 0, 0, 1);
+        }
+        [data-theme="dark"] {
+            --surface: #1a1110; --card: #271d1b; --high: #322825; --on: #f1dfdb; --var: #d8c2bd; --outline: #a08c87;
+            --primary: #ffb4a1; --on-primary: #561f0f; --pc: #723523; --on-pc: #ffdbd1;
+            --sc: #3b3a4f; --on-sc: #e4e0f8; --tc: #46401f; --on-tc: #f3e7b4;
+            --bad: #ffb4ab;
+        }
+        [data-theme="light"] {
+            --surface: #fff8f6; --card: #fceae6; --high: #f6e4e0; --on: #231917; --var: #53433f; --outline: #85736e;
+            --primary: #8f4b39; --on-primary: #ffffff; --pc: #ffdbd1; --on-pc: #3a0b01;
+            --sc: #e2e0f6; --on-sc: #1b1a2c; --tc: #f4e9b6; --on-tc: #221c00;
+            --bad: #ba1a1a;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--surface); color: var(--on); font: 400 16px/1.5 "Google Sans Flex", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+        .ms { font-family: "Material Symbols Rounded"; font-weight: normal; font-style: normal; font-size: 22px; line-height: 1; letter-spacing: normal; text-transform: none; white-space: nowrap; display: inline-block; font-feature-settings: "liga"; -webkit-font-feature-settings: "liga"; }
+        main { max-width: 1040px; margin: 0 auto; padding: 24px 16px 64px; }
+        header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+        h1 { flex: 1; min-width: 0; margin: 0; font-size: 1.7rem; font-weight: 500; letter-spacing: -0.01em; }
+        .sub { margin: 0 0 22px; color: var(--var); font-size: 0.92rem; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border: 1px solid var(--outline); border-radius: 999px; background: none; color: var(--on); font: inherit; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: border-radius 0.3s var(--ease), scale 0.25s var(--spring), background 0.2s; }
+        .btn:hover { border-radius: 14px; }
+        .btn:active { scale: 0.95; }
+        .btn.filled { border-color: transparent; background: var(--primary); color: var(--on-primary); }
+        .btn[disabled] { opacity: 0.55; cursor: progress; }
+        .btn:focus-visible, input:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+        .btn .ms { font-size: 20px; }
+        .panel { max-width: 380px; margin: 12vh auto 0; padding: 28px; border-radius: 28px; background: var(--card); }
+        .panel h2 { margin: 0 0 4px; font-weight: 500; font-size: 1.4rem; }
+        .panel p { margin: 0 0 18px; color: var(--var); font-size: 0.9rem; }
+        input { width: 100%; margin-bottom: 10px; padding: 13px 16px; border: 1px solid var(--outline); border-radius: 18px; background: var(--high); color: var(--on); font: inherit; }
+        .row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+        .msg { min-height: 1.3em; margin: 4px 2px 0; font-size: 0.85rem; color: var(--var); }
+        .msg.bad { color: var(--bad); }
+        h3 { margin: 28px 0 12px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.05em; color: var(--var); text-transform: uppercase; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px 16px; margin: 0; padding: 14px 4px 4px; list-style: none; }
+        .note { position: relative; padding: 18px 18px 14px; border-radius: 22px 22px 22px 6px; background: var(--n-bg); color: var(--n-fg); }
+        .note:nth-child(3n + 1) { --n-bg: var(--pc); --n-fg: var(--on-pc); }
+        .note:nth-child(3n + 2) { --n-bg: var(--sc); --n-fg: var(--on-sc); }
+        .note:nth-child(3n) { --n-bg: var(--tc); --n-fg: var(--on-tc); }
+        .head { display: flex; align-items: center; gap: 8px; min-height: 30px; padding-right: 56px; font-weight: 600; }
+        .mood { font-size: 1.2rem; line-height: 1; }
+        .name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .note p { margin: 8px 0 10px; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-line; }
+        .when { font-size: 0.74rem; opacity: 0.75; }
+        .sticker { position: absolute; top: -20px; right: -8px; width: 64px; height: 64px; object-fit: contain; rotate: 9deg; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3)); }
+        .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .pill { padding: 7px 16px; border: 1px solid color-mix(in srgb, currentColor 45%, transparent); border-radius: 999px; background: none; color: inherit; font: inherit; font-size: 0.86rem; font-weight: 500; cursor: pointer; transition: border-radius 0.3s var(--ease), scale 0.25s var(--spring); }
+        .pill:hover { border-radius: 12px; }
+        .pill:active { scale: 0.94; }
+        .pill:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; }
+        .pill.ok { border-color: transparent; background: var(--n-fg); color: var(--n-bg); }
+        .pill.sure { border-color: transparent; background: color-mix(in srgb, currentColor 18%, transparent); }
+        .pill[disabled] { opacity: 0.55; cursor: progress; }
+        .empty { padding: 30px 6px; color: var(--var); }
+        [hidden] { display: none !important; }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+    </style>
+    <script>
+        // light or dark, like the rest of the site
+        (function () {
+            var t = 'dark';
+            try { t = localStorage.getItem('sc136-theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'); } catch (e) {}
+            document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
+        })();
+    </script>
+</head>
+<body>
+<main>
+    <!-- signed out -->
+    <section class="panel" id="signin" hidden>
+        <h2>guestbook · owner</h2>
+        <p>sign in to approve or reject notes</p>
+        <form id="signinForm">
+            <input id="email" type="email" aria-label="email" autocomplete="username" placeholder="email" required>
+            <input id="pass" type="password" aria-label="password" autocomplete="current-password" placeholder="password" required>
+            <p class="msg" id="signinMsg" role="status"></p>
+            <div class="row"><button class="btn filled" type="submit" id="signinBtn">Sign in</button></div>
+        </form>
+    </section>
+
+    <!-- signed in -->
+    <section id="app" hidden>
+        <header>
+            <h1>guestbook</h1>
+            <button class="btn" id="refresh" type="button"><span class="ms" aria-hidden="true">refresh</span>Refresh</button>
+            <button class="btn" id="signout" type="button"><span class="ms" aria-hidden="true">logout</span>Sign out</button>
+        </header>
+        <p class="sub" id="summary" role="status" aria-live="polite">loading…</p>
+        <h3 id="waitingHead" hidden>waiting for you</h3>
+        <ul class="grid" id="waiting"></ul>
+        <h3 id="shownHead" hidden>on the wall</h3>
+        <ul class="grid" id="shown"></ul>
+        <p class="empty" id="empty" hidden>no notes yet</p>
+    </section>
+</main>
+
+<script>
+(function () {
+    const SB = 'https://vixnfmutdbaprqflgzpr.supabase.co';
+    const KEY = 'sb_publishable_2s5mFF0V7DqjzoYMAc6VqQ_2VC5U7CR'; // the public key: what the database allows is decided by who's signed in
+    const STORE = 'sc136-owner';
+    const STICKERS = { gojo: 'assets/stickers/gojo.webp', eva: 'assets/stickers/eva-01.webp', granny: 'assets/stickers/turbo-granny.webp', bird: 'assets/stickers/bird.webp', dimple: 'assets/stickers/dimple.webp', pochita: 'assets/stickers/pochita.webp', 'eyes-dice': 'assets/stickers/eyes-dice.webp', hands: 'assets/stickers/hands.webp', saitama: 'assets/stickers/saitama.webp', 'pen-pen': 'assets/stickers/pen-pen.webp' };
+    const MOODS = { loved: ['😍', 'loved it'], cozy: ['😌', 'cozy'], wow: ['🤩', 'wow'], fun: ['😄', 'fun'], inspired: ['💡', 'inspired'], thanks: ['🫶', 'thanks'] };
+    const $ = (id) => document.getElementById(id);
+    const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    let session = null;
+    try { session = JSON.parse(localStorage.getItem(STORE)); } catch (e) {}
+    const keep = (s) => { session = s; try { if (s) localStorage.setItem(STORE, JSON.stringify(s)); else localStorage.removeItem(STORE); } catch (e) {} };
+    const toSession = (d) => ({ access: d.access_token, refresh: d.refresh_token, exp: Date.now() + (d.expires_in || 3600) * 1000 });
+
+    // a valid access token, refreshed when it's about to run out; null means signed out
+    async function headers() {
+        if (!session) return null;
+        if (session.exp - 60000 < Date.now()) {
+            try {
+                const r = await fetch(SB + '/auth/v1/token?grant_type=refresh_token', { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ refresh_token: session.refresh }) });
+                if (!r.ok) throw new Error('expired');
+                keep(toSession(await r.json()));
+            } catch (e) { keep(null); return null; }
+        }
+        return { apikey: KEY, Authorization: 'Bearer ' + session.access, 'Content-Type': 'application/json' };
+    }
+
+    function show(signedIn) {
+        $('signin').hidden = signedIn;
+        $('app').hidden = !signedIn;
+        if (!signedIn) $('email').focus({ preventScroll: true });
+    }
+
+    function noteHTML(n, state) {
+        const mood = MOODS[n.mood], sticker = STICKERS[n.sticker];
+        const buttons = state === 'waiting'
+            ? `<button class="pill ok" type="button" data-act="approve" data-id="${esc(n.id)}">Approve</button><button class="pill" type="button" data-act="reject" data-id="${esc(n.id)}">Reject</button>`
+            : `<button class="pill" type="button" data-act="remove" data-id="${esc(n.id)}">Remove</button>`;
+        return `<li class="note">
+            ${sticker ? `<img class="sticker" src="${esc(sticker)}" alt="">` : ''}
+            <div class="head">${mood ? `<span class="mood" title="${esc(mood[1])}">${mood[0]}</span>` : ''}<span class="name">${esc(n.name || 'someone kind')}</span></div>
+            <p>${esc(n.note)}</p>
+            <div class="when">${esc(new Date(n.created_at).toLocaleString())}</div>
+            <div class="actions">${buttons}</div>
+        </li>`;
+    }
+
+    async function load() {
+        const h = await headers();
+        if (!h) { show(false); return; }
+        show(true);
+        $('summary').textContent = 'loading…';
+        try {
+            const r = await fetch(SB + '/rest/v1/guestbook?select=id,name,note,mood,sticker,approved,created_at&order=created_at.desc&limit=200', { headers: h });
+            if (r.status === 401) { keep(null); show(false); return; }
+            if (!r.ok) throw new Error('status ' + r.status);
+            const rows = await r.json();
+            const waiting = rows.filter((n) => !n.approved), shown = rows.filter((n) => n.approved);
+            $('waiting').innerHTML = waiting.map((n) => noteHTML(n, 'waiting')).join('');
+            $('shown').innerHTML = shown.map((n) => noteHTML(n, 'shown')).join('');
+            $('waitingHead').hidden = !waiting.length;
+            $('shownHead').hidden = !shown.length;
+            $('empty').hidden = !!rows.length;
+            $('summary').textContent = rows.length
+                ? `${waiting.length} waiting · ${shown.length} on the wall`
+                : "nothing here yet (if you expected notes, check that guestbook-owner.sql has been run for this email)";
+            document.title = waiting.length ? `(${waiting.length}) guestbook · owner` : 'guestbook · owner';
+        } catch (e) {
+            $('summary').textContent = "couldn't load the notes, try Refresh";
+        }
+    }
+
+    // approve, or reject / remove (those ask twice, since they can't be undone)
+    async function onAct(e) {
+        const b = e.target.closest('button[data-act]');
+        if (!b) return;
+        const act = b.dataset.act;
+        if (act !== 'approve' && !b.classList.contains('sure')) {
+            const label = b.textContent;
+            b.classList.add('sure');
+            b.textContent = 'sure?';
+            setTimeout(() => { if (b.isConnected) { b.classList.remove('sure'); b.textContent = label; } }, 3000);
+            return;
+        }
+        b.disabled = true;
+        const h = await headers();
+        if (!h) { show(false); return; }
+        const url = SB + '/rest/v1/guestbook?id=eq.' + encodeURIComponent(b.dataset.id);
+        try {
+            const res = act === 'approve'
+                ? await fetch(url, { method: 'PATCH', headers: { ...h, Prefer: 'return=minimal' }, body: JSON.stringify({ approved: true }) })
+                : await fetch(url, { method: 'DELETE', headers: h });
+            if (!res.ok) throw new Error('refused ' + res.status);
+            await load();
+        } catch (err) {
+            b.disabled = false;
+            b.textContent = "couldn't, try again";
+        }
+    }
+    $('waiting').addEventListener('click', onAct);
+    $('shown').addEventListener('click', onAct);
+    $('refresh').addEventListener('click', load);
+    $('signout').addEventListener('click', () => { keep(null); document.title = 'guestbook · owner'; show(false); });
+
+    $('signinForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = $('signinMsg'), btn = $('signinBtn');
+        msg.classList.remove('bad');
+        msg.textContent = 'signing in…';
+        btn.disabled = true;
+        try {
+            const r = await fetch(SB + '/auth/v1/token?grant_type=password', { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ email: $('email').value.trim(), password: $('pass').value }) });
+            if (!r.ok) {
+                msg.classList.add('bad');
+                msg.textContent = r.status === 400 ? 'wrong email or password' : "couldn't sign in just now";
+            } else {
+                keep(toSession(await r.json()));
+                $('pass').value = '';
+                msg.textContent = '';
+                await load();
+            }
+        } catch (err) {
+            msg.classList.add('bad');
+            msg.textContent = "couldn't reach the server";
+        }
+        btn.disabled = false;
+    });
+
+    // new notes show up while the page is open
+    setInterval(() => { if (session && !document.hidden) load(); }, 60000);
+    load();
+})();
+</script>
+</body>
+</html>
