@@ -145,6 +145,14 @@
         if (!signedIn) $('email').focus({ preventScroll: true });
     }
 
+    // A friendly made-up name for notes left without one ("curious koi", "sleepy comet"), picked from the note itself so it never changes
+    const ANON_A = ['quiet', 'curious', 'sleepy', 'gentle', 'cozy', 'bright', 'wandering', 'friendly', 'midnight', 'sunny', 'calm', 'playful', 'humble', 'lucky', 'dreamy', 'cheerful', 'patient', 'clever', 'mellow', 'restless', 'kind', 'brave', 'soft', 'golden'];
+    const ANON_N = ['otter', 'comet', 'panda', 'lantern', 'sparrow', 'fox', 'koi', 'kite', 'owl', 'moth', 'cloud', 'pebble', 'firefly', 'tanuki', 'raven', 'penguin', 'badger', 'maple', 'lotus', 'ember', 'wave', 'cricket', 'fern', 'moon'];
+    function anonName(seed) {
+        let h = 2166136261;
+        for (const ch of String(seed)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+        return ANON_A[h % ANON_A.length] + ' ' + ANON_N[(h >>> 8) % ANON_N.length];
+    }
     function noteHTML(n, state) {
         const mood = MOODS[n.mood], sticker = STICKERS[n.sticker];
         const buttons = state === 'waiting'
@@ -152,7 +160,7 @@
             : `<button class="pill" type="button" data-act="remove" data-id="${esc(n.id)}">Remove</button>`;
         return `<li class="note">
             ${sticker ? `<img class="sticker" src="${esc(sticker)}" alt="">` : ''}
-            <div class="head">${mood ? `<span class="mood" title="${esc(mood[1])}">${mood[0]}</span>` : ''}<span class="name">${esc(n.name || 'someone kind')}</span></div>
+            <div class="head">${mood ? `<span class="mood" title="${esc(mood[1])}">${mood[0]}</span>` : ''}<span class="name">${esc(n.name || anonName(n.id || n.note))}</span></div>
             <p>${esc(n.note)}</p>
             <div class="when">${esc(new Date(n.created_at).toLocaleString())}</div>
             <div class="actions">${buttons}</div>
