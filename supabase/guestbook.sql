@@ -24,3 +24,12 @@ create policy "leave a note" on public.guestbook
     for insert to anon with check (approved = false);
 
 grant select, insert on public.guestbook to anon;
+
+-- Allow visitors to check if their pending notes still exist (or were deleted/rejected by the owner)
+create or replace function public.check_notes(note_ids uuid[])
+returns table (id uuid, approved boolean)
+language sql security definer as $$
+  select id, approved from public.guestbook where id = any(note_ids);
+$$;
+
+grant execute on function public.check_notes(uuid[]) to anon;
