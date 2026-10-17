@@ -1063,14 +1063,76 @@
         .strava-sub { margin: 6px 0 0; color: var(--on-surface-variant); font-size: 0.9rem; }
         .strava-badge { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 4px 12px 4px 8px; border-radius: 999px; background: var(--primary); color: var(--on-primary); font-size: 0.78rem; font-weight: 500; }
         .strava-badge .ms { font-size: 16px; }
-
-        /* Backloggd: a shelf across the full width, the numbers on the left and favourites on the right */
-        @media (min-width: 1001px) {
-            .t-played { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 32px; align-items: start; }
-            .t-played .played-info { display: flex; flex-direction: column; height: 100%; }
-            .t-played .played-info .card-actions { margin-top: auto; justify-content: flex-start; }
-            .t-played .played-favs .subhead { margin-top: 4px; }
+        /* ===== Duolingo: daily streak and active languages in signature green ===== */
+        .t-duo {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
+        .t-duo .shape-icon { --icon-bg: var(--primary); --icon-fg: var(--on-primary); }
+        .t-duo .stats { margin-bottom: 0; }
+        .t-duo .stat b small { margin-left: 3px; font-size: 0.8rem; font-weight: 500; color: var(--on-surface-variant); }
+        .duo-focus {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px 22px;
+            border-radius: 24px;
+            background: color-mix(in srgb, var(--surface-lowest) 55%, transparent);
+            transition: border-radius 0.35s var(--ease);
+        }
+        .t-duo:hover .duo-focus { border-radius: 34px; }
+        .duo-focus-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .duo-focus .tile-label { display: inline-flex; align-items: center; gap: 6px; }
+        .duo-focus .tile-label .ms { font-size: 18px; color: var(--primary); }
+        .duo-streak-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px 4px 8px; border-radius: 999px; background: color-mix(in srgb, #ff9600 20%, transparent); color: #ff9600; font-size: 0.82rem; font-weight: 600; }
+        .duo-streak-pill .ms { font-size: 17px; }
+        .duo-lang-main { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+        .duo-big { margin: 0; font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; }
+        .duo-xp-badge { font-size: 0.88rem; font-weight: 600; color: var(--on-surface-variant); }
+        .duo-breakdown { display: flex; flex-direction: column; gap: 8px; margin-top: 2px; }
+        .duo-bar { display: flex; height: 6px; border-radius: 999px; overflow: hidden; background: color-mix(in srgb, var(--on-surface) 12%, transparent); }
+        .duo-bar span { height: 100%; transition: width 0.6s var(--ease); }
+        .duo-bar .bar-de { background: var(--primary); }
+        .duo-bar .bar-en { background: color-mix(in srgb, var(--primary) 50%, var(--surface-highest)); }
+        .duo-bar .bar-ja { background: color-mix(in srgb, var(--primary) 30%, var(--surface-highest)); }
+        .duo-courses { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+        .duo-course-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 7px 12px;
+            border-radius: 12px;
+            background: color-mix(in srgb, var(--surface-high) 65%, transparent);
+            font-size: 0.84rem;
+        }
+        .duo-course-name { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+        .duo-course-name .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+        .duo-course-xp { font-size: 0.82rem; font-weight: 600; color: var(--on-surface-variant); }
+        .duo-course-xp small { font-size: 0.72rem; font-weight: 500; opacity: 0.8; margin-left: 2px; }
+        .t-duo .card-actions { margin-top: auto; justify-content: flex-start; }
+        /* Backloggd: fits into a span-2 slot next to Duolingo */
+        .t-played {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .t-played .stats { margin-bottom: 0; }
+        .t-played .played-favs {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 18px 20px;
+            border-radius: 24px;
+            background: color-mix(in srgb, var(--surface-lowest) 55%, transparent);
+            transition: border-radius 0.35s var(--ease);
+        }
+        .t-played:hover .played-favs { border-radius: 34px; }
+        .played-favs-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .played-favs-head .tile-label { display: inline-flex; align-items: center; gap: 6px; }
+        .played-favs-head .tile-label .ms { font-size: 18px; color: var(--primary); }
+        .played-favs-head .duo-streak-pill { background: color-mix(in srgb, var(--primary) 20%, transparent); color: var(--primary); }
+        .t-played .card-actions { margin-top: auto; justify-content: flex-start; }
 
         /* Socials across the full width: two columns of rows */
         @media (min-width: 721px) {
@@ -1276,6 +1338,7 @@
         [data-palette="default"][data-theme="dark"] [data-brand="steam"] { --brand: #66c0f4; --primary: #a1d9ff; --on-primary: #00344b; --primary-container: #66c0f4; --on-primary-container: #004d6c; --secondary-container: #2b4a5d; --on-secondary-container: #9ab9d0; --tertiary: #a1d9ff; --tertiary-container: #66c0f4; --on-tertiary-container: #004d6c; }
         [data-palette="default"][data-theme="dark"] [data-brand="wakatime"] { --brand: #3b82f6; --primary: #adc6ff; --on-primary: #002e6a; --primary-container: #4d8eff; --on-primary-container: #001c46; --secondary-container: #304671; --on-secondary-container: #9fb5e7; --tertiary: #adc6ff; --tertiary-container: #4d8eff; --on-tertiary-container: #001c46; }
         [data-palette="default"][data-theme="dark"] [data-brand="github"] { --brand: #2da44e; --primary: #6bde80; --on-primary: #003913; --primary-container: #2fa54f; --on-primary-container: #00300f; --secondary-container: #29522f; --on-secondary-container: #97c498; --tertiary: #6bde80; --tertiary-container: #2fa54f; --on-tertiary-container: #00300f; }
+        [data-palette="default"][data-theme="dark"] [data-brand="duolingo"] { --brand: #58cc02; --primary: #74e930; --on-primary: #133800; --primary-container: #58cc02; --on-primary-container: #1e5000; --secondary-container: #255f00; --on-secondary-container: #95d86f; --tertiary: #74e930; --tertiary-container: #58cc02; --on-tertiary-container: #1e5000; }
         [data-palette="default"][data-theme="dark"] [data-brand="strava"] { --brand: #fc4c02; --primary: #ffb59f; --on-primary: #5e1700; --primary-container: #ff571b; --on-primary-container: #491000; --secondary-container: #872806; --on-secondary-container: #ffa083; --tertiary: #ffb59f; --tertiary-container: #ff571b; --on-tertiary-container: #491000; }
         [data-palette="default"][data-theme="dark"] [data-brand="backloggd"] { --brand: #fc6399; --primary: #ffb1c6; --on-primary: #650030; --primary-container: #fc6399; --on-primary-container: #670031; --secondary-container: #733047; --on-secondary-container: #f49bb4; --tertiary: #ffb1c6; --tertiary-container: #fc6399; --on-tertiary-container: #670031; }
         [data-palette="default"][data-theme="light"] [data-brand="discord"] { --brand: #5865f2; --primary: #3d4ad8; --on-primary: #ffffff; --primary-container: #5865f2; --on-primary-container: #fffdff; --secondary-container: #b7bcfe; --on-secondary-container: #444a83; --tertiary: #3d4ad8; --tertiary-container: #5865f2; --on-tertiary-container: #fffdff; }
@@ -1286,6 +1349,7 @@
         [data-palette="default"][data-theme="light"] [data-brand="steam"] { --brand: #66c0f4; --primary: #00658d; --on-primary: #ffffff; --primary-container: #66c0f4; --on-primary-container: #004d6c; --secondary-container: #c4e4fb; --on-secondary-container: #48667a; --tertiary: #00658d; --tertiary-container: #66c0f4; --on-tertiary-container: #004d6c; }
         [data-palette="default"][data-theme="light"] [data-brand="wakatime"] { --brand: #3b82f6; --primary: #0058be; --on-primary: #ffffff; --primary-container: #2170e4; --on-primary-container: #fefcff; --secondary-container: #b6ccff; --on-secondary-container: #405682; --tertiary: #0058be; --tertiary-container: #2170e4; --on-tertiary-container: #fefcff; }
         [data-palette="default"][data-theme="light"] [data-brand="github"] { --brand: #2da44e; --primary: #006b2a; --on-primary: #ffffff; --primary-container: #008737; --on-primary-container: #f7fff2; --secondary-container: #bdebbd; --on-secondary-container: #436c47; --tertiary: #006b2a; --tertiary-container: #008737; --on-tertiary-container: #f7fff2; }
+        [data-palette="default"][data-theme="light"] [data-brand="duolingo"] { --brand: #58cc02; --primary: #2b6c00; --on-primary: #ffffff; --primary-container: #58cc02; --on-primary-container: #1e5000; --secondary-container: #aef286; --on-secondary-container: #357013; --tertiary: #2b6c00; --tertiary-container: #58cc02; --on-tertiary-container: #1e5000; }
         [data-palette="default"][data-theme="light"] [data-brand="strava"] { --brand: #fc4c02; --primary: #aa3000; --on-primary: #ffffff; --primary-container: #d53e00; --on-primary-container: #fffbff; --secondary-container: #fd7f57; --on-secondary-container: #6e1c00; --tertiary: #aa3000; --tertiary-container: #d53e00; --on-tertiary-container: #fffbff; }
         [data-palette="default"][data-theme="light"] [data-brand="backloggd"] { --brand: #fc6399; --primary: #af255e; --on-primary: #ffffff; --primary-container: #fc6399; --on-primary-container: #670031; --secondary-container: #fea4be; --on-secondary-container: #7b364d; --tertiary: #af255e; --tertiary-container: #fc6399; --on-tertiary-container: #670031; }
         /* icons in a branded card wear the brand itself, not a pastel of it */
@@ -2037,26 +2101,79 @@
             </div>
         </section>
 
-        <section data-brand="backloggd" class="card t-played span-4" aria-labelledby="playedTitle">
+        <section data-brand="duolingo" class="card t-duo span-2" aria-labelledby="duoTitle">
+            <div>
+                <div class="shape-icon" style="--shape-a: var(--shape-burst10); --shape-b: var(--shape-cookie9);"><span class="ms">translate</span></div>
+                <h2 class="card-title" id="duoTitle">daily language</h2>
+                <div class="stats">
+                    <div class="stat"><b id="duoStreak">16<small>days</small></b><span>streak</span></div>
+                    <div class="stat"><b id="duoXp">32.0<small>k</small></b><span>total xp</span></div>
+                    <div class="stat"><b id="duoCourse">German</b><span>learning</span></div>
+                    <div class="stat"><b id="duoCount">3</b><span>courses</span></div>
+                </div>
+                <p class="strava-note">learning on duolingo since may 2024 · super duolingo</p>
+            </div>
+            <div class="duo-focus" id="duoFocus">
+                <div class="duo-focus-head">
+                    <span class="tile-label"><span class="ms">school</span>active course</span>
+                    <span class="duo-streak-pill"><span class="ms">local_fire_department</span><span id="duoStreakPill">16 days</span></span>
+                </div>
+                <div class="duo-lang-main">
+                    <p class="duo-big" id="duoBig">German</p>
+                    <span class="duo-xp-badge" id="duoMainXp">28.6k XP</span>
+                </div>
+                <div class="duo-breakdown">
+                    <div class="duo-bar" id="duoBar" aria-hidden="true">
+                        <span class="bar-de" id="duoBarDe" style="width: 96.9%;" title="German 96.9%"></span>
+                        <span class="bar-en" id="duoBarEn" style="width: 2.4%;" title="English 2.4%"></span>
+                        <span class="bar-ja" id="duoBarJa" style="width: 0.7%;" title="Japanese 0.7%"></span>
+                    </div>
+                    <div class="duo-courses" id="duoCourses">
+                        <div class="duo-course-row">
+                            <span class="duo-course-name"><span class="dot" style="background:var(--primary);"></span>German</span>
+                            <span class="duo-course-xp">28,615 <small>XP</small></span>
+                        </div>
+                        <div class="duo-course-row">
+                            <span class="duo-course-name"><span class="dot" style="background:color-mix(in srgb, var(--primary) 50%, var(--surface-highest));"></span>English</span>
+                            <span class="duo-course-xp">708 <small>XP</small></span>
+                        </div>
+                        <div class="duo-course-row">
+                            <span class="duo-course-name"><span class="dot" style="background:color-mix(in srgb, var(--primary) 30%, var(--surface-highest));"></span>Japanese</span>
+                            <span class="duo-course-xp">180 <small>XP</small></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-actions">
+                <a class="btn" href="https://www.duolingo.com/profile/SC-136" target="_blank" rel="noopener noreferrer"><span class="ms">open_in_new</span>Duolingo</a>
+            </div>
+        </section>
+        <section data-brand="backloggd" class="card t-played span-2" aria-labelledby="playedTitle">
             <div class="played-info">
                 <div class="shape-icon tonal" style="--shape-a: var(--shape-burst10); --shape-b: var(--shape-cookie9);"><span class="ms">stadia_controller</span></div>
                 <h2 class="card-title" id="playedTitle">games i've played</h2>
                 <div class="stats">
                     <div class="stat"><b>33</b><span>games played</span></div>
                     <div class="stat"><b>7</b><span>in the backlog</span></div>
+                    <div class="stat"><b>4</b><span>favourites</span></div>
+                    <div class="stat"><b>PC</b><span>main platform</span></div>
                 </div>
-                <div class="card-actions">
-                    <a class="btn" href="https://backloggd.com/u/SC136/" target="_blank" rel="noopener noreferrer"><span class="ms">open_in_new</span>Backloggd</a>
-                </div>
+                <p class="strava-note">logged on backloggd · souls-likes, indies & stories</p>
             </div>
             <div class="played-favs">
-                <p class="subhead">all-time favourites</p>
+                <div class="played-favs-head">
+                    <span class="tile-label"><span class="ms">favorite</span>all-time favourites</span>
+                    <span class="duo-streak-pill"><span class="ms">star</span>4 masterpieces</span>
+                </div>
                 <div class="posters four">
                     <a class="poster" href="https://backloggd.com/games/sekiro-shadows-die-twice/" target="_blank" rel="noopener noreferrer" data-glow="#b8452e" data-tip="Sekiro: Shadows Die Twice|2019 · action · souls-like" data-banner="assets/backloggd/sekiro-banner.webp" aria-label="Sekiro: Shadows Die Twice, one of my favourite games"><img src="assets/backloggd/sekiro.webp" alt="" loading="lazy" width="264" height="352"></a>
                     <a class="poster" href="https://backloggd.com/games/inside/" target="_blank" rel="noopener noreferrer" data-glow="#c8302a" data-tip="Inside|2016 · puzzle · platformer" data-banner="assets/backloggd/inside-banner.webp" aria-label="Inside, one of my favourite games"><img src="assets/backloggd/inside.webp" alt="" loading="lazy" width="264" height="352"></a>
                     <a class="poster" href="https://backloggd.com/games/mafia-ii/" target="_blank" rel="noopener noreferrer" data-glow="#a8763e" data-tip="Mafia II|2010 · action · open world" data-banner="assets/backloggd/mafia-ii-banner.webp" aria-label="Mafia II, one of my favourite games"><img src="assets/backloggd/mafia-ii.webp" alt="" loading="lazy" width="264" height="352"></a>
                     <a class="poster" href="https://backloggd.com/games/limbo/" target="_blank" rel="noopener noreferrer" data-glow="#9aa39a" data-tip="Limbo|2010 · puzzle · platformer" data-banner="assets/backloggd/limbo-banner.webp" aria-label="Limbo, one of my favourite games"><img src="assets/backloggd/limbo.webp" alt="" loading="lazy" width="264" height="352"></a>
                 </div>
+            </div>
+            <div class="card-actions">
+                <a class="btn" href="https://backloggd.com/u/SC136/" target="_blank" rel="noopener noreferrer"><span class="ms">open_in_new</span>Backloggd</a>
             </div>
         </section>
 
@@ -2596,7 +2713,7 @@
     }
     // In the "default" theme every card also washes the page, in the colour of its brand; the nearest one wins,
     // so a poster or a social row inside a card keeps its own colour
-    const BRAND_GLOW = {"discord": "#5865f2", "lastfm": "#d51007", "anilist": "#02a9ff", "letterboxd": "#ff8000", "steam": "#66c0f4", "wakatime": "#3b82f6", "github": "#2da44e", "strava": "#fc4c02", "backloggd": "#fc6399", "sc": "#e8826a", "spotify": "#1ed760"};
+    const BRAND_GLOW = {"discord": "#5865f2", "lastfm": "#d51007", "anilist": "#02a9ff", "letterboxd": "#ff8000", "steam": "#66c0f4", "wakatime": "#3b82f6", "github": "#2da44e", "strava": "#fc4c02", "duolingo": "#58cc02", "backloggd": "#fc6399", "sc": "#e8826a", "spotify": "#1ed760"};
     const glowFrom = (node) => {
         if (!node || !node.closest) return null;
         const own = node.closest('[data-glow]');
@@ -3151,6 +3268,59 @@
             });
         })
         .catch(() => {});
+
+    // ---------- Duolingo ----------
+    const DUO_SNAPSHOT = {
+        username: 'SC-136',
+        streak: 16,
+        totalXp: 31990,
+        learningLanguage: 'de',
+        courses: [
+            { title: 'German', xp: 28615, learningLanguage: 'de' },
+            { title: 'English', xp: 708, learningLanguage: 'en' },
+            { title: 'Japanese', xp: 180, learningLanguage: 'ja' }
+        ]
+    };
+    function paintDuo(data) {
+        if (!data) return;
+        const streak = data.streak != null ? data.streak : 16;
+        setText('duoStreak', streak + 'days');
+        const xp = data.totalXp || 31990;
+        setText('duoXp', (xp >= 1000 ? (xp / 1000).toFixed(1) + 'k' : xp));
+        setText('duoStreakPill', streak + ' days');
+        const courses = data.courses || [];
+        if (courses.length) {
+            setText('duoCount', courses.length);
+            const main = courses[0];
+            setText('duoCourse', main.title);
+            setText('duoBig', main.title);
+            setText('duoMainXp', (main.xp >= 1000 ? (main.xp / 1000).toFixed(1) + 'k' : main.xp) + ' XP');
+            const totalCourseXp = courses.reduce((acc, c) => acc + (c.xp || 0), 0) || 1;
+            const barIds = ['duoBarDe', 'duoBarEn', 'duoBarJa'];
+            courses.slice(0, 3).forEach((c, idx) => {
+                const el = $(barIds[idx]);
+                if (el) {
+                    const pct = ((c.xp / totalCourseXp) * 100).toFixed(1);
+                    el.style.width = pct + '%';
+                    el.title = `${c.title} ${pct}%`;
+                }
+            });
+            const coursesEl = $('duoCourses');
+            if (coursesEl) {
+                coursesEl.innerHTML = courses.map((c, i) => {
+                    const dotBg = i === 0 ? 'var(--primary)' : `color-mix(in srgb, var(--primary) ${Math.max(25, 65 - i * 25)}%, var(--surface-highest))`;
+                    const xpFormatted = Number(c.xp || 0).toLocaleString();
+                    return `<div class="duo-course-row">
+                        <span class="duo-course-name"><span class="dot" style="background:${dotBg};"></span>${esc(c.title)}</span>
+                        <span class="duo-course-xp">${xpFormatted} <small>XP</small></span>
+                    </div>`;
+                }).join('');
+            }
+        }
+    }
+    loadCached('sc136-duo-v1', 'https://vixnfmutdbaprqflgzpr.supabase.co/functions/v1/duolingo-profile', (d) => d, 6 * 3600 * 1000)
+        .then(paintDuo)
+        .catch(() => paintDuo(DUO_SNAPSHOT));
 
     // ---------- Letterboxd ----------
     fetch('https://vixnfmutdbaprqflgzpr.supabase.co/functions/v1/letterboxd-feed')
