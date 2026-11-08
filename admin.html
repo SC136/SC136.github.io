@@ -16,15 +16,15 @@
             --ease: cubic-bezier(0.2, 0, 0, 1);
         }
         [data-theme="dark"] {
-            --surface: #1a1110; --card: #271d1b; --high: #322825; --on: #f1dfdb; --var: #d8c2bd; --outline: #a08c87;
-            --primary: #ffb4a1; --on-primary: #561f0f; --pc: #723523; --on-pc: #ffdbd1;
-            --sc: #3b3a4f; --on-sc: #e4e0f8; --tc: #46401f; --on-tc: #f3e7b4;
+            --surface: #1a110f; --card: #271d1b; --high: #322825; --on: #f1dfda; --var: #d8c2bc; --outline: #a08c88;
+            --primary: #ffb4a1; --on-primary: #561f10; --pc: #723524; --on-pc: #ffdbd2;
+            --sc: #5d4038; --on-sc: #ffdbd2; --tc: #534519; --on-tc: #f7e1a6;
             --bad: #ffb4ab;
         }
         [data-theme="light"] {
-            --surface: #fff8f6; --card: #fceae6; --high: #f6e4e0; --on: #231917; --var: #53433f; --outline: #85736e;
-            --primary: #8f4b39; --on-primary: #ffffff; --pc: #ffdbd1; --on-pc: #3a0b01;
-            --sc: #e2e0f6; --on-sc: #1b1a2c; --tc: #f4e9b6; --on-tc: #221c00;
+            --surface: #fff8f6; --card: #fceae6; --high: #f7e4e0; --on: #231917; --var: #53433f; --outline: #85736f;
+            --primary: #8f4b39; --on-primary: #ffffff; --pc: #ffdbd2; --on-pc: #723524;
+            --sc: #ffdbd2; --on-sc: #5d4038; --tc: #f7e1a6; --on-tc: #534519;
             --bad: #ba1a1a;
         }
         * { box-sizing: border-box; }
@@ -76,7 +76,7 @@
         // light or dark, like the rest of the site
         (function () {
             var t = 'dark';
-            try { t = localStorage.getItem('sc136-theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'); } catch (e) {}
+            try { t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'); } catch (e) {}
             document.documentElement.dataset.theme = t === 'light' ? 'light' : 'dark';
         })();
     </script>

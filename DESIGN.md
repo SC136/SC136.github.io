@@ -113,7 +113,6 @@ rounded:
   spec: 18px
   stat: 16px
   menu: 16px
-  menu-item: 12px
   row-lead: 12px
   poster: 12px
   poster-hover: 20px
@@ -215,17 +214,6 @@ components:
     backgroundColor: "{colors.surface-high}"
     rounded: "{rounded.palette-menu}"
     width: 330px
-  context-menu:
-    backgroundColor: "{colors.surface-high}"
-    borderColor: "{colors.outline-variant}"
-    rounded: "{rounded.menu}"
-  context-menu-item:
-    rounded: "{rounded.menu-item}"
-    height: 48px
-  toast:
-    backgroundColor: "{colors.primary-container}"
-    textColor: "{colors.on-primary-container}"
-    rounded: "{rounded.pill}"
   since-strip:
     backgroundColor: "{colors.primary-container}"
     textColor: "{colors.on-primary-container}"
@@ -255,11 +243,11 @@ components:
 
 sc.is-a.dev is the "more" page to Swar's portfolio at swar.is-a.dev. It answers one question: what is Swar up to right now? The answer is a single `index.html`. The parts are a live sky over Mumbai, an avatar that morphs into a different shape on each tap, a guess line under the avatar, and a 4-column bento of cards that each read one real source (Discord, Last.fm, AniList, Letterboxd, Steam, WakaTime, GitHub, Strava, Duolingo, Backloggd, a guestbook). It is written in Swar's voice, lowercase and first person. It isn't a CV.
 
-There is no build step. CSS, markup and JS all live in `index.html`, and sections are marked with comments like `/* ---------- listening ---------- */`, `BENTO:`, `LOADER:` and `RIGHT-CLICK MENU:`. Search for those comments to find things. Line numbers move too often to rely on.
+There is no build step. CSS, markup and JS all live in `index.html`, and sections are marked with comments like `/* ---------- listening ---------- */`, `BENTO:` and `LOADER:`. Search for those comments to find things. Line numbers move too often to rely on.
 
 ### Principles
 
-1. **Strict Material 3 Expressive.** Use tonal surfaces, cookie-cutter shapes, spring motion and corners that change on interaction. No glassmorphism, no frosted blur panels, no liquid glass. *Why:* glass is the visual language of swar.is-a.dev. Keeping this site pure M3 is what makes it a separate place. A glass-tinted context menu was tried here and rejected outright.
+1. **Strict Material 3 Expressive.** Use tonal surfaces, cookie-cutter shapes, spring motion and corners that change on interaction. No glassmorphism, no frosted blur panels, no liquid glass. *Why:* glass is the visual language of swar.is-a.dev. Keeping this site pure M3 is what makes it a separate place. A glass-tinted context menu was tried here and rejected outright, and the whole right-click menu was later removed.
 2. **Real data, or nothing.** The sky follows the sunrise equation for Mumbai, the moon is computed from an ephemeris, the clouds come from Open-Meteo, and the guess comes from Discord, Last.fm and GitHub. If a number is copied by hand (Strava, the Letterboxd totals), the card says so. *Why:* the whole point of the page is "right now". One fake detail makes every other detail suspect.
 3. **Specific beats generic.** An indicator should look like the thing it reports on. The Discord dot uses Discord's own status colours, and progress is drawn as Android's squiggle. *Why:* a pulsing green "live" dot was rejected because it looked AI generated. Generic decoration reads as a template.
 4. **State changes animate, they never snap.** The squiggle eases down to flat on pause and back up on play. Themes grow out of the button as a circle. The avatar springs between shapes. *Why:* a snap reads as a glitch, and motion is how the page shows that something changed.
@@ -273,7 +261,7 @@ There is no build step. CSS, markup and JS all live in `index.html`, and section
 
 Every colour role is defined under `[data-theme="dark"]` and `[data-theme="light"]`. `:root` holds only shapes and easings. Each scheme has exactly 19 roles: `--primary`, `--on-primary`, `--primary-container`, `--on-primary-container`, `--secondary-container`, `--on-secondary-container`, `--tertiary`, `--tertiary-container`, `--on-tertiary-container`, `--surface`, `--surface-lowest`, `--surface-low`, `--surface-container`, `--surface-high`, `--surface-highest`, `--on-surface`, `--on-surface-variant`, `--outline`, `--outline-variant`.
 
-**Rule: only reference a role from that list.** These do not exist: `--secondary`, `--on-secondary`, `--on-tertiary`, `--error`, `--surface-dim`, `--surface-bright`, `--inverse-*`, `--surface-container-high`, `--surface-container-highest`. *Why:* an undefined `var()` fails silently. The context menu once read `--surface-container-high` and came out transparent. If a role is missing, add it to every palette rule, or use a role that already exists.
+**Rule: only reference a role from that list.** These do not exist: `--secondary`, `--on-secondary`, `--on-tertiary`, `--error`, `--surface-dim`, `--surface-bright`, `--inverse-*`, `--surface-container-high`, `--surface-container-highest`. *Why:* an undefined `var()` fails silently. A menu once read `--surface-container-high` and came out transparent. If a role is missing, add it to every palette rule, or use a role that already exists.
 
 ### Surface ladder
 
@@ -284,7 +272,7 @@ Every colour role is defined under `[data-theme="dark"]` and `[data-theme="light
 | Inside a card | `--surface-high` | `.row`, `.stat`, `.lastfm`, `.poster`, `.spec`, guest inputs, `.icon-btn`, `.now-guess` |
 | Inner panel | `--surface-lowest` at 55% | `.strava-latest`, `.duo-focus`, `.played-favs` |
 | Floating | `--surface-highest` | `.rich-tip`, `kbd`, `.snap-frame` |
-| Dialogs and menus | `--surface-high` | `.keys-dialog`, `.palette-menu`, `.ctx-menu` |
+| Dialogs and menus | `--surface-high` | `.keys-dialog`, `.palette-menu` |
 
 Hover tints come from mixing on-surface into the base: `color-mix(in srgb, var(--on-surface) 5–10%, <base or transparent>)`. Don't invent a new grey.
 
@@ -493,7 +481,6 @@ The tall cards zig-zag right, left, right. Visual order equals DOM order equals 
 | `.rich-tip` | 60 |
 | `.keys-dialog`, `.snap-dialog` | 70 |
 | `.loader` | 100 |
-| `.ctx-menu` / `.ctx-toast` | 900 / 901 |
 
 Overlay containers set `pointer-events: none` and turn it back on for their interactive children. Copy that pattern for any new overlay.
 
@@ -543,8 +530,6 @@ All components take their colours from role tokens, so they work in every palett
 
 **Palette menu** (`.palette-menu`). 330px, `--surface-high`, radius 24, grows from the top right. The title "colour" is followed by a 5-column grid of `.swatch-btn`. Each swatch is 46px: primary on the top half, secondary and tertiary on the bottom, like Android's picker. The default swatch is a tiny bento of brand-coloured cards.
 
-**Context menu** (`.ctx-menu`, only when `(pointer: fine)`). Opaque `--surface-high`, a 1px `--outline-variant` border, radius 16, M3 level-3 shadow, 48px items inset 6px at radius 12, state layers of on-surface at 8% (hover/focus) and 12% (press). It holds link actions when relevant, then the same actions as the keyboard shortcuts with their keys as `kbd`, then "Back to portfolio", "Copy page link" and a hint row. It flips at the viewport edges and grows from the corner nearest the pointer. Shift+right-click (or Ctrl/Alt/Meta) gives the browser's menu. Its toast is a `--primary-container` pill shown for 1.7s.
-
 **Since strip** (`.since`). A `--primary-container` pill between the intro and the bento, shown if the last visit was more than 3 hours ago. It diffs songs, contributions and episodes against `sc136-visit-v1`.
 
 **Discord tile** (`.t-discord`). A 64px avatar with a status dot in Discord's own colours (online `#23a55a`, idle `#f0b232`, dnd `#f23f43`, offline `#80848e`), the text, and either game art or album art. While Spotify plays, `.discord-bar` shows the squiggle.
@@ -582,7 +567,7 @@ All components take their colours from role tokens, so they work in every palett
 
 Swar is talking. Write it the way he would type it.
 
-- **Lowercase** for all visible prose, including "i", place names and brands in a sentence: "hey, i'm swar", "what i'm listening to", "github is taking a nap". Capitals only for brand names on buttons (Spotify, AniList), single-word actions (Contact, Share, Save, "Leave it"), proper titles (film and game names, SC136), aria-labels (sentence case) and context-menu items.
+- **Lowercase** for all visible prose, including "i", place names and brands in a sentence: "hey, i'm swar", "what i'm listening to", "github is taking a nap". Capitals only for brand names on buttons (Spotify, AniList), single-word actions (Contact, Share, Save, "Leave it"), proper titles (film and game names, SC136) and aria-labels (sentence case).
 - **First person singular.** Card titles are "what i'm watching", "how i code", "games i've played", "where to find me". "You" appears only where the visitor acts (the guestbook).
 - **Warm and slightly funny,** never corporate. Failures are personified and excuses friendly: "couldn't leave it just now, try again in a bit". Sticker and avatar captions can be memes ("get in the robot, shinji", "ok.").
 - **Punctuation:** `·` between facts ("an outdoor walk · 1h 54m · 26 m climbed"), `…` for in-progress, `–` for an empty value, commas instead of em dashes, no full stop on fragments. Use straight apostrophes.
@@ -597,7 +582,7 @@ Swar is talking. Write it the way he would type it.
 - Decorative layers are `aria-hidden` (sky, glow, backdrop, legends). Icon glyphs are hidden by `hideIconWords`. Use `.sr-only` for labels that are only for screen readers.
 - Status updates use `role="status"` or `aria-live="polite"` on the smallest element that changes, not on a whole card that re-renders every second.
 - Every dialog moves focus in, closes on Esc and outside click, and returns focus to its trigger.
-- Shortcuts (`? T C A S P Esc`) ignore modifier keys and form fields, and the context menu lists the same actions, so pointer users find them too.
+- Shortcuts (`? T C A S P Esc`) ignore modifier keys and form fields. The `?` hint at the bottom lists them.
 - Honour `prefers-reduced-motion` in CSS and through `reduceMotion` in JS. Freeze motion, keep colour.
 - Contrast comes from M3 role pairs and scrims, as described under Colour. Never put a raw hex on a surface.
 
@@ -618,7 +603,8 @@ Swar is talking. Write it the way he would type it.
 
 ## Don'ts
 
-- **No glass.** A frosted, glass-tinted context menu was built and rejected. The menu is now an opaque `--surface-high` M3 menu. Liquid glass belongs to swar.is-a.dev.
+- **No glass.** A frosted, glass-tinted context menu was built and rejected. Liquid glass belongs to swar.is-a.dev.
+- **No custom right-click menu.** One existed and was removed: every action in it already had a button or a shortcut, and it hid the browser's own menu (copy image, inspect). Don't bring it back.
 - **No undefined tokens.** `--surface-container-high` made the menu transparent. Check every `var(--…)` against the 19 roles.
 - **No generic live indicators.** A pulsing green dot was rejected as AI-looking. Use the source's own signal: Discord's status colours, the squiggle, "playing right now".
 - **Don't pad to balance a row.** Add real content. Backloggd got a shelf of favourites, and the CS2 tile minimum went down to 180px so the listening and watching columns end level.
@@ -636,11 +622,7 @@ Swar is talking. Write it the way he would type it.
 Fix these when you are nearby. Don't copy them.
 
 - Dead CSS: `.tiles`, `.tile`, `.socials`, `.now-playing`, `.play-grid`, `.game`, `.span-3`, `.rows-3`, `.wide-xs`. The `.tile-*` and `.game-label/-name/-sub` text classes are still in use.
-- Hard-coded colours where a brand set or role exists: `.discord-bar span #1ed760`, `.duo-streak-pill #ff9600` (weak in light mode), `.guest-msg.bad #ffb4ab/#ba1a1a` (there is no `--error` role), `BRAND_GLOW.sc #e8826a` (not the seed).
-- `--brand` is set in every brand rule but never read. `<meta name="theme-color">` is fixed at coral dark.
-- `paintDuo` writes `streak + 'days'`, which shows "16days" and drops the `<small>`, and it assumes the courses arrive in de/en/ja order.
-- AniList and Letterboxd leave skeletons on error. Steam's `{error}` response leaves "loading hours…".
-- The keys dialog doesn't return focus. Dialogs have no `aria-modal`.
-- Shortcut letters still fire while the context menu has focus. "Next color theme" should say "colour".
+- Hard-coded colours where a role exists: `.guest-msg.bad #ffb4ab/#ba1a1a` (there is no `--error` role) and `BRAND_GLOW.sc #e8826a` (not the seed). `.discord-bar span #1ed760` is deliberate: it is Spotify's own green.
+- `--brand` is set in every brand rule but never read.
+- The dialogs are not modal (the page behind stays usable), so they have no `aria-modal` and no focus trap on purpose.
 - Only coral's seed is recorded, so the other palettes can't be regenerated from source.
-- `admin.html` reads the theme from `sc136-theme`, but the main page writes `theme`. `admin.html` and `404.html` carry near-miss copies of the coral hexes.

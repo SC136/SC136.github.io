@@ -1090,7 +1090,7 @@
         .duo-focus-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
         .duo-focus .tile-label { display: inline-flex; align-items: center; gap: 6px; }
         .duo-focus .tile-label .ms { font-size: 18px; color: var(--primary); }
-        .duo-streak-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px 4px 8px; border-radius: 999px; background: color-mix(in srgb, #ff9600 20%, transparent); color: #ff9600; font-size: 0.82rem; font-weight: 600; }
+        .duo-streak-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px 4px 8px; border-radius: 999px; background: color-mix(in srgb, #ff9600 20%, transparent); color: color-mix(in srgb, #ff9600 60%, var(--on-surface)); font-size: 0.82rem; font-weight: 600; }
         .duo-streak-pill .ms { font-size: 17px; }
         .duo-lang-main { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
         .duo-big { margin: 0; font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; }
@@ -1616,120 +1616,6 @@
             html { transition-duration: 0.4s !important; }
             .glow { transition: none !important; }
         }
-
-        /* ===== RIGHT-CLICK MENU: Google Material Design 3 Spec ===== */
-        .ctx-menu {
-            position: fixed;
-            z-index: 900;
-            top: 0;
-            left: 0;
-            min-width: 240px;
-            max-width: min(300px, calc(100vw - 16px));
-            max-height: calc(100vh - 16px);
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 8px 0;
-            border-radius: 16px;
-            color: var(--on-surface);
-            font: 500 0.88rem/1.2 "Google Sans Flex", sans-serif;
-            background: var(--surface-high);
-            border: 1px solid var(--outline-variant);
-            box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
-            scrollbar-width: none;
-            opacity: 0;
-            scale: 0.94;
-            transform-origin: var(--ox, 0) var(--oy, 0);
-            pointer-events: none;
-            transition: opacity 0.15s var(--ease), scale 0.25s var(--spring);
-        }
-        [data-theme="light"] .ctx-menu {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-        .ctx-menu[hidden] { display: none; }
-        .ctx-menu.open { opacity: 1; scale: 1; pointer-events: auto; }
-        .ctx-menu::-webkit-scrollbar { display: none; }
-        .ctx-item {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: calc(100% - 12px);
-            margin: 0 6px;
-            height: 48px;
-            padding: 0 12px;
-            border: 0;
-            border-radius: 12px;
-            background: none;
-            color: var(--on-surface);
-            font: inherit;
-            letter-spacing: 0.01em;
-            text-align: left;
-            cursor: pointer;
-            transition: background 0.12s var(--ease), border-radius 0.2s var(--spring);
-        }
-        .ctx-item .ms {
-            flex: none;
-            font-size: 22px;
-            width: 24px;
-            text-align: center;
-            color: var(--on-surface-variant);
-            transition: color 0.15s var(--ease);
-        }
-        .ctx-item span.ctx-label {
-            flex: 1;
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .ctx-item kbd {
-            flex: none;
-            font: 500 0.72rem "Google Sans Flex", monospace;
-            color: var(--on-surface-variant);
-            padding: 2px 6px;
-            border-radius: 6px;
-            background: var(--surface-container);
-            border: 1px solid var(--outline-variant);
-        }
-        .ctx-item:hover, .ctx-item:focus-visible {
-            background: color-mix(in srgb, var(--on-surface) 8%, transparent);
-            outline: none;
-        }
-        .ctx-item:hover .ms, .ctx-item:focus-visible .ms {
-            color: var(--primary);
-        }
-        .ctx-item:active {
-            background: color-mix(in srgb, var(--on-surface) 12%, transparent);
-        }
-        .ctx-sep {
-            height: 1px;
-            margin: 8px 0;
-            background: var(--outline-variant);
-            border: none;
-        }
-        .ctx-hint {
-            padding: 6px 18px 2px;
-            font-size: 0.68rem;
-            color: var(--on-surface-variant);
-            opacity: 0.75;
-        }
-        .ctx-toast {
-            position: fixed;
-            z-index: 901;
-            left: 50%;
-            bottom: 28px;
-            translate: -50% 12px;
-            padding: 10px 22px;
-            border-radius: 999px;
-            color: var(--on-primary-container);
-            font: 500 0.86rem "Google Sans Flex", sans-serif;
-            background: var(--primary-container);
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s var(--ease), translate 0.35s var(--spring);
-        }
-        .ctx-toast.show { opacity: 1; translate: -50% 0; }
     </style>
 </head>
 <body>
@@ -2443,6 +2329,15 @@
         });
     }
     themeBtn.addEventListener('click', () => sweep(themeBtn, () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark')));
+
+    // the browser's address bar takes the page's surface colour, whatever theme and palette are on
+    (function () {
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (!meta) return;
+        const paint = () => { const c = getComputedStyle(root).getPropertyValue('--surface').trim(); if (c) meta.content = c; };
+        new MutationObserver(paint).observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-palette', 'style'] });
+        paint();
+    })();
 
     // ---------- colour themes ----------
     const paletteBtn = $('paletteBtn');
@@ -3300,6 +3195,7 @@
     anilist('query { MediaListCollection(userName: "SC136", type: ANIME, status: CURRENT, sort: UPDATED_TIME_DESC) { lists { entries { progress media { siteUrl episodes format seasonYear averageScore genres bannerImage title { romaji english } coverImage { large color } nextAiringEpisode { episode timeUntilAiring } } } } } }')
         .then((d) => {
             const lists = d && d.data && d.data.MediaListCollection && d.data.MediaListCollection.lists;
+            if (!lists) throw new Error('anilist');
             const entries = (lists || []).flatMap((l) => l.entries).slice(0, 15);
             const grid = $('alWatching');
             if (!entries.length) { grid.innerHTML = '<p class="tile-sub">nothing on the go right now.</p>'; return; }
@@ -3332,7 +3228,7 @@
                 });
             });
         })
-        .catch(() => {});
+        .catch(() => { $('alWatching').innerHTML = '<p class="tile-sub">anilist is taking a nap</p>'; });
 
     // ---------- Duolingo ----------
     const DUO_SNAPSHOT = {
@@ -3349,10 +3245,10 @@
     function paintDuo(data) {
         if (!data) return;
         const streak = data.streak != null ? data.streak : 16;
-        setText('duoStreak', streak + 'days');
+        $('duoStreak').innerHTML = `${streak}<small>${streak === 1 ? 'day' : 'days'}</small>`;
         const xp = data.totalXp || 31990;
         setText('duoXp', (xp >= 1000 ? (xp / 1000).toFixed(1) + 'k' : xp));
-        setText('duoStreakPill', streak + ' days');
+        setText('duoStreakPill', streak + (streak === 1 ? ' day' : ' days'));
         const courses = data.courses || [];
         if (courses.length) {
             setText('duoCount', courses.length);
@@ -3361,9 +3257,9 @@
             setText('duoBig', main.title);
             setText('duoMainXp', (main.xp >= 1000 ? (main.xp / 1000).toFixed(1) + 'k' : main.xp) + ' XP');
             const totalCourseXp = courses.reduce((acc, c) => acc + (c.xp || 0), 0) || 1;
-            const barIds = ['duoBarDe', 'duoBarEn', 'duoBarJa'];
-            courses.slice(0, 3).forEach((c, idx) => {
-                const el = $(barIds[idx]);
+            const BAR_IDS = { de: 'duoBarDe', en: 'duoBarEn', ja: 'duoBarJa' };
+            courses.forEach((c) => {
+                const el = $(BAR_IDS[c.learningLanguage]);
                 if (el) {
                     const pct = ((c.xp / totalCourseXp) * 100).toFixed(1);
                     el.style.width = pct + '%';
@@ -3391,8 +3287,9 @@
     fetch('https://vixnfmutdbaprqflgzpr.supabase.co/functions/v1/letterboxd-feed')
         .then((r) => r.json())
         .then((d) => {
-            const films = (d && d.films) || [];
-            if (!films.length) return;
+            if (!d || d.error) throw new Error('letterboxd');
+            const films = d.films || [];
+            if (!films.length) { $('lbFilms').innerHTML = '<p class="tile-sub">nothing logged lately.</p>'; return; }
             const shown = films.slice(0, 5);
             const starsFor = (r) => (r ? '★'.repeat(Math.floor(r)) + (r % 1 >= 0.5 ? '½' : '') : '');
             const LB_DOTS = ['#ff8000', '#00e054', '#40bcf4'];
@@ -3416,7 +3313,7 @@
                 });
             });
         })
-        .catch(() => {});
+        .catch(() => { $('lbFilms').innerHTML = '<p class="tile-sub">letterboxd is taking a nap</p>'; });
 
     // ---------- Steam ----------
     // Hovering the CS2 tile plays a clip of mine. Browsers only allow sound once you've clicked or tapped
@@ -3443,7 +3340,7 @@
     fetch('https://vixnfmutdbaprqflgzpr.supabase.co/functions/v1/steam-profile')
         .then((r) => r.json())
         .then((d) => {
-            if (!d || d.error) return;
+            if (!d || d.error) { setText('steamHours', 'steam is napping'); return; }
             setText('steamState', 'most played on steam · ' + (d.stateMessage || d.onlineState || '').toLowerCase());
             setText('steamTop', d.topGame || 'steam');
             setText('steamHours', (d.topGameHours ? d.topGameHours + ' hours on record' : '') + (d.hoursPlayed2Wk && d.hoursPlayed2Wk !== '0.0' ? ' · ' + d.hoursPlayed2Wk + 'h this fortnight' : ''));
@@ -4525,9 +4422,18 @@
 
     // ---------- keyboard shortcuts ----------
     const keysDialog = $('keysDialog');
+    let keysOpener = null;
     function toggleKeys(open) {
+        const was = keysDialog.classList.contains('open');
         keysDialog.classList.toggle('open', open);
-        if (open) keysDialog.setAttribute('tabindex', '-1'), keysDialog.focus({ preventScroll: true });
+        if (open && !was) {
+            keysOpener = document.activeElement;
+            keysDialog.setAttribute('tabindex', '-1');
+            keysDialog.focus({ preventScroll: true });
+        } else if (!open && was) {
+            if (keysOpener && keysOpener !== document.body && document.contains(keysOpener) && keysDialog.contains(document.activeElement)) keysOpener.focus({ preventScroll: true });
+            keysOpener = null;
+        }
     }
     $('keysHint').addEventListener('click', () => toggleKeys(true));
     document.addEventListener('click', (e) => {
@@ -4552,143 +4458,6 @@
         else return;
         e.preventDefault();
     });
-
-    // ---------- right-click menu: authentic Material 3 Menu ----------
-    (function () {
-        if (!window.matchMedia('(pointer: fine)').matches) return;
-        const menu = document.createElement('div');
-        menu.className = 'ctx-menu';
-        menu.setAttribute('role', 'menu');
-        menu.setAttribute('aria-label', 'Quick menu');
-        menu.hidden = true;
-        document.body.appendChild(menu);
-
-        const toast = document.createElement('div');
-        toast.className = 'ctx-toast';
-        toast.setAttribute('role', 'status');
-        document.body.appendChild(toast);
-
-        let toastTimer = 0;
-        function say(text) {
-            toast.textContent = text;
-            toast.classList.add('show');
-            clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => toast.classList.remove('show'), 1700);
-        }
-
-        async function copyText(text, msg) {
-            try { await navigator.clipboard.writeText(text); }
-            catch (e) {
-                const t = document.createElement('textarea');
-                t.value = text; t.style.cssText = 'position:fixed;opacity:0';
-                document.body.appendChild(t); t.select();
-                try { document.execCommand('copy'); } catch (err) {}
-                t.remove();
-            }
-            say(msg);
-        }
-
-        const items = () => Array.from(menu.querySelectorAll('.ctx-item'));
-        function close() {
-            if (menu.hidden) return;
-            menu.classList.remove('open');
-            setTimeout(() => { if (!menu.classList.contains('open')) menu.hidden = true; }, 180);
-        }
-
-        function add(icon, label, run, kbd) {
-            const b = document.createElement('button');
-            b.type = 'button';
-            b.className = 'ctx-item';
-            b.setAttribute('role', 'menuitem');
-            b.innerHTML = `<span class="ms" aria-hidden="true">${icon}</span><span class="ctx-label">${esc(label)}</span>${kbd ? `<kbd>${esc(kbd)}</kbd>` : ''}`;
-            b.addEventListener('click', (e) => {
-                e.stopPropagation();
-                close();
-                setTimeout(run, 20);
-            });
-            menu.appendChild(b);
-        }
-
-        const sep = () => { const d = document.createElement('div'); d.className = 'ctx-sep'; d.setAttribute('role', 'separator'); menu.appendChild(d); };
-
-        function build(target) {
-            menu.textContent = '';
-            const selected = String(window.getSelection() || '').trim();
-            const link = target.closest && target.closest('a[href]');
-            const href = link ? link.href : '';
-            const realLink = href && !/^javascript:/i.test(href) && link.getAttribute('href') !== '#' && !link.getAttribute('href').startsWith('#');
-            let extras = 0;
-            if (selected) { add('content_copy', 'Copy', () => copyText(selected, 'copied')); extras++; }
-            if (realLink) {
-                add('link', 'Open link', () => { location.href = href; });
-                add('open_in_new', 'Open in new tab', () => window.open(href, '_blank', 'noopener'));
-                add('content_copy', 'Copy link address', () => copyText(href, 'link copied'));
-                extras += 3;
-            }
-            if (extras) sep();
-
-            add('photo_camera', 'Save snapshot', () => openSnapshot(), 'P');
-            add('palette', 'Next color theme', () => {
-                const names = [...swatchBtns].map((b) => b.dataset.palette).filter((n) => n !== 'music' || musicCover);
-                const next = names[(names.indexOf(root.dataset.palette || 'coral') + 1) % names.length];
-                sweep(paletteBtn, () => setPalette(next));
-            }, 'C');
-            const isDark = (root.dataset.theme || 'dark') === 'dark';
-            add(isDark ? 'light_mode' : 'dark_mode', isDark ? 'Switch to light' : 'Switch to dark', () => themeBtn.click(), 'T');
-            add('badge', 'Swap avatar', () => $('avatarBtn').click(), 'A');
-            add('auto_awesome', 'Swap sticker', () => nextMascot(true), 'S');
-            sep();
-            add('arrow_back', 'Back to portfolio', () => { location.href = 'https://swar.is-a.dev/'; });
-            add('link', 'Copy page link', () => copyText(location.href.split('#')[0], 'link copied'));
-            add('keyboard', 'Keyboard shortcuts', () => toggleKeys(true), '?');
-
-            const hint = document.createElement('div');
-            hint.className = 'ctx-hint';
-            hint.textContent = 'shift + right-click: browser menu';
-            menu.appendChild(hint);
-        }
-
-        function open(x, y, target, byKeyboard) {
-            build(target);
-            menu.hidden = false;
-            menu.classList.remove('open');
-            menu.style.left = '0px'; menu.style.top = '0px';
-            const w = menu.offsetWidth, h = menu.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
-            const flipX = x + w + 8 > vw, flipY = y + h + 8 > vh;
-            const left = Math.max(8, flipX ? x - w : x), top = Math.max(8, flipY ? y - h : y);
-            menu.style.left = left + 'px';
-            menu.style.top = Math.min(top, Math.max(8, vh - h - 8)) + 'px';
-            menu.style.setProperty('--ox', flipX ? '100%' : '0');
-            menu.style.setProperty('--oy', flipY ? '100%' : '0');
-            void menu.offsetWidth;
-            menu.classList.add('open');
-            const first = items()[0];
-            if (first && byKeyboard) first.focus({ preventScroll: true });
-        }
-
-        document.addEventListener('contextmenu', (e) => {
-            if (e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
-            if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable="true"], .ctx-menu')) return;
-            e.preventDefault();
-            open(e.clientX, e.clientY, e.target, e.button !== 2);
-        });
-
-        document.addEventListener('pointerdown', (e) => { if (!menu.hidden && !menu.contains(e.target)) close(); }, true);
-        window.addEventListener('scroll', close, { passive: true });
-        window.addEventListener('wheel', close, { passive: true });
-        window.addEventListener('resize', close);
-        window.addEventListener('blur', close);
-        document.addEventListener('keydown', (e) => {
-            if (menu.hidden || !menu.classList.contains('open')) return;
-            const list = items(), i = list.indexOf(document.activeElement);
-            if (e.key === 'Escape') { e.preventDefault(); close(); }
-            else if (e.key === 'ArrowDown') { e.preventDefault(); list[(i + 1) % list.length].focus(); }
-            else if (e.key === 'ArrowUp') { e.preventDefault(); list[(i - 1 + list.length) % list.length].focus(); }
-            else if (e.key === 'Home') { e.preventDefault(); list[0].focus(); }
-            else if (e.key === 'End') { e.preventDefault(); list[list.length - 1].focus(); }
-            else if (e.key === 'Tab') close();
-        });
-    })();
 })();
 </script>
 </body>
