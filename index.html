@@ -147,6 +147,8 @@
         .ms.filled { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
 
         .page { max-width: 1180px; margin: 0 auto; padding: 0 16px 24px; }
+        .page { pointer-events: none; } /* the gaps between cards let the pointer through to the moon in the sky behind */
+        .page > * { pointer-events: auto; }
 
         /* ---------- top buttons (they scroll away with the page, so they never cover a card) ---------- */
         .topbar {
@@ -195,9 +197,12 @@
             display: grid;
             place-items: center;
             padding: 40px 0 36px;
+            pointer-events: none;
         }
+        .hero > * { pointer-events: auto; } /* the hero is see-through to the pointer, so the moon in the sky behind it can be hovered */
         .hero-backdrop {
             position: absolute;
+            pointer-events: none;
             width: min(380px, 86vw);
             aspect-ratio: 1;
             background: color-mix(in oklab, var(--primary-container) 55%, var(--surface));
@@ -1485,7 +1490,11 @@
             opacity: var(--moon-o, 0);
             filter: var(--moon-glow);
             transition: opacity 3s var(--ease);
+            pointer-events: auto;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
+        .sky-moon:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; border-radius: 50%; }
         .sky-moon.glide { transition: opacity 3s var(--ease), left 16s linear, top 16s linear; }
         .sky-moon svg { display: block; width: 100%; height: 100%; overflow: visible; }
         .moon-lit { fill: var(--moon-lit); }
@@ -1733,18 +1742,18 @@
 </div>
 
 <!-- Live sky: dawn, day, dusk or night over Mumbai, behind the hero -->
-<div class="sky" id="sky" aria-hidden="true">
-    <div class="sky-tint night"></div>
-    <div class="sky-tint dawn"></div>
-    <div class="sky-tint day"></div>
-    <div class="sky-tint dusk"></div>
-    <div class="sky-drift"><i></i><i></i><i></i></div>
-    <div class="sky-stars" id="skyStars"></div>
-    <div class="sky-moon" id="skyMoon"></div>
-    <div class="sky-veil"></div>
-    <div class="sky-clouds" id="skyClouds"></div>
-    <div class="sky-flash" id="skyFlash"></div>
-    <div class="sky-rain" id="skyRain"></div>
+<div class="sky" id="sky">
+    <div class="sky-tint night" aria-hidden="true"></div>
+    <div class="sky-tint dawn" aria-hidden="true"></div>
+    <div class="sky-tint day" aria-hidden="true"></div>
+    <div class="sky-tint dusk" aria-hidden="true"></div>
+    <div class="sky-drift" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="sky-stars" id="skyStars" aria-hidden="true"></div>
+    <div class="sky-moon" id="skyMoon" tabindex="0" role="button" aria-label="Tonight's moon over Mumbai"></div>
+    <div class="sky-veil" aria-hidden="true"></div>
+    <div class="sky-clouds" id="skyClouds" aria-hidden="true"></div>
+    <div class="sky-flash" id="skyFlash" aria-hidden="true"></div>
+    <div class="sky-rain" id="skyRain" aria-hidden="true"></div>
 </div>
 <div class="glow" id="glow" aria-hidden="true"></div>
 
@@ -2338,7 +2347,7 @@
         tip.classList.add('show');
     }
     const hideTip = () => tip && tip.classList.remove('show');
-    const posterFrom = (node) => node && node.closest && node.closest('.poster, .mascot, .avatar-btn, .t-find .row, .spec, #pushTile');
+    const posterFrom = (node) => node && node.closest && node.closest('.poster, .mascot, .avatar-btn, .sky-moon, .t-find .row, .spec, #pushTile');
     document.addEventListener('pointerover', (e) => {
         const p = posterFrom(e.target);
         if (p && e.pointerType !== 'touch' && !p.contains(e.relatedTarget)) showTip(p);
@@ -2909,6 +2918,34 @@
         alt += 0.0002967 / Math.tan(lift + 0.00312536 / (lift + 0.08901179)); // the air bends the light a little near the horizon
         return { phase: 0.5 + 0.5 * inc * (side < 0 ? -1 : 1) / Math.PI, alt: alt / RAD, az };
     }
+    function moonPhaseInfo(phase) {
+        const p = ((phase % 1) + 1) % 1;
+        const lit = Math.round((1 - Math.cos(p * 2 * Math.PI)) / 2 * 100);
+        let name = '';
+        if (p < 0.03 || p >= 0.97) name = 'New Moon';
+        else if (p < 0.22) name = 'Waxing Crescent';
+        else if (p < 0.28) name = 'First Quarter';
+        else if (p < 0.47) name = 'Waxing Gibbous';
+        else if (p < 0.53) name = 'Full Moon';
+        else if (p < 0.72) name = 'Waning Gibbous';
+        else if (p < 0.78) name = 'Last Quarter';
+        else name = 'Waning Crescent';
+        return { name, lit };
+    }
+    // Moonrise and moonset within today (IST), found where the altitude crosses the horizon and interpolated between 10-minute steps
+    function moonTimes(dateMs) {
+        const IST_OFFSET = 5.5 * 3600000, STEP = 10 * 60000;
+        const dayStart = Math.floor((dateMs + IST_OFFSET) / DAY) * DAY - IST_OFFSET;
+        let rise = null, set = null, prev = moonAt(dayStart).alt;
+        for (let t = dayStart + STEP; t <= dayStart + DAY; t += STEP) {
+            const cur = moonAt(t).alt;
+            if (prev < 0 && cur >= 0 && !rise) rise = t - STEP + (-prev / (cur - prev)) * STEP;
+            else if (prev >= 0 && cur < 0 && !set) set = t - STEP + (prev / (prev - cur)) * STEP;
+            prev = cur;
+        }
+        const fmt = (t, none) => t ? new Date(t).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase() : none;
+        return { riseStr: fmt(rise, 'no moonrise today'), setStr: fmt(set, 'no moonset today'), rise, set };
+    }
     // The lit part of the disc as a path: 0 new, 0.25 first quarter, 0.5 full, 0.75 last quarter (seen from the north, so it fills from the right)
     function moonShape(phase, r) {
         const k = Math.cos(phase * 2 * Math.PI), rx = Math.abs(k) * r, waxing = phase < 0.5;
@@ -2916,11 +2953,24 @@
         return `M0 ${-r}A${r} ${r} 0 0 ${waxing ? 1 : 0} 0 ${r}A${rx.toFixed(2)} ${r} 0 0 ${inner} 0 ${-r}Z`;
     }
     const MOON_SEAS = [[-18, -14, 12], [10, -24, 8], [17, 6, 14], [-6, 22, 8], [-28, 10, 6], [28, -10, 5], [2, -2, 7]];
-    let moonShown = '', moonNow = null;
+    let moonShown = '', moonNow = null, moonTipTimer = null;
+    const skyMoonEl = $('skyMoon');
+    skyMoonEl.addEventListener('click', (e) => {
+        showTip(skyMoonEl);
+        clearTimeout(moonTipTimer);
+        if (e.pointerType === 'touch') moonTipTimer = setTimeout(hideTip, 3200);
+    });
+    skyMoonEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            showTip(skyMoonEl);
+        }
+    });
+
     const MOON_PREVIEW = parseFloat(new URLSearchParams(location.search).get('moon')); // ?moon=0.1 shows that phase, high in the sky
     function paintMoon() {
         const m = Number.isFinite(MOON_PREVIEW) ? { phase: MOON_PREVIEW, alt: 40, az: -0.55 } : moonAt(Date.now());
-        const el = $('skyMoon');
+        const el = skyMoonEl;
         const key = m.phase.toFixed(3);
         if (key !== moonShown) {
             moonShown = key;
@@ -2941,8 +2991,23 @@
         el.style.setProperty('--moon-x', x.toFixed(1) + '%');
         el.style.setProperty('--moon-y', y.toFixed(0) + 'px');
         el.style.setProperty('--moon-o', vis.toFixed(3));
+        el.style.pointerEvents = (vis > 0.08 || Number.isFinite(MOON_PREVIEW)) ? 'auto' : 'none';
         if (!el.classList.contains('glide')) setTimeout(() => el.classList.add('glide'), 100); // the first placement doesn't drift in from the corner
         moonNow = { phase: m.phase, x, y, vis, base };
+
+        const pInfo = moonPhaseInfo(m.phase);
+        const mTimes = moonTimes(Date.now());
+        const altDeg = Math.round(m.alt);
+        const altText = altDeg > 0 ? `${altDeg}° above horizon` : 'currently below horizon';
+        el.setAttribute('aria-label', `${pInfo.name}, ${pInfo.lit}% lit over Mumbai`);
+        tipContent.set(el, {
+            accent: 'var(--moon-lit)',
+            content: `<p class="tip-meta" style="margin-bottom: 2px;">the real moon · mumbai</p>
+                <p class="tip-title">${esc(pInfo.name)} <span style="font-weight: 400; color: var(--on-surface-variant); font-size: 0.85rem;">${pInfo.lit}% lit</span></p>
+                <p class="tip-line"><span class="ms">schedule</span>${mTimes.rise ? 'rises at ' : ''}${esc(mTimes.riseStr)}</p>
+                <p class="tip-line"><span class="ms">bedtime</span>${mTimes.set ? 'sets at ' : ''}${esc(mTimes.setStr)}</p>
+                <p class="tip-line"><span class="ms">visibility</span>${esc(altText)}</p>${chips('astronomy', 'sky', 'mumbai')}`
+        });
     }
     paintMoon();
 
@@ -3761,11 +3826,30 @@
         return url;
     }
     const preview = new Audio();
+    preview.crossOrigin = 'anonymous';
     preview.preload = 'none';
     preview.volume = 0.7;
     const lfPlay = $('lfPlay'), lfProgress = $('lfProgress');
     let previewKey = '', previewTitle = '', barFrame = 0;
-    // The played part of the bar is a live wave: it ripples along while the song plays, and eases down to a straight line when paused
+
+    let audioCtx = null, analyser = null, audioSrcNode = null, freqData = null;
+    function initAudioAnalyser() {
+        if (audioCtx) return;
+        try {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return;
+            audioCtx = new AC();
+            analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 64;
+            analyser.smoothingTimeConstant = 0.75;
+            audioSrcNode = audioCtx.createMediaElementSource(preview);
+            audioSrcNode.connect(analyser);
+            analyser.connect(audioCtx.destination);
+            freqData = new Uint8Array(analyser.frequencyBinCount);
+        } catch (e) {}
+    }
+
+    // The played part of the bar is a live wave: it dances to the real music frequencies while playing, and eases flat on pause
     const lfWave = $('lfWave'), lfWavePath = $('lfWavePath');
     const wave = { amp: 0, target: 0, phase: 0, timer: 0, p: 0 };
     function drawWave() {
@@ -3773,9 +3857,28 @@
         lfWave.setAttribute('width', w.toFixed(1));
         lfWave.setAttribute('viewBox', `0 0 ${w.toFixed(1)} 10`);
         let d = '';
-        for (let x = 0; x <= w + 2; x += 2) d += (x ? 'L' : 'M') + x + ' ' + (5 - 2.5 * wave.amp * Math.cos((x - wave.phase) / 24 * 2 * Math.PI)).toFixed(2);
+        let energy = 0;
+        if (analyser && !preview.paused && freqData) {
+            analyser.getByteFrequencyData(freqData);
+            let sum = 0;
+            for (let i = 0; i < 20; i++) sum += freqData[i];
+            energy = sum / (20 * 255);
+        }
+        const hasLive = energy > 0.02 && !reduceMotion;
+        const liveAmp = wave.amp * (hasLive ? (0.65 + 0.95 * energy) : 1);
+        const step = 2;
+        for (let x = 0; x <= w + step; x += step) {
+            let offset = 0;
+            if (hasLive && w > 0) {
+                const binIdx = Math.min(24, Math.max(1, Math.floor((x / w) * 24)));
+                const binNorm = (freqData[binIdx] || 0) / 255;
+                offset = (binNorm - 0.4) * 2.2 * wave.amp;
+            }
+            const y = 5 - 2.5 * liveAmp * Math.cos((x - wave.phase) / 24 * 2 * Math.PI) - offset;
+            d += (x ? 'L' : 'M') + x + ' ' + Math.max(0.5, Math.min(9.5, y)).toFixed(2);
+        }
         lfWavePath.setAttribute('d', d);
-        lfWavePath.setAttribute('stroke-width', (4 - wave.amp).toFixed(2)); // a flat line is as thick as the track beside it
+        lfWavePath.setAttribute('stroke-width', (4 - wave.amp).toFixed(2));
     }
     function stepWave() {
         const gap = wave.target - wave.amp;
@@ -3825,6 +3928,8 @@
         });
     }
     lfPlay.addEventListener('click', () => {
+        initAudioAnalyser();
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
         if (!preview.paused) { preview.pause(); return; }
         if (!preview.getAttribute('src')) preview.src = lfPlay.dataset.src;
         preview.play().catch(() => {});
