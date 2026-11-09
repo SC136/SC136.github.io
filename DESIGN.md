@@ -458,7 +458,8 @@ JS uses `< 600` and `max-width: 599px` where CSS uses `max-width: 600px`. Match 
 | 7 | by the numbers | (setup) |
 | 8 | my year on github | on the move (Strava) |
 | 9 | daily language (Duolingo) | games i've played (Backloggd) |
-| 10–12 | Discord server, guestbook, where to find me (all span-4) | |
+| 10 | this week in numbers | today, so far |
+| 11–13 | Discord server, guestbook, where to find me (all span-4) | |
 
 The tall cards zig-zag right, left, right. Visual order equals DOM order equals tab order. Keep it that way: `dense` must never be what fills a hole.
 
@@ -475,8 +476,10 @@ The tall cards zig-zag right, left, right. Visual order equals DOM order equals 
 | Layer | z-index |
 |---|---|
 | `.glow` | -1 (fixed) |
-| `.sky` | -1, like `.glow` (`pointer-events: none`; only `.sky-moon` takes pointer events) |
-| `.hero` | `pointer-events: none`, children `auto`, so the moon behind it can be hovered |
+| `.sky` | 5 (`pointer-events: none`; only the moon and the ISS take pointer events). It has to be above the page's plain content: a z-index of -1 looks right but the body then catches every pointer event and nothing in the sky can be hovered |
+| `.hero-backdrop` / `.avatar-btn` | 6 / 7 (the hero itself makes no layer, so the spinning shape can tuck behind the intro card; `pointer-events: none` on the hero, `auto` on its children, so the moon and ISS behind it can be hovered) |
+| `.card` | 10 |
+| `.now-guess` | 11 (hangs over the top of the intro card) |
 | `.topbar` / `.palette-menu` | 20 / 30 |
 | `.rich-tip` | 60 |
 | `.keys-dialog`, `.snap-dialog` | 70 |
@@ -491,14 +494,16 @@ Everything here is computed from Mumbai (`LAT 19.4654`, `LON 72.8086`) and real 
 - **Sky.** `paintSky()` writes four weights (`--night`, `--dawn`, `--day`, `--dusk`, each 0–1) on `#sky` from the sunrise equation. Dawn ramps from 75 minutes before sunrise, day starts 30 minutes after, dusk starts 90 minutes before sunset, night starts 15 minutes after. Each `.sky-tint` layer mixes its theme colours (`--sky-*`, `--hz-*`) into `--primary-container`, so the sky is also re-tinted by the colour theme. **JS writes numbers, CSS mixes colours.** New layers must follow that split. The sky repaints every 15s.
 - **Drift.** Three blurred colour bands drift over 48 to 62s. They replaced an earlier aurora behind the avatar.
 - **Stars.** 60 stars, seeded (`seed = 136`) so they sit in the same place on every visit, with every 10th one a sparkle. They are visible only at night, never twinkle, and clouds cover them.
-- **Moon.** Its phase and position come from an ephemeris. It is kept at least 24% away from the centre so it never sits on the avatar. It fades in over the horizon, paler by day and dimmer under overcast. It is the only interactive part of the sky. Its tooltip shows the name, the % lit, and moonrise and moonset in IST ("no moonrise today" on the days it skips). The sky's decorative layers are `aria-hidden`; the moon is not, because it is a control.
+- **Moon.** Its phase and position come from an ephemeris. It is kept at least 24% away from the centre so it never sits on the avatar. It fades in over the horizon, paler by day and dimmer under overcast. It is one of two interactive parts of the sky, with the ISS. Its tooltip shows the name, the % lit, and moonrise and moonset in IST ("no moonrise today" on the days it skips). The sky's decorative layers are `aria-hidden`; the moon is not, because it is a control.
 - **Weather.** Open-Meteo is polled every 20 minutes. WMO codes map to clouds (seeded), an overcast veil, rain at three densities slanted along their own 12°, and lightning flashes every 7 to 21s, only in storms. Clouds catch the horizon colour at dawn and dusk.
-- **Previews.** Use `?sky=clear|cloudy|overcast|fog|drizzle|rain|storm` and `?moon=0..1` to see any state. Live data never overrides a preview. Any new real-data visual gets a preview parameter like these.
+- **The ISS.** On a night visit a small 3D model of the station flies across the sky: a truss, four solar arrays that turn on it, and white modules, all built from CSS boxes in 3D (about 60 elements, scaled to 64px wide) and tumbling slowly as it goes. The first pass starts 14 to 22 seconds after the page shows, then another every four to six minutes while it stays open, and there is never more than one in the sky. A pass takes 90 to 140 seconds, left to right or right to left, on a slight slope. Like the shooting stars it is decoration, not real data. The tooltip is the real part: the station's position right now from api.wheretheiss.at, its height and speed, and a few facts. It sits behind clouds and is skipped in heavy cloud, by day and with reduced motion. It is the second thing in the sky you can hover.
+- **Shooting stars.** The one thing in the sky that is not real data, on purpose: a visitor at night sees one within a few seconds, then about two a minute on a clear night, fewer at dusk and dawn, hardly any under cloud, none by day. They sit behind the clouds like the stars. Keep them rare and keep them the only decoration; don't add comets, sparkles or anything else that moves for no reason.
+- **Previews.** Use `?sky=clear|cloudy|overcast|fog|drizzle|rain|storm`, `?moon=0..1` and `?meteors` (a meteor storm, any time of day) and `?iss` (the ISS flying quick passes, one after another) to see any state. Live data never overrides a preview. Any new real-data visual gets a preview parameter like these.
 - **Now guess.** The pill under the avatar works out a sentence from Discord, Last.fm, GitHub and the clock. Priority: editor, github, creative app, watching, game, song, a push in the last 45 minutes, dnd/online/idle, asleep between 1 and 8am, offline. Rain adds a suffix: "in the drizzle", "while it rains", "through a thunderstorm". It re-polls every 30s and repaints only when the text changes.
 - **Tab title.** It follows the guess (`▶ song · Swar`, `coding · Swar`, `zzz · Swar`). The base title is `Swar Churi · right now`.
 - **Favicon.** `SC.png` is recoloured on a canvas: the glow colour, otherwise `--primary`, lifted if it is too dark for a dark tab.
 
-**Restraint rules.** One interactive element in the sky. No twinkle, no particles that aren't weather. Every layer is scaled by a per-theme multiplier (`--sky-k` is .6 dark and .75 light, `--cloud-k` is .75 and 1). Under reduced motion the weather freezes but the colours stay correct.
+**Restraint rules.** Two interactive things in the sky, the moon and the ISS. No twinkle, no particles that aren't weather, apart from the odd shooting star. Every layer is scaled by a per-theme multiplier (`--sky-k` is .6 dark and .75 light, `--cloud-k` is .75 and 1). Under reduced motion the weather freezes but the colours stay correct.
 
 ## Components
 
@@ -542,6 +547,10 @@ All components take their colours from role tokens, so they work in every palett
 
 **Strava route.** The shape of the walk only: no map, no coordinates, and the first and last 400 m left off. It draws over 2.6s when half on screen.
 
+**This week in numbers** (`.t-week`). Four `.stat`s (songs played, pushes, repos touched, episodes), then a three-way `.seg` switch (music, anime, code; the same control as the watching card, kept apart from its script by the `wk-seg` class). The three panels sit on top of each other in one grid cell, so the card keeps the height of the tallest and doesn't jump; the hidden ones are `visibility: hidden`. Every panel opens with the same 7-bar chart (Monday to Sunday in Mumbai time, each bar with the rich tooltip and keyboard focus), then a list. Music: songs per day, and the three most played songs. Anime: episodes per day, and the shows watched this week with their covers, which episodes, and a link to AniList. Code: pushes per day, and the repos pushed to, how many pushes, when the last one was, and a link. All the lists are the same segmented rows as the timeline, and each row is a link that opens in a new tab. Songs come from Last.fm (`from=` Monday, 200 a page), pushes and repos from GitHub's public events, episodes and shows from AniList's activity feed. Each source fails on its own, to a `?` and a "napping" row, and the footnote says "some numbers are napping". Coding hours are not here on purpose: the WakaTime shares on the page are all-time, so a weekly number would be invented. Private repos don't show, because the public feed doesn't list them. When the two cards in a row differ in height, give the shorter one real content, and pin its footnote to the bottom.
+
+**Today, so far** (`.t-today`). A 24-hour strip, a legend of what each colour was and for how long today, then everything the "now guess" said today (the last 60 changes), as segmented rows (the same rows as the lists, 40px icon tile, time on the right, the newest says "now"). The strip's colours: coding, pushing and working are `--primary`; music `--tertiary-container`; watching and playing `--primary-container`; online, browsing and busy `--secondary-container`; away and offline `--surface-high`; asleep `--surface-highest`. The unfilled rest of the day stays transparent. The data is the `activity_log` table (below). The list scrolls inside the card: it takes whatever height is left once the weekly card beside it has set the row's height (never less than 340px), so any number of entries fits, the newest is at the bottom and in view, and the rows stretch to fill a quiet day. A refresh doesn't pull it back down if you have scrolled up to read earlier ones. The footnote is pinned to the bottom with `margin-top: auto`.
+
 **Guestbook** (`.t-guest`). A form on the left (textarea, moods, stickers, optional name, "Leave it"), the wall on the right. Notes come from the three containers in turn (`3n+1` primary, `3n+2` secondary, `3n` tertiary). Each is stuck on a little crooked with a deterministic `--tilt`, so the same note always hangs the same way, and has its sticker on the corner. Unnamed notes get a stable made-up name such as "sleepy otter". Notes are approved by the owner on `/admin`, the wall shows 10, and pending notes of your own show dashed as "yours, waiting for me to read it". Validation: at least 2 characters, no links, one per minute, three a day, plus a honeypot that pretends to succeed.
 
 **Server banner** (`.t-server`). The one card that stays dark in every theme, because its art is black-edged. The text stays on the dark side, clear of the art. The animated art loads only when the card is near the screen.
@@ -557,6 +566,7 @@ All components take their colours from role tokens, so they work in every palett
 - **Caching.** Use `loadCached(key, url, pick, ttl)`. It serves cache while fresh, otherwise fetches, trims the result with `pick` and stores it, and serves stale cache on error. Keys look like `sc136-<thing>-v<N>`: bump the version when the stored shape changes. TTLs: repos 30 minutes (the cache is shared with the portfolio's projects page), push 10 minutes, commit 24 hours, Duolingo 6 hours.
 - **Last resort.** A bundled snapshot (`js/repos-snapshot.js`, `DUO_SNAPSHOT`) is used when both the API and the cache fail, for example under GitHub's 60-requests-an-hour limit.
 - **Refresh.** Discord is live over the Lanyard websocket with backoff (3s doubling to 60s). Last.fm refreshes every 45s and only while the tab is visible. Weather every 20 minutes, the clock, sky and moon every 15s.
+- **The activity log.** The `log-activity` edge function runs every 15 minutes (pg_cron calls it with a secret header) and works out what the "now guess" would say, using the same sources and order as `guessNow()`. It adds a row to `activity_log` only when the state changed, so a row is the start of a stretch and the next row is its end. Anyone can read the table, only the function can write (no insert policy), and rows older than 30 days are deleted. If you change `guessNow()` change the function too. The schema is `supabase/activity-log.sql`; the cron secret is never in the repo.
 - **Hand-copied data says so** in a `.strava-note` footnote ("as of 5 oct 2026, copied from my strava since it has no free live feed").
 - **Data that other parts need** goes on `NOW.*`, followed by a call to `paintGuess()`.
 - **Keys and secrets.** Only public, read-only keys go in the page (the Last.fm read key, the Supabase anon key whose access is limited by database policies). Anything secret (Duolingo, Letterboxd, Steam) goes through a Supabase edge function. **Secrets never go in the repo.**
@@ -621,7 +631,6 @@ Swar is talking. Write it the way he would type it.
 
 Fix these when you are nearby. Don't copy them.
 
-- Dead CSS: `.tiles`, `.tile`, `.socials`, `.now-playing`, `.play-grid`, `.game`, `.span-3`, `.rows-3`, `.wide-xs`. The `.tile-*` and `.game-label/-name/-sub` text classes are still in use.
 - Hard-coded colours where a role exists: `.guest-msg.bad #ffb4ab/#ba1a1a` (there is no `--error` role) and `BRAND_GLOW.sc #e8826a` (not the seed). `.discord-bar span #1ed760` is deliberate: it is Spotify's own green.
 - `--brand` is set in every brand rule but never read.
 - The dialogs are not modal (the page behind stays usable), so they have no `aria-modal` and no focus trap on purpose.

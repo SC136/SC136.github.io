@@ -147,8 +147,6 @@
         .ms.filled { font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24; }
 
         .page { max-width: 1180px; margin: 0 auto; padding: 0 16px 24px; }
-        .page { pointer-events: none; } /* the gaps between cards let the pointer through to the moon in the sky behind */
-        .page > * { pointer-events: auto; }
 
         /* ---------- top buttons (they scroll away with the page, so they never cover a card) ---------- */
         .topbar {
@@ -202,6 +200,7 @@
         .hero > * { pointer-events: auto; } /* the hero is see-through to the pointer, so the moon in the sky behind it can be hovered */
         .hero-backdrop {
             position: absolute;
+            z-index: 6; /* above the sky, below the cards: the spinning shape tucks behind the intro card */
             pointer-events: none;
             width: min(380px, 86vw);
             aspect-ratio: 1;
@@ -215,6 +214,7 @@
         @keyframes shape-spin { to { transform: rotate(360deg); } }
         .avatar-btn {
             position: relative;
+            z-index: 7;
             width: min(220px, 56vw);
             aspect-ratio: 1;
             padding: 0;
@@ -240,7 +240,7 @@
             bottom: -18px;
             left: 50%;
             translate: -50% 0;
-            z-index: 1;
+            z-index: 11; /* above the cards: the pill hangs over the top of the intro card */
             display: flex;
             align-items: center;
             gap: 10px;
@@ -266,6 +266,7 @@
         /* Hand-drawn hint beside the avatar, until the first tap */
         .avatar-hint {
             position: absolute;
+            z-index: 7;
             top: 70px;
             left: calc(50% + 196px); /* just outside the shape behind the avatar */
             display: flex;
@@ -295,6 +296,7 @@
         /* ---------- cards ---------- */
         .card {
             position: relative;
+            z-index: 10; /* above the sky (5) and the hero's shape and avatar (6, 7), below the status pill (11) */
             margin-bottom: 16px;
             padding: 24px;
             border-radius: 28px;
@@ -405,21 +407,7 @@
         .intro .mascot:hover, .intro .mascot:focus-visible { scale: 1.06; rotate: -7deg; }
         .mascot:focus-visible { outline: none; filter: drop-shadow(0 0 4px var(--primary)) drop-shadow(0 0 4px var(--primary)) drop-shadow(0 12px 24px rgba(0, 0, 0, 0.35)); }
 
-        /* ---------- tiles ---------- */
-        .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .tile {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            min-width: 0;
-            padding: 18px;
-            border-radius: 20px;
-            background: var(--surface-high);
-            text-decoration: none;
-            transition: border-radius 0.35s var(--ease), background 0.2s;
-        }
-        a.tile:hover { border-radius: 28px; background: color-mix(in srgb, var(--on-surface) 6%, var(--surface-high)); }
-        .tile .ms { color: var(--primary); margin-bottom: 6px; }
+        /* ---------- tile text (the labels and values in the small cards) ---------- */
         .tile-label { font-size: 0.8rem; color: var(--on-surface-variant); }
         /* the commit message of the latest push: its first line, in the same quiet type as the labels */
         .push-msg { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin: 2px 0 4px; font-size: 0.98rem; line-height: 1.35; color: var(--on-surface); }
@@ -460,8 +448,6 @@
         .row-title { display: block; font-size: 1rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .row-sub { display: block; font-size: 0.82rem; color: var(--on-surface-variant); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .row-trail { flex: none; color: var(--on-surface-variant); }
-        .socials { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; }
-        .socials .list:first-child { margin: 0; }
 
         /* ---------- listening ---------- */
         /* ---------- Last.fm: what's playing now, the last few tracks, and the month in artists ---------- */
@@ -514,15 +500,6 @@
         .lf-foot { margin: 0; padding: 8px 16px 10px; font-size: 0.78rem; color: var(--on-surface-variant); border-top: 1px solid var(--outline-variant); }
         .lf-foot b { color: var(--on-surface); font-weight: 600; }
 
-        .now-playing {
-            display: block;
-            overflow: hidden;
-            border-radius: 20px;
-            background: var(--surface-high);
-            transition: border-radius 0.35s var(--ease);
-        }
-        .now-playing:hover { border-radius: 28px; }
-        .now-playing img { width: 100%; height: auto; }
         .fav-song { margin-top: 10px; border-radius: 20px; overflow: hidden; }
         .fav-song iframe { display: block; width: 100%; border: 0; }
 
@@ -595,29 +572,6 @@
         .poster.skeleton { background: color-mix(in srgb, var(--primary) 12%, var(--surface-high)); }
 
         /* ---------- playing ---------- */
-        .play-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 10px; }
-        .game {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            min-height: 210px;
-            padding: 18px;
-            overflow: hidden;
-            border-radius: 20px;
-            background: var(--surface-high) center / cover no-repeat;
-            color: #fff;
-            text-decoration: none;
-            transition: border-radius 0.35s var(--ease);
-        }
-        .game::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 25%, rgba(0, 0, 0, 0.78));
-        }
-        .game:hover { border-radius: 28px; }
-        .game > * { position: relative; }
         .game-label { font-size: 0.8rem; opacity: 0.85; }
         .game-name { font-size: 1.5rem; font-weight: 600; line-height: 1.2; }
         .game-sub { font-size: 0.85rem; opacity: 0.85; }
@@ -750,10 +704,8 @@
         }
         .bento > .card { margin: 0; }
         .span-2 { grid-column: span 2; }
-        .span-3 { grid-column: span 3; }
         .span-4 { grid-column: 1 / -1; }
         .rows-2 { grid-row: span 2; }
-        .rows-3 { grid-row: span 3; }
 
         /* Small tiles: an icon and a label, then one big value */
         .mini {
@@ -1195,6 +1147,54 @@
         }
         .game-chip .ms { font-size: 18px; }
 
+        /* ===== This week in numbers, and today so far (what the "now guess" said, from the activity log) ===== */
+        .wk-bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; align-items: end; height: 96px; margin-top: 6px; }
+        .wk-bars div { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%; }
+        .wk-bars i { display: block; width: 100%; min-height: 6px; border-radius: 8px; background: color-mix(in srgb, var(--primary) 32%, var(--surface-high)); transition: height 0.6s var(--spring), border-radius 0.35s var(--ease), background 0.2s; }
+        .wk-bars div { cursor: default; border-radius: 10px; }
+        .wk-bars div:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+        .wk-bars div:hover i { border-radius: 14px; background: var(--primary); }
+        .wk-bars i.today { background: var(--primary); }
+        .wk-bars span { font-size: 0.72rem; color: var(--on-surface-variant); }
+        .tl-strip { position: relative; display: flex; height: 14px; margin: 4px 0 6px; border-radius: 999px; overflow: hidden; gap: 2px; background: color-mix(in srgb, var(--on-surface) 7%, transparent); }
+        .tl-strip i { display: block; height: 100%; min-width: 3px; }
+        .tl-hours { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.72rem; color: var(--on-surface-variant); }
+        .tl-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; min-height: 20px; margin-bottom: 14px; }
+        .tl-legend span { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--on-surface-variant); }
+        .tl-legend i { width: 10px; height: 10px; border-radius: 50%; }
+        .tl-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; margin: 0; padding: 0; list-style: none; }
+        .tl-row { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 14px 8px 8px; border-radius: 4px; background: var(--surface-high); transition: border-radius 0.35s var(--ease); }
+        .tl-list li:first-child .tl-row { border-radius: 18px 18px 4px 4px; }
+        .tl-list li:last-child .tl-row { border-radius: 4px 4px 18px 18px; }
+        .tl-list li:only-child .tl-row { border-radius: 18px; }
+        .tl-list .tl-row:hover { border-radius: 18px; }
+        .tl-row .ms { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 12px; background: var(--primary-container); color: var(--on-primary-container); font-size: 20px; }
+        .tl-row b { display: block; font-size: 0.98rem; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .tl-row small { display: block; font-size: 0.82rem; color: var(--on-surface-variant); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .tl-row div { min-width: 0; }
+        .tl-row time { margin-left: auto; font-size: 0.8rem; color: var(--on-surface-variant); white-space: nowrap; }
+        .tl-row.now time { color: var(--primary); font-weight: 600; }
+        a.tl-row { color: inherit; text-decoration: none; }
+        a.tl-row:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+        .t-week, .t-today { display: flex; flex-direction: column; }
+        /* the list takes the card's leftover height and scrolls inside it, so any number of entries fits: it adds nothing to the card's own height, which comes from the weekly card beside it (340px is the least, for when the cards stack on a phone) */
+        .t-today .tl-list { flex: 1 1 0; min-height: 340px; overflow-y: auto; overscroll-behavior: contain; grid-auto-rows: minmax(56px, 1fr); scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--on-surface) 28%, transparent) transparent; border-radius: 18px; }
+        .t-today .tl-list:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+        .t-week .tl-note, .t-today .tl-note { margin: auto 0 0; padding-top: 14px; }
+        .tl-row .tl-rank { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 12px; background: var(--primary-container); color: var(--on-primary-container); font-size: 1.05rem; font-weight: 600; }
+        .wk-top { margin-top: 6px; }
+        /* the card is a flex column, so the switch spans it: the three tabs share the width equally */
+        .wk-seg { display: flex; margin: 18px 0 0; }
+        .wk-seg button { flex: 1; justify-content: center; padding: 0 8px; }
+        /* the three panels sit on top of each other, so the card keeps the height of the tallest whichever one is showing */
+        .wk-panels { display: grid; margin-top: 14px; }
+        .wk-panel { grid-area: 1 / 1; min-width: 0; }
+        .wk-panel.off { visibility: hidden; pointer-events: none; }
+        .wk-panel > .subhead:first-child { margin-top: 0; }
+        .tl-art { position: relative; flex: none; width: 40px; height: 40px; overflow: hidden; border-radius: 12px; background: var(--primary-container); }
+        .tl-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+        .tl-art em { position: absolute; left: 0; bottom: 0; min-width: 17px; padding: 0 5px 0 4px; border-radius: 0 9px 0 0; background: color-mix(in srgb, var(--surface) 80%, transparent); color: var(--on-surface); font-size: 0.68rem; font-style: normal; font-weight: 600; line-height: 17px; text-align: center; }
+
         /* ===== LOADER: Material 3 Expressive style, a shape morphing through the page's shapes ===== */
         html.is-loading { overflow: hidden; }
         .loader {
@@ -1235,11 +1235,8 @@
 
         @media (max-width: 1000px) {
             .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .span-2, .span-3, .span-4 { grid-column: 1 / -1; }
-            .rows-2, .rows-3 { grid-row: auto; }
-        }
-        @media (max-width: 600px) {
-            .wide-xs { grid-column: 1 / -1; }
+            .span-2, .span-4 { grid-column: 1 / -1; }
+            .rows-2 { grid-row: auto; }
         }
 
 
@@ -1391,14 +1388,8 @@
             .card { padding: 20px; border-radius: 24px; }
             .intro { padding-right: 20px; padding-bottom: 150px; }
             .mascot { width: 160px; bottom: -18px; }
-            .tiles { grid-template-columns: 1fr; }
             .posters { grid-template-columns: repeat(4, 1fr); gap: 6px; }
             .posters > :nth-child(n + 13) { display: none; } /* three rows of four */
-            .play-grid { grid-template-columns: 1fr; }
-            .socials { grid-template-columns: 1fr; }
-            .socials .list + .list { margin-top: 2px; }
-            .socials .list:last-child > li:first-child .row { border-top-left-radius: 4px; border-top-right-radius: 4px; }
-            .socials .list:first-child > li:last-child .row { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; }
         }
 
         /* ===== Live sky: the top of the page is tinted for the time of day in Mumbai, re-tinted by the colour theme ===== */
@@ -1426,7 +1417,7 @@
             left: 0;
             right: 0;
             height: 680px;
-            z-index: -1;
+            z-index: 5; /* in front of the page's plain content so the moon, the ISS and the stars can be hovered; the hero and the cards sit above it */
             overflow: hidden;
             pointer-events: none;
             -webkit-mask: linear-gradient(#000 calc(100% - 320px), transparent);
@@ -1475,6 +1466,27 @@
             transition: opacity 2s var(--ease);
         }
         .sky-stars i { position: absolute; border-radius: 50%; background: var(--star); }
+        /* Shooting stars: a few on any night, for looks (see "shooting stars" in the script) */
+        .sky-passes { position: absolute; inset: 0 0 auto; height: var(--horizon, 340px); overflow: hidden; pointer-events: none; }
+        .sky-meteors { position: absolute; inset: 0 0 auto; height: var(--horizon, 340px); overflow: hidden; pointer-events: none; }
+        .meteor {
+            position: absolute;
+            left: var(--x);
+            top: var(--y);
+            width: var(--len);
+            height: 2px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, transparent, var(--star));
+            box-shadow: 0 0 6px color-mix(in srgb, var(--star) 70%, transparent);
+            opacity: 0;
+            rotate: var(--ang);
+            animation: meteor var(--dur) cubic-bezier(0.3, 0.6, 0.4, 1) forwards;
+        }
+        @keyframes meteor {
+            0% { opacity: 0; translate: 0 0; }
+            12% { opacity: 0.9; }
+            100% { opacity: 0; translate: var(--dx) var(--dy); }
+        }
         .sky-stars i.sparkle { border-radius: 0; clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%); }
 
         /* The real moon: tonight's phase, where it really is over Mumbai; clouds pass in front of it */
@@ -1497,6 +1509,43 @@
         .sky-moon:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; border-radius: 50%; }
         .sky-moon.glide { transition: opacity 3s var(--ease), left 16s linear, top 16s linear; }
         .sky-moon svg { display: block; width: 100%; height: 100%; overflow: visible; }
+        /* The ISS: a small 3D model of the station (built from CSS boxes) that tumbles slowly as it flies across the sky on a night visit */
+        .sky-iss {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 64px;
+            height: 36px;
+            opacity: 0;
+            perspective: 420px;
+            pointer-events: auto;
+            cursor: pointer;
+            rotate: var(--tilt, 0deg);
+            filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
+            animation: iss-pass var(--dur, 55s) linear forwards;
+            -webkit-tap-highlight-color: transparent;
+            transition: filter 0.2s;
+        }
+        .sky-iss:hover, .sky-iss:focus-visible { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7)); }
+        .sky-iss:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; border-radius: 12px; }
+        .iss3d { position: absolute; left: 50%; top: 50%; width: 0; height: 0; scale: 0.54; transform-style: preserve-3d; animation: iss-spin 70s linear infinite; }
+        .iss3d i, .iss3d b { position: absolute; display: block; transform-style: preserve-3d; }
+        .iss3d .iss-wing { left: 0; top: 0; animation: iss-wing 40s linear infinite; }
+        .iss3d .iss-panel {
+            background:
+                repeating-linear-gradient(0deg, rgba(11, 29, 77, 0.7) 0 0.6px, transparent 0.6px 4px),
+                repeating-linear-gradient(90deg, rgba(11, 29, 77, 0.7) 0 0.6px, transparent 0.6px 4px),
+                linear-gradient(90deg, #16367f, #3b74d8 50%, #1b3f94);
+            box-shadow: inset 0 0 0 0.8px #d9a441;
+        }
+        @keyframes iss-spin { from { transform: rotateX(-24deg) rotateY(0deg); } to { transform: rotateX(-24deg) rotateY(360deg); } }
+        @keyframes iss-wing { from { transform: rotateX(0deg); } to { transform: rotateX(360deg); } }
+        @keyframes iss-pass {
+            0% { opacity: 0; translate: var(--x0) var(--y0); }
+            6% { opacity: var(--iss-o, 0.95); }
+            94% { opacity: var(--iss-o, 0.95); }
+            100% { opacity: 0; translate: var(--x1) var(--y1); }
+        }
         .moon-lit { fill: var(--moon-lit); }
         .moon-dark { fill: var(--moon-dark); }
         .moon-sea { fill: var(--moon-sea); }
@@ -1609,7 +1658,7 @@
             .hero-backdrop, .avatar-btn, .avatar-btn img, .avatar-hint-arrow, .sky-drift i { animation: none !important; }
             /* clouds hold still where they are; no falling rain or lightning */
             .sky-clouds i { animation-duration: var(--t) !important; animation-play-state: paused; }
-            .sky-rain, .sky-flash { display: none; }
+            .sky-rain, .sky-flash, .sky-meteors, .sky-iss { display: none; }
             .sky-moon.glide { transition: opacity 3s var(--ease); }
             .discord-bar span { animation: none !important; }
             /* Colours still fade; the glow just doesn't travel */
@@ -1635,7 +1684,9 @@
     <div class="sky-tint dusk" aria-hidden="true"></div>
     <div class="sky-drift" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="sky-stars" id="skyStars" aria-hidden="true"></div>
+    <div class="sky-passes" id="skyPasses"></div>
     <div class="sky-moon" id="skyMoon" tabindex="0" role="button" aria-label="Tonight's moon over Mumbai"></div>
+    <div class="sky-meteors" id="skyMeteors" aria-hidden="true"></div>
     <div class="sky-veil" aria-hidden="true"></div>
     <div class="sky-clouds" id="skyClouds" aria-hidden="true"></div>
     <div class="sky-flash" id="skyFlash" aria-hidden="true"></div>
@@ -2072,6 +2123,55 @@
             </div>
         </section>
 
+        <section data-brand="sc" class="card span-2 t-week" aria-labelledby="weekTitle">
+            <div class="shape-icon" style="--shape-a: var(--shape-clover4); --shape-b: var(--shape-sunny8);"><span class="ms">schedule</span></div>
+            <h2 class="card-title" id="weekTitle">this week in numbers</h2>
+            <div class="stats">
+                <div class="stat"><b id="wkSongs">–</b><span>songs played</span></div>
+                <div class="stat"><b id="wkPushes">–</b><span>pushes</span></div>
+                <div class="stat"><b id="wkRepos">–</b><span>repos touched</span></div>
+                <div class="stat"><b id="wkEps">–</b><span>episodes</span></div>
+            </div>
+            <div class="seg wk-seg" role="group" aria-label="This week">
+                <button type="button" aria-pressed="true" data-wk="wkMusic"><span class="ms">check</span>music</button>
+                <button type="button" aria-pressed="false" data-wk="wkAnime"><span class="ms">check</span>anime</button>
+                <button type="button" aria-pressed="false" data-wk="wkCode"><span class="ms">check</span>code</button>
+            </div>
+            <div class="wk-panels">
+                <div class="wk-panel" id="wkMusic">
+                    <p class="subhead">songs per day</p>
+                    <div class="wk-bars" id="wkBars" role="group" aria-label="Songs played each day this week">
+                <div><i style="height:6%"></i><span>mon</span></div><div><i style="height:6%"></i><span>tue</span></div><div><i style="height:6%"></i><span>wed</span></div><div><i style="height:6%"></i><span>thu</span></div><div><i style="height:6%"></i><span>fri</span></div><div><i style="height:6%"></i><span>sat</span></div><div><i style="height:6%"></i><span>sun</span></div>
+                    </div>
+                    <p class="subhead" style="margin-top:18px">most played this week</p>
+                    <ul class="tl-list wk-top" id="wkTop"><li><div class="tl-row"><span class="tl-rank">–</span><div><b>counting…</b></div></div></li></ul>
+                </div>
+                <div class="wk-panel off" id="wkAnime">
+                    <p class="subhead">episodes per day</p>
+                    <div class="wk-bars" id="wkAnimeBars" role="group" aria-label="Episodes watched each day this week"></div>
+                    <p class="subhead" style="margin-top:18px">watched this week</p>
+                    <ul class="tl-list wk-top" id="wkAnimeList"><li><div class="tl-row"><span class="tl-rank">–</span><div><b>counting…</b></div></div></li></ul>
+                </div>
+                <div class="wk-panel off" id="wkCode">
+                    <p class="subhead">pushes per day</p>
+                    <div class="wk-bars" id="wkCodeBars" role="group" aria-label="Pushes each day this week"></div>
+                    <p class="subhead" style="margin-top:18px">pushed to this week</p>
+                    <ul class="tl-list wk-top" id="wkCodeList"><li><div class="tl-row"><span class="tl-rank">–</span><div><b>counting…</b></div></div></li></ul>
+                </div>
+            </div>
+            <p class="tile-sub tl-note" id="wkNote" style="white-space:normal">monday to sunday, mumbai time. it fills in as the week goes.</p>
+        </section>
+
+        <section data-brand="sc" class="card span-2 t-today" aria-labelledby="todayTitle">
+            <div class="shape-icon tonal" style="--shape-a: var(--shape-cookie9); --shape-b: var(--shape-flower8);"><span class="ms">history</span></div>
+            <h2 class="card-title" id="todayTitle">today, so far</h2>
+            <div class="tl-strip" id="tlStrip" role="img" aria-label="Today in colour"></div>
+            <div class="tl-hours" aria-hidden="true"><span>12am</span><span>6am</span><span>12pm</span><span>6pm</span><span>12am</span></div>
+            <div class="tl-legend" id="tlLegend"></div>
+            <ul class="tl-list" id="tlList" tabindex="0" aria-label="Everything that changed today, newest last" aria-live="polite"><li><div class="tl-row"><span class="ms">history</span><div><b>opening the diary…</b></div></div></li></ul>
+            <p class="tile-sub tl-note" style="white-space:normal">checked every 15 minutes, mumbai time. the colours are what i was up to.</p>
+        </section>
+
         <section data-brand="discord" class="card t-server span-4" id="serverCard" data-glow="#d4202a" aria-labelledby="serverName">
             <img class="server-icon" id="serverIcon" alt="" width="84" height="84">
             <div class="server-text">
@@ -2233,7 +2333,7 @@
         tip.classList.add('show');
     }
     const hideTip = () => tip && tip.classList.remove('show');
-    const posterFrom = (node) => node && node.closest && node.closest('.poster, .mascot, .avatar-btn, .sky-moon, .t-find .row, .spec, #pushTile');
+    const posterFrom = (node) => node && node.closest && node.closest('.poster, .mascot, .avatar-btn, .sky-moon, .sky-iss, .wk-bars > div, .t-find .row, .spec, #pushTile');
     document.addEventListener('pointerover', (e) => {
         const p = posterFrom(e.target);
         if (p && e.pointerType !== 'touch' && !p.contains(e.relatedTarget)) showTip(p);
@@ -2249,6 +2349,7 @@
     // ---------- my best guess at what I'm doing right now ----------
     // Discord, Last.fm and GitHub drop what they know in here as it arrives; the line under the avatar is worked out from it
     const NOW = { discord: null, song: null, push: null };
+    const ANIME_SITES = /animepahe|hianime|aniwatch|crunchyroll|9anime|gogoanime|zoro\.to/i;
     const EDITORS = /visual studio code|^code$|vscodium|cursor|zed|intellij|pycharm|webstorm|clion|android studio|neovim|vim|sublime|arduino|antigravity|xcode/i;
     function guessNow() {
         const p = NOW.discord;
@@ -2266,6 +2367,9 @@
             return ['code', 'coding' + (ws ? ' on ' + ws[1].trim() : '') + (song ? ' to ' + song.artist : '') + rain];
         }
         if (game && /github/i.test(game.name)) return ['travel_explore', 'looking around github' + (song ? ' to ' + song.artist : '')];
+        // sites Discord reports as "playing": an anime site is watching, the tracker is browsing
+        if (game && ANIME_SITES.test(game.name)) return ['live_tv', 'watching ' + game.name];
+        if (game && /anilist/i.test(game.name)) return ['travel_explore', 'browsing ' + game.name.toLowerCase() + (song ? ' to ' + song.artist : '')];
         if (game && /notion|obsidian|figma|photoshop|illustrator|blender|fusion|kicad|premiere|davinci|after effects|word|excel|powerpoint/i.test(game.name)) return ['edit_note', 'working in ' + game.name + (song ? ' to ' + song.artist : '') + rain];
         if (game && game.type === 3) return ['live_tv', 'watching ' + (game.details || game.name)];
         if (game) return ['sports_esports', 'playing ' + game.name + (song ? ' to ' + song.artist : '') + rain];
@@ -2577,7 +2681,7 @@
     setText('pinnedQuote', QUOTES[Math.floor(Math.random() * QUOTES.length)]);
 
     // ---------- watching: segmented buttons ----------
-    const segButtons = document.querySelectorAll('.seg button');
+    const segButtons = document.querySelectorAll('.seg:not(.wk-seg) button');
     segButtons.forEach((btn) => btn.addEventListener('click', () => {
         segButtons.forEach((b) => {
             const on = b === btn;
@@ -2788,6 +2892,38 @@
     paintSky();
     new ResizeObserver(() => { layoutSky(); paintMoon(); }).observe(document.body);
 
+    // ---------- shooting stars: a few on any night, for looks (the one thing in the sky that isn't real data) ----------
+    const METEOR_PREVIEW = new URLSearchParams(location.search).has('meteors'); // ?meteors shows plenty, any time of day
+    // streaks a minute: about two on a clear night, fewer through dusk and dawn, hardly any under cloud, none by day
+    function meteorRate() {
+        if (METEOR_PREVIEW) return 150; // a proper meteor storm
+        const w = (n) => parseFloat(sky.style.getPropertyValue('--' + n)) || 0;
+        return 2 * w('night') * (1 - w('cloud')) * (1 - w('overcast'));
+    }
+    function shoot() {
+        const el = document.createElement('i'), box = $('skyMeteors');
+        const ang = (15 + Math.random() * 25) * RAD, len = 90 + Math.random() * 90, dist = len * (3 + Math.random() * 2), left = Math.random() < 0.5;
+        const a = left ? Math.PI - ang : ang; // head points down and to the left, or down and to the right
+        el.className = 'meteor';
+        el.style.setProperty('--x', (10 + Math.random() * 80).toFixed(1) + '%');
+        el.style.setProperty('--y', (4 + Math.random() * 55).toFixed(1) + '%');
+        el.style.setProperty('--len', len.toFixed(0) + 'px');
+        el.style.setProperty('--ang', a + 'rad');
+        el.style.setProperty('--dx', (Math.cos(a) * dist).toFixed(0) + 'px');
+        el.style.setProperty('--dy', (Math.sin(a) * dist).toFixed(0) + 'px');
+        el.style.setProperty('--dur', (0.8 + Math.random() * 0.7).toFixed(2) + 's');
+        el.addEventListener('animationend', () => el.remove());
+        box.appendChild(el);
+    }
+    // a streak turns up after a random wait (about 1 / rate minutes), so they come in clumps and gaps like real ones do
+    function nextMeteor() {
+        const r = reduceMotion ? 0 : meteorRate();
+        if (r <= 0) { setTimeout(nextMeteor, 60000); return; }
+        setTimeout(() => { if (!document.hidden && meteorRate() > 0) for (let n = METEOR_PREVIEW ? 1 + Math.floor(Math.random() * 3) : 1; n > 0; n--) shoot(); nextMeteor(); }, Math.min(10 * 60000, Math.max(METEOR_PREVIEW ? 60 : 2500, -Math.log(1 - Math.random()) / r * 60000)));
+    }
+    // a visitor at night sees one within a few seconds of the page showing, then the usual random ones
+    setTimeout(() => { if (!reduceMotion && !document.hidden && meteorRate() > 0.4) shoot(); nextMeteor(); }, 4500 + Math.random() * 3000);
+
     // ---------- the real moon: phase, and where it is over Mumbai right now (low-precision astronomy, good to about a degree) ----------
     const J1970 = 2440588, J2000 = 2451545, OBL = RAD * 23.4397;
     const toDays = (ms) => ms / DAY - 0.5 + J1970 - J2000;
@@ -2901,10 +3037,89 @@
                 <p class="tip-title">${esc(pInfo.name)} <span style="font-weight: 400; color: var(--on-surface-variant); font-size: 0.85rem;">${pInfo.lit}% lit</span></p>
                 <p class="tip-line"><span class="ms">schedule</span>${mTimes.rise ? 'rises at ' : ''}${esc(mTimes.riseStr)}</p>
                 <p class="tip-line"><span class="ms">bedtime</span>${mTimes.set ? 'sets at ' : ''}${esc(mTimes.setStr)}</p>
-                <p class="tip-line"><span class="ms">visibility</span>${esc(altText)}</p>${chips('astronomy', 'sky', 'mumbai')}`
+                <p class="tip-line"><span class="ms">visibility</span>${esc(altText)}</p>
+                ${chips('astronomy', 'sky', 'mumbai')}`
         });
     }
     paintMoon();
+
+    // ---------- the iss: on a night visit a little model of the station flies across, for looks ----------
+    // (the tooltip is real: the station's position right now, from the iss tracker)
+    (function () {
+        const box = $('skyPasses');
+        const PREVIEW = new URLSearchParams(location.search).has('iss'); // ?iss flies a quick pass every few seconds, any time of day
+        // The model, in a 120-unit-wide space (the container scales it down): a truss along X, four solar arrays that turn on it,
+        // a few white modules built as 8-sided prisms, and the radiators. Everything is a flat CSS box placed in 3D.
+        const cube = (w, h, x, y, z, extra) => `<i style="width:${w}px;height:${h}px;left:${-w / 2}px;top:${-h / 2}px;translate:${x}px ${y}px ${z}px;${extra || ''}"></i>`;
+        const prism = (len, r, x, y, z, rotZ) => {
+            const h = (2 * r * Math.tan(Math.PI / 8)).toFixed(2);
+            let faces = '';
+            for (let i = 0; i < 8; i++) {
+                const lit = 0.5 + 0.5 * Math.max(0, Math.cos((i * 45 - 70) * Math.PI / 180)), c = Math.round(110 + 135 * lit);
+                faces += `<i style="width:${len}px;height:${h}px;left:${-len / 2}px;top:${-h / 2}px;transform:rotateX(${i * 45}deg) translateZ(${r}px);background:rgb(${c},${c},${Math.min(255, c + 6)})"></i>`;
+            }
+            return `<b style="left:0;top:0;translate:${x}px ${y}px ${z}px;transform:rotateZ(${rotZ || 0}deg)">${faces}</b>`;
+        };
+        const wing = (x) => `<b class="iss-wing" style="translate:${x}px 0 0"><i class="iss-panel" style="width:11px;height:22px;left:-5.5px;top:-23.4px"></i><i class="iss-panel" style="width:11px;height:22px;left:-5.5px;top:1.4px"></i></b>`;
+        const MODEL = `<div class="iss3d">
+            ${cube(108, 2.4, 0, 0, 0, 'background:#aeb2bd')}${cube(108, 2.4, 0, 0, 0, 'background:#8d919c;transform:rotateX(90deg)')}
+            ${[-50.5, -33.5, 33.5, 50.5].map(wing).join('')}
+            ${prism(34, 5.5, 0, 0, 0)}${prism(20, 2.6, 0, 0, 0, 90)}${prism(14, 3, -26, 0, 0)}${prism(14, 3, 26, 0, 0)}
+            ${cube(9, 12, -24, -11, 0, 'background:#e6e8ee')}${cube(9, 12, -24, 11, 0, 'background:#e6e8ee')}${cube(9, 12, 24, -11, 0, 'background:#e6e8ee')}${cube(9, 12, 24, 11, 0, 'background:#e6e8ee')}
+        </div>`;
+        const w = (n) => parseFloat(sky.style.getPropertyValue('--' + n)) || 0;
+        const nightOk = () => PREVIEW || (w('night') > 0.6 && w('cloud') < 0.8);
+        let live = null;
+        const tipFor = () => {
+            const ns = live && live.latitude >= 0 ? 'N' : 'S', ew = live && live.longitude >= 0 ? 'E' : 'W';
+            return `<p class="tip-meta" style="margin-bottom: 2px;">the real one is up there too</p>
+                <p class="tip-title">International Space Station</p>
+                ${live ? `<p class="tip-line"><span class="ms">public</span>right now over ${Math.abs(live.latitude).toFixed(1)}° ${ns}, ${Math.abs(live.longitude).toFixed(1)}° ${ew}</p>
+                <p class="tip-line"><span class="ms">rocket_launch</span>${Math.round(live.altitude)} km up</p>
+                <p class="tip-line"><span class="ms">speed</span>${Math.round(live.velocity).toLocaleString()} km/h</p>` : `<p class="tip-line"><span class="ms">rocket_launch</span>about 420 km up</p>
+                <p class="tip-line"><span class="ms">speed</span>about 27,600 km/h</p>`}
+                <p class="tip-line"><span class="ms">schedule</span>a lap every 92 minutes, 16 sunrises a day</p>
+                <p class="tip-line"><span class="ms">history</span>people have lived on it since november 2000</p>${chips('space', 'as long as a football pitch')}`;
+        };
+        function fly() {
+            const W = box.clientWidth || innerWidth, H = box.clientHeight || 320;
+            const el = document.createElement('div');
+            const dir = Math.random() < 0.5 ? 1 : -1, y0 = H * (0.1 + Math.random() * 0.25), dy = (Math.random() < 0.5 ? -1 : 1) * (40 + Math.random() * 60);
+            el.className = 'sky-iss';
+            el.setAttribute('role', 'button');
+            el.tabIndex = 0;
+            el.setAttribute('aria-label', 'International Space Station, flying across the sky');
+            el.innerHTML = MODEL;
+            el.style.setProperty('--x0', (dir > 0 ? -110 : W + 14) + 'px');
+            el.style.setProperty('--x1', (dir > 0 ? W + 14 : -110) + 'px');
+            el.style.setProperty('--y0', y0.toFixed(0) + 'px');
+            el.style.setProperty('--y1', Math.max(0, y0 + dy).toFixed(0) + 'px');
+            el.style.setProperty('--tilt', (Math.atan2(dy * dir, W) / RAD).toFixed(1) + 'deg');
+            el.style.setProperty('--dur', (PREVIEW ? 30 : 90 + Math.random() * 50).toFixed(0) + 's');
+            el.style.setProperty('--iss-o', (0.95 * (1 - 0.8 * w('overcast'))).toFixed(2));
+            tipContent.set(el, { accent: '#3b74d8', content: tipFor });
+            // it keeps moving, so a tip that is showing follows it
+            let follow = 0;
+            el.addEventListener('pointerenter', () => { clearInterval(follow); follow = setInterval(() => { if (tip.classList.contains('show')) showTip(el); }, 250); });
+            el.addEventListener('pointerleave', () => clearInterval(follow));
+            el.addEventListener('click', (e) => { showTip(el); if (e.pointerType === 'touch') setTimeout(hideTip, 3500); });
+            el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showTip(el); } });
+            el.addEventListener('animationend', (e) => { if (e.target !== el) return; flying = false; clearInterval(follow); hideTip(); el.remove(); });
+            flying = true;
+            box.appendChild(el);
+            fetchJSON('https://api.wheretheiss.at/v1/satellites/25544').then((d) => { if (typeof d.latitude === 'number') live = d; }).catch(() => {});
+        }
+        // the first pass shortly after the page shows, then another every few minutes for as long as it stays open
+        let flying = false;
+        function schedule(wait) {
+            setTimeout(() => {
+                if (flying) schedule(2000); // never two at once
+                else if (!reduceMotion && !document.hidden && nightOk()) { fly(); schedule(PREVIEW ? 3000 : 240000 + Math.random() * 120000); }
+                else schedule(PREVIEW ? 2000 : 30000);
+            }, wait);
+        }
+        schedule(PREVIEW ? 2500 : 14000 + Math.random() * 8000);
+    })();
 
     // ---------- weather in the sky: clouds and rain when Mumbai has them ----------
     // Eight clouds, already scattered along their slow drift; the forecast decides how many show
@@ -3853,6 +4068,223 @@
 
     loadLastfm();
     setInterval(() => { if (!document.hidden) loadLastfm(); }, 45000); // keeps "playing right now" honest
+
+    // ---------- this week in numbers: songs, pushes, repos and episodes since Monday (Mumbai time) ----------
+    (function () {
+        const IST = 5.5 * 3600000;
+        const nowIst = new Date(Date.now() + IST);
+        const todayStart = Date.UTC(nowIst.getUTCFullYear(), nowIst.getUTCMonth(), nowIst.getUTCDate()) - IST;
+        const dow = (nowIst.getUTCDay() + 6) % 7; // monday is 0
+        const weekStart = todayStart - dow * DAY;
+        const TTL = 30 * 60 * 1000;
+        const fail = (...ids) => { ids.forEach((id) => setText(id, '?')); $('wkNote').textContent = 'some numbers are napping, they will be back'; };
+
+        // the three charts: songs, episodes and pushes per day, Monday to Sunday
+        const DAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        ['wkAnimeBars', 'wkCodeBars'].forEach((id) => { $(id).innerHTML = DAYS.map((d) => `<div><i style="height:6%"></i><span>${d}</span></div>`).join(''); });
+        function paintBars(id, perDay, fmt) {
+            const max = Math.max(1, ...perDay), total = perDay.reduce((x, y) => x + y, 0);
+            const names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            $(id).querySelectorAll('div').forEach((d, i) => {
+                const bar = d.querySelector('i'), n = perDay[i] || 0;
+                bar.style.height = Math.max(6, Math.round(n / max * 100)) + '%';
+                bar.classList.toggle('today', i === dow);
+                const date = new Date(weekStart + i * DAY + 12 * 3600000).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short' }).toLowerCase();
+                const future = i > dow;
+                d.tabIndex = 0;
+                d.setAttribute('role', 'img');
+                d.setAttribute('aria-label', future ? names[i] + ': not here yet' : names[i] + ': ' + fmt(n));
+                tipContent.set(d, {
+                    accent: 'var(--primary)',
+                    content: `<p class="tip-meta" style="margin-bottom: 2px;">${esc(date)}${i === dow ? ' · today, so far' : ''}</p>
+                        <p class="tip-title">${names[i]}</p>
+                        ${future ? '<p class="tip-line"><span class="ms">schedule</span>not here yet</p>' : `<p class="tip-line"><span class="ms">history</span>${esc(fmt(n))}</p>
+                        ${total && n ? `<p class="tip-line"><span class="ms">schedule</span>${Math.round(n / total * 100)}% of this week</p>` : ''}`}`,
+                });
+            });
+        }
+        const songsFmt = (n) => n.toLocaleString() + (n === 1 ? ' song' : ' songs') + ' played';
+        const epsFmt = (n) => n + (n === 1 ? ' episode' : ' episodes') + ' watched';
+        const pushFmt = (n) => n + (n === 1 ? ' push' : ' pushes');
+
+        // Last.fm: every scrobble since Monday, counted per day (200 a page)
+        async function songs() {
+            const key = 'sc136-week-songs-v4', c = readCache(key);
+            if (c && c.week === weekStart && Date.now() - c.savedAt < TTL) return c;
+            try {
+                const perDay = [0, 0, 0, 0, 0, 0, 0], plays = new Map();
+                for (let page = 1, pages = 1; page <= pages && page <= 6; page++) {
+                    const d = await fetchJSON(LFM + '&method=user.getrecenttracks&limit=200&from=' + Math.floor(weekStart / 1000) + '&page=' + page);
+                    const rt = d.recenttracks;
+                    if (!rt) throw new Error('lastfm');
+                    pages = +(rt['@attr'] && rt['@attr'].totalPages) || 1;
+                    [].concat(rt.track || []).forEach((t) => {
+                        if (!t.date) return; // the one playing right now has no date yet
+                        const i = Math.floor((t.date.uts * 1000 - weekStart) / DAY);
+                        if (i >= 0 && i < 7) perDay[i]++;
+                        const artist = t.artist['#text'] || t.artist.name || '', k = artist + '\u0001' + t.name;
+                        const hit = plays.get(k) || { name: t.name, artist, n: 0, raw: t };
+                        hit.n++;
+                        plays.set(k, hit);
+                    });
+                }
+                const top = [...plays.values()].sort((a, b) => b.n - a.n).slice(0, 3);
+                // the cover for each, the way the listening card finds them (Last.fm's own, else iTunes')
+                await Promise.all(top.map(async (x) => { x.art = await findArt(x.raw).catch(() => ''); x.url = x.raw.url || ''; delete x.raw; }));
+                writeCache(key, { week: weekStart, perDay, top });
+                return { perDay, top };
+            } catch (e) {
+                if (c && c.week === weekStart) return c;
+                throw e;
+            }
+        }
+        // one row of the lists in this card: a cover (with its rank in the corner), else an icon, else the rank; a link when it has a url
+        const topRow = (rank, name, sub, right, art, url, icon) => `<li><${url ? `a class="tl-row" href="${esc(url)}" target="_blank" rel="noopener noreferrer"` : 'div class="tl-row"'}>${art ? `<span class="tl-art"><img src="${esc(art)}" alt="" loading="lazy">${rank ? `<em>${rank}</em>` : ''}</span>` : icon ? `<span class="ms">${icon}</span>` : `<span class="tl-rank">${rank}</span>`}<div><b>${esc(name)}</b><small>${esc(sub)}</small></div>${right ? `<time>${esc(right)}</time>` : ''}</${url ? 'a' : 'div'}></li>`;
+        document.querySelectorAll('.wk-seg button').forEach((btn) => btn.addEventListener('click', () => {
+            document.querySelectorAll('.wk-seg button').forEach((b) => {
+                const on = b === btn;
+                b.setAttribute('aria-pressed', String(on));
+                $(b.dataset.wk).classList.toggle('off', !on);
+            });
+        }));
+        songs().then(({ perDay, top }) => {
+            setText('wkSongs', perDay.reduce((a, b) => a + b, 0).toLocaleString());
+            paintBars('wkBars', perDay, songsFmt);
+            $('wkTop').innerHTML = top.length
+                ? top.map((t, i) => topRow(i + 1, t.name, t.artist, t.n + (t.n === 1 ? ' play' : ' plays'), t.art, t.url)).join('')
+                : topRow('–', 'nothing played yet this week', 'it fills in as i listen');
+        }).catch(() => {
+            fail('wkSongs');
+            $('wkTop').innerHTML = topRow('–', 'last.fm is taking a nap', 'the most played songs will be back');
+        });
+
+        // GitHub: public push events since Monday
+        loadCached('sc136-week-push-v4', 'https://api.github.com/users/SC136/events?per_page=100', (events) => {
+            if (!Array.isArray(events)) throw new Error('events');
+            const mine = events.filter((e) => e.type === 'PushEvent' && +new Date(e.created_at) >= weekStart);
+            const byRepo = new Map(), perDay = [0, 0, 0, 0, 0, 0, 0];
+            mine.forEach((e) => { // newest first, so the first push seen is the latest
+                const di = Math.floor((+new Date(e.created_at) - weekStart) / DAY);
+                if (di >= 0 && di < 7) perDay[di]++;
+                const r = byRepo.get(e.repo.name) || { name: e.repo.name.split('/').pop(), url: 'https://github.com/' + e.repo.name, n: 0, at: e.created_at };
+                r.n++;
+                byRepo.set(e.repo.name, r);
+            });
+            return { week: weekStart, pushes: mine.length, repos: byRepo.size, perDay, list: [...byRepo.values()].sort((a, b) => b.n - a.n || +new Date(b.at) - +new Date(a.at)).slice(0, 6) };
+        }, TTL)
+            .then((w) => {
+                if (w.week !== weekStart) throw new Error('old week');
+                setText('wkPushes', w.pushes);
+                setText('wkRepos', w.repos);
+                paintBars('wkCodeBars', w.perDay, pushFmt);
+                $('wkCodeList').innerHTML = w.list.length
+                    ? w.list.map((r) => topRow('', r.name, 'last push ' + timeAgo(new Date(r.at)), r.n + (r.n === 1 ? ' push' : ' pushes'), '', r.url, 'commit')).join('')
+                    : topRow('–', 'nothing pushed yet this week', 'public repos only, it fills in as i push');
+            })
+            .catch(() => {
+                fail('wkPushes', 'wkRepos');
+                $('wkCodeList').innerHTML = topRow('–', 'github is taking a nap', 'the repos will be back');
+            });
+
+        // AniList: episodes marked watched since Monday, from the activity feed
+        (async () => {
+            const key = 'sc136-week-eps-v4', c = readCache(key);
+            if (c && c.week === weekStart && c.shows && Date.now() - c.savedAt < TTL) return c;
+            try {
+                const post = (query) => fetch('https://graphql.anilist.co', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ query }) }).then((r) => r.json());
+                const u = await post('query { User(name: "SC136") { id } }');
+                const id = u && u.data && u.data.User && u.data.User.id;
+                if (!id) throw new Error('anilist user');
+                const a = await post(`query { Page(perPage: 50) { activities(userId: ${id}, type: ANIME_LIST, createdAt_greater: ${Math.floor(weekStart / 1000) - 1}, sort: ID_DESC) { ... on ListActivity { status progress createdAt media { id siteUrl title { romaji english } coverImage { medium } } } } } }`);
+                const list = a && a.data && a.data.Page && a.data.Page.activities;
+                if (!Array.isArray(list)) throw new Error('anilist activities');
+                let eps = 0;
+                const byShow = new Map(), perDay = [0, 0, 0, 0, 0, 0, 0];
+                list.forEach((x) => {
+                    if (!x || !/episode/i.test(x.status || '')) return;
+                    const m = /^(\d+)\s*-\s*(\d+)$/.exec(String(x.progress || '').trim()), one = /^\d+$/.exec(String(x.progress || '').trim());
+                    const lo = m ? +m[1] : one ? +one[0] : 0, hi = m ? +m[2] : lo, n = m ? Math.max(1, hi - lo + 1) : 1;
+                    eps += n;
+                    const di = Math.floor((x.createdAt * 1000 - weekStart) / DAY);
+                    if (di >= 0 && di < 7) perDay[di] += n;
+                    if (!x.media) return;
+                    const sh = byShow.get(x.media.id) || { title: x.media.title.english || x.media.title.romaji, url: x.media.siteUrl, art: x.media.coverImage && x.media.coverImage.medium, n: 0, lo: lo || 1e9, hi: 0 };
+                    sh.n += n;
+                    if (lo) sh.lo = Math.min(sh.lo, lo);
+                    sh.hi = Math.max(sh.hi, hi);
+                    byShow.set(x.media.id, sh);
+                });
+                const shows = [...byShow.values()].slice(0, 6);
+                writeCache(key, { week: weekStart, eps, shows, perDay });
+                return { eps, shows, perDay };
+            } catch (e) {
+                if (c && c.week === weekStart && c.shows) return c;
+                throw e;
+            }
+        })().then(({ eps, shows, perDay }) => {
+            setText('wkEps', eps);
+            paintBars('wkAnimeBars', perDay, epsFmt);
+            $('wkAnimeList').innerHTML = shows.length
+                ? shows.map((sh) => topRow('', sh.title, sh.hi && sh.lo <= sh.hi ? (sh.lo === sh.hi ? 'ep ' + sh.hi : 'eps ' + sh.lo + '–' + sh.hi) : 'watched', sh.n + (sh.n === 1 ? ' episode' : ' episodes'), sh.art, sh.url)).join('')
+                : topRow('–', 'no episodes yet this week', 'it fills in as i watch');
+        }).catch(() => {
+            fail('wkEps');
+            $('wkAnimeList').innerHTML = topRow('–', 'anilist is taking a nap', 'the shows will be back');
+        });
+    })();
+
+    // ---------- today, so far: what the "now guess" said, as logged every 15 minutes by the log-activity edge function ----------
+    (function () {
+        const IST = 5.5 * 3600000;
+        const COLOUR = { coding: 'primary', pushing: 'primary', working: 'primary', music: 'tertiary-container', watching: 'primary-container', playing: 'primary-container', online: 'secondary-container', browsing: 'secondary-container', busy: 'secondary-container', away: 'surface-high', offline: 'surface-high', asleep: 'surface-highest' };
+        const dur = (ms) => { const m = Math.max(1, Math.round(ms / 60000)); return m < 60 ? m + 'm' : Math.floor(m / 60) + 'h' + (m % 60 ? ' ' + (m % 60) + 'm' : ''); };
+        const clock = (ms) => new Date(ms).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
+        async function paint() {
+            const nowMs = Date.now();
+            const nowIst = new Date(nowMs + IST);
+            const dayStart = Date.UTC(nowIst.getUTCFullYear(), nowIst.getUTCMonth(), nowIst.getUTCDate()) - IST;
+            const list = $('tlList');
+            const wasAtBottom = !list.dataset.seen || list.scrollHeight - list.scrollTop - list.clientHeight < 12;
+            list.dataset.seen = '1';
+            try {
+                const get = (q) => fetch(SB + '/activity_log?' + q, { headers: SB_HEADERS }).then((r) => { if (!r.ok) throw new Error('log ' + r.status); return r.json(); });
+                const startIso = encodeURIComponent(new Date(dayStart).toISOString());
+                const [today, before] = await Promise.all([
+                    get('select=at,kind,icon,text,detail&order=at.asc&at=gte.' + startIso),
+                    get('select=at,kind,icon,text,detail&order=at.desc&limit=1&at=lt.' + startIso),
+                ]);
+                // the state at midnight is whatever was last logged before it
+                const rows = (before.length ? [Object.assign({}, before[0], { at: new Date(dayStart).toISOString() })] : []).concat(today);
+                if (!rows.length) {
+                    list.innerHTML = '<li><div class="tl-row"><span class="ms">history</span><div><b>nothing recorded yet today.</b></div></div></li>';
+                    $('tlStrip').innerHTML = '';
+                    $('tlLegend').innerHTML = '';
+                    return;
+                }
+                const segs = rows.map((r, i) => ({ r, from: +new Date(r.at), to: i + 1 < rows.length ? +new Date(rows[i + 1].at) : nowMs }));
+                $('tlStrip').innerHTML = segs.map((g) => `<i style="flex:${Math.max(1, g.to - g.from)};background:var(--${COLOUR[g.r.kind] || 'surface-high'})" title="${esc(g.r.text)} · ${dur(g.to - g.from)}"></i>`).join('')
+                    + `<i style="flex:${Math.max(0, dayStart + DAY - nowMs)};background:transparent;min-width:0"></i>`;
+                // what the colours are, with how long each took today
+                const LABEL = { coding: 'coding', pushing: 'coding', working: 'coding', music: 'music', watching: 'watching', playing: 'playing', online: 'around', browsing: 'around', busy: 'around', asleep: 'asleep' };
+                const sums = {};
+                segs.forEach((g) => { const l = LABEL[g.r.kind]; if (l) { const o = sums[l] || (sums[l] = { ms: 0, colour: COLOUR[g.r.kind] }); o.ms += g.to - g.from; } });
+                $('tlLegend').innerHTML = Object.entries(sums).sort((a, b) => b[1].ms - a[1].ms).slice(0, 5).map(([l, o]) => `<span><i style="background:var(--${o.colour})"></i>${l} ${dur(o.ms)}</span>`).join('');
+                $('tlStrip').setAttribute('aria-label', 'Today in colour: ' + segs.map((g) => g.r.text + ' ' + dur(g.to - g.from)).join(', '));
+                // the last few changes; the newest says "now"
+                list.innerHTML = segs.slice(-60).map((g) => {
+                    const isNow = g === segs[segs.length - 1];
+                    const sub = g.r.kind === 'music' && g.r.detail ? 'by ' + g.r.detail : g.r.kind === 'coding' && g.r.detail ? g.r.detail : dur(g.to - g.from) + (isNow ? ' so far' : '');
+                    return `<li><div class="tl-row${isNow ? ' now' : ''}"><span class="ms">${esc(g.r.icon)}</span><div><b>${esc(g.r.text)}</b><small>${esc(sub)}</small></div><time>${isNow ? 'now' : clock(g.from)}</time></div></li>`;
+                }).join('');
+                // the newest is at the bottom: show it, unless someone has scrolled up to read earlier ones
+                if (wasAtBottom) list.scrollTop = list.scrollHeight;
+            } catch (e) {
+                list.innerHTML = '<li><div class="tl-row"><span class="ms">history</span><div><b>the diary is napping</b></div></div></li>';
+            }
+        }
+        paint();
+        setInterval(() => { if (!document.hidden) paint(); }, 5 * 60 * 1000);
+    })();
 
     // ---------- snapshot: the sky, my time, the weather, the song and Discord as one story-sized picture ----------
     const SW = 1080, SH = 1920;
