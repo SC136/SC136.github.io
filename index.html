@@ -1183,9 +1183,8 @@
         .t-week .tl-note, .t-today .tl-note { margin: auto 0 0; padding-top: 14px; }
         .tl-row .tl-rank { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 12px; background: var(--primary-container); color: var(--on-primary-container); font-size: 1.05rem; font-weight: 600; }
         .wk-top { margin-top: 6px; }
-        /* the card is a flex column, so the switch spans it: the three tabs share the width equally */
-        .wk-seg { display: flex; margin: 18px 0 0; }
-        .wk-seg button { flex: 1; justify-content: center; padding: 0 8px; }
+        /* the same compact switch as the watching card: the card is a flex column, so say it should not stretch across it */
+        .wk-seg { align-self: flex-start; margin: 18px 0 0; }
         /* the three panels sit on top of each other, so the card keeps the height of the tallest whichever one is showing */
         .wk-panels { display: grid; margin-top: 14px; }
         .wk-panel { grid-area: 1 / 1; min-width: 0; }
