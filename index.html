@@ -29,7 +29,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Google+Sans+Flex:wght@400;500;600;700&display=swap">
     <!-- Only the icons this page uses (about 27 KB instead of the whole 540 KB set). Add a name here when using a new icon. -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,alternate_email,animation,antigravity,apps,arrow_back,artist,aspect_ratio,asterisk,auto_awesome,badge,bedtime,bento,bluetooth,bolt,build,cached,calendar_month,calendar_view_month,cards,check,chevron_forward,chips,circle,clear,clear_day,clear_night,close,cloud,code,coffee,commit,computer,construction,content_copy,contrast,dark_mode,delete,deployed_code,description,desktop_windows,details,developer_board,directions_walk,distance,do_not_disturb_on,done,download,edit_note,equal,error,favorite,feed,filter,foggy,folder,folder_open,forum,function,games,genres,gradient,graphic_eq,grid_view,group,groups,hail,hard_drive,headphones,history,home,html,hub,iframe,info,input,iso,join,keep,key,keyboard,label,language,laptop,laptop_windows,layers,light,light_mode,link,list,lists,live_tv,local_fire_department,mail,map,memory,message,monitor,monitoring,mood,more,mouse,move,movie,music_note,nest_clock_farsight_analog,notifications,numbers,opacity,open_in_new,package,palette,partly_cloudy_day,partly_cloudy_night,pause,phone,photo_camera,play_arrow,play_circle,power_settings_new,public,push_pin,rainy,remove,resume,rocket_launch,room,route,save,scale,schedule,school,script,select,send,sentiment_dissatisfied,shapes,share,smart_display,smart_toy,speed,sports_esports,stadia_controller,star,stars,start,sticker,sticky_note_2,stop,storage,storm,straight,stream,style,sweep,switch,terminal,thermostat,thunderstorm,title,transform,translate,travel,travel_explore,try,tune,tv,update,videocam,videogame_asset,visibility,visibility_off,waving_hand,weather_snowy,web,work,workspace_premium&display=block">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=add,alternate_email,animation,antigravity,apps,arrow_back,artist,aspect_ratio,asterisk,auto_awesome,badge,bedtime,bento,bluetooth,bolt,build,cached,calendar_month,calendar_view_month,cards,check,chevron_forward,chevron_left,chevron_right,chips,circle,clear,clear_day,clear_night,close,cloud,code,coffee,commit,computer,construction,content_copy,contrast,dark_mode,delete,deployed_code,description,desktop_windows,details,developer_board,directions_walk,distance,do_not_disturb_on,done,download,edit_note,equal,error,favorite,feed,filter,foggy,folder,folder_open,forum,function,games,genres,gradient,graphic_eq,grid_view,group,groups,hail,hard_drive,headphones,history,home,html,hub,iframe,info,input,iso,join,keep,key,keyboard,label,language,laptop,laptop_windows,layers,light,light_mode,link,list,lists,live_tv,local_fire_department,mail,map,memory,message,monitor,monitoring,mood,more,mouse,move,movie,music_note,nest_clock_farsight_analog,notifications,numbers,opacity,open_in_new,package,palette,partly_cloudy_day,partly_cloudy_night,pause,phone,photo_camera,play_arrow,play_circle,power_settings_new,public,push_pin,rainy,remove,resume,rocket_launch,room,route,save,scale,schedule,school,script,select,send,sentiment_dissatisfied,shapes,share,smart_display,smart_toy,speed,sports_esports,stadia_controller,star,stars,start,sticker,sticky_note_2,stop,storage,storm,straight,stream,style,sweep,switch,terminal,thermostat,thunderstorm,title,transform,translate,travel,travel_explore,try,tune,tv,update,videocam,videogame_asset,visibility,visibility_off,waving_hand,weather_snowy,web,work,workspace_premium&display=block">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/fontawesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/brands.min.css">
     <script>
@@ -1177,8 +1177,19 @@
         a.tl-row { color: inherit; text-decoration: none; }
         a.tl-row:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
         .t-week, .t-today { display: flex; flex-direction: column; }
-        /* the list takes the card's leftover height and scrolls inside it, so any number of entries fits: it adds nothing to the card's own height, which comes from the weekly card beside it (340px is the least, for when the cards stack on a phone) */
-        .t-today .tl-list { flex: 1 1 0; min-height: 340px; overflow-y: auto; overscroll-behavior: contain; grid-auto-rows: minmax(56px, 1fr); scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--on-surface) 28%, transparent) transparent; border-radius: 18px; }
+        /* the day's name with two small buttons to step back to earlier days and forward again */
+        .tl-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .tl-nav { display: flex; flex: none; gap: 6px; }
+        .tl-nav button { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 999px; background: var(--surface-high); color: var(--on-surface); cursor: pointer; transition: border-radius 0.35s var(--ease), background 0.2s, transform 0.2s var(--spring), opacity 0.2s; }
+        .tl-nav button:hover { background: color-mix(in srgb, var(--on-surface) 10%, var(--surface-high)); }
+        .tl-nav button:active { border-radius: 12px; transform: scale(0.94); }
+        .tl-nav button:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+        .tl-nav button:disabled { opacity: 0.35; cursor: default; }
+        .tl-nav button .ms { font-size: 22px; }
+        /* the list takes the card's leftover height and scrolls inside it, so any number of entries fits: it adds nothing to the card's own height, which comes from the weekly card beside it (340px is the least, for when the cards stack on a phone). Rows are at most 76px tall and sit at the top, so a quiet day shows a few rows with the rest of the day still ahead below them, not rows floating in tall slots */
+        .t-today .tl-list { flex: 1 1 0; min-height: 340px; overflow-y: auto; overscroll-behavior: contain; grid-auto-rows: minmax(56px, 76px); align-content: start; scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--on-surface) 28%, transparent) transparent; border-radius: 18px; }
+        .t-today .tl-list > li { display: flex; }
+        .t-today .tl-list > li > .tl-row { flex: 1; }
         .t-today .tl-list:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
         .t-week .tl-note, .t-today .tl-note { margin: auto 0 0; padding-top: 14px; }
         .tl-row .tl-rank { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 12px; background: var(--primary-container); color: var(--on-primary-container); font-size: 1.05rem; font-weight: 600; }
@@ -2163,7 +2174,13 @@
 
         <section data-brand="sc" class="card span-2 t-today" aria-labelledby="todayTitle">
             <div class="shape-icon tonal" style="--shape-a: var(--shape-cookie9); --shape-b: var(--shape-flower8);"><span class="ms">history</span></div>
-            <h2 class="card-title" id="todayTitle">today, so far</h2>
+            <div class="tl-head">
+                <h2 class="card-title" id="todayTitle" aria-live="polite">today, so far</h2>
+                <div class="tl-nav" role="group" aria-label="Pick a day">
+                    <button type="button" id="tlPrev" aria-label="The day before"><span class="ms">chevron_left</span></button>
+                    <button type="button" id="tlNext" aria-label="The day after" disabled><span class="ms">chevron_right</span></button>
+                </div>
+            </div>
             <div class="tl-strip" id="tlStrip" role="img" aria-label="Today in colour"></div>
             <div class="tl-hours" aria-hidden="true"><span>12am</span><span>6am</span><span>12pm</span><span>6pm</span><span>12am</span></div>
             <div class="tl-legend" id="tlLegend"></div>
@@ -2361,6 +2378,10 @@
         const song = NOW.song && NOW.song.playing ? NOW.song : spotify ? { name: spotify.song, artist: spotify.artist.split(';')[0].trim() } : null;
         const rain = { drizzle: ' in the drizzle', rain: ' while it rains', storm: ' through a thunderstorm' }[$('sky').dataset.wet] || '';
         const status = p ? p.discord_status : 'offline';
+        if (game && /claude[_ ]?code/i.test(game.name)) {
+            const ws = /workspace:\s*(.+)/i.exec(game.state || '');
+            return ['code', 'coding with claude code' + (ws ? ' on ' + ws[1].trim() : '') + (song ? ' to ' + song.artist : '') + rain];
+        }
         if (game && EDITORS.test(game.name)) {
             const ws = /workspace:\s*(.+)/i.exec(game.state || '');
             return ['code', 'coding' + (ws ? ' on ' + ws[1].trim() : '') + (song ? ' to ' + song.artist : '') + rain];
@@ -4238,51 +4259,78 @@
         const COLOUR = { coding: 'primary', pushing: 'primary', working: 'primary', music: 'tertiary-container', watching: 'primary-container', playing: 'primary-container', online: 'secondary-container', browsing: 'secondary-container', busy: 'secondary-container', away: 'surface-high', offline: 'surface-high', asleep: 'surface-highest' };
         const dur = (ms) => { const m = Math.max(1, Math.round(ms / 60000)); return m < 60 ? m + 'm' : Math.floor(m / 60) + 'h' + (m % 60 ? ' ' + (m % 60) + 'm' : ''); };
         const clock = (ms) => new Date(ms).toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true }).toLowerCase();
+        let back = 0;      // how many days back the card is showing: 0 is today
+        let oldest = 0;    // how far back the log goes, in days (the buttons stop there)
+        let painting = 0;
+        const dayName = (start) => back === 0 ? 'today, so far' : back === 1 ? 'yesterday' : new Date(start + 12 * 3600000).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'short', day: 'numeric', month: 'short' }).toLowerCase();
+        // entries saved before the wording changed read the new way too
+        const relabel = (r) => {
+            if (/^playing claude[_ ]?code$/i.test(r.text)) return Object.assign({}, r, { kind: 'coding', icon: 'code', text: 'coding with claude code' });
+            if (/^playing (animepahe|hianime|aniwatch|crunchyroll|9anime|gogoanime|zoro\.to)$/i.test(r.text)) return Object.assign({}, r, { kind: 'watching', icon: 'live_tv', text: r.text.replace(/^playing/i, 'watching') });
+            if (/^playing anilist$/i.test(r.text)) return Object.assign({}, r, { kind: 'browsing', icon: 'travel_explore', text: 'browsing anilist' });
+            return r;
+        };
+        const emptyRow = (text) => `<li><div class="tl-row"><span class="ms">history</span><div><b>${text}</b></div></div></li>`;
         async function paint() {
+            const mine = ++painting; // a slower answer for a day you have already left must not overwrite the newer one
             const nowMs = Date.now();
             const nowIst = new Date(nowMs + IST);
-            const dayStart = Date.UTC(nowIst.getUTCFullYear(), nowIst.getUTCMonth(), nowIst.getUTCDate()) - IST;
+            const todayStart = Date.UTC(nowIst.getUTCFullYear(), nowIst.getUTCMonth(), nowIst.getUTCDate()) - IST;
+            const dayStart = todayStart - back * DAY, past = back > 0, dayEnd = past ? dayStart + DAY : nowMs;
             const list = $('tlList');
             const wasAtBottom = !list.dataset.seen || list.scrollHeight - list.scrollTop - list.clientHeight < 12;
             list.dataset.seen = '1';
+            $('todayTitle').textContent = dayName(dayStart);
+            $('tlNext').disabled = back === 0;
+            $('tlPrev').disabled = back >= oldest;
             try {
                 const get = (q) => fetch(SB + '/activity_log?' + q, { headers: SB_HEADERS }).then((r) => { if (!r.ok) throw new Error('log ' + r.status); return r.json(); });
-                const startIso = encodeURIComponent(new Date(dayStart).toISOString());
-                const [today, before] = await Promise.all([
-                    get('select=at,kind,icon,text,detail&order=at.asc&at=gte.' + startIso),
+                const startIso = encodeURIComponent(new Date(dayStart).toISOString()), endIso = encodeURIComponent(new Date(dayStart + DAY).toISOString());
+                const [today, before, first] = await Promise.all([
+                    get('select=at,kind,icon,text,detail&order=at.asc&at=gte.' + startIso + '&at=lt.' + endIso),
                     get('select=at,kind,icon,text,detail&order=at.desc&limit=1&at=lt.' + startIso),
+                    get('select=at&order=at.asc&limit=1'),
                 ]);
+                if (mine !== painting) return;
+                // the buttons go back as far as the first thing ever recorded
+                oldest = first.length ? Math.max(0, Math.floor((todayStart - (+new Date(first[0].at))) / DAY) + 1) : 0;
+                $('tlPrev').disabled = back >= oldest;
                 // the state at midnight is whatever was last logged before it
-                const rows = (before.length ? [Object.assign({}, before[0], { at: new Date(dayStart).toISOString() })] : []).concat(today);
+                const rows = (before.length ? [Object.assign({}, before[0], { at: new Date(dayStart).toISOString() })] : []).concat(today).map(relabel);
                 if (!rows.length) {
-                    list.innerHTML = '<li><div class="tl-row"><span class="ms">history</span><div><b>nothing recorded yet today.</b></div></div></li>';
+                    list.innerHTML = emptyRow(past ? 'nothing was recorded that day.' : 'nothing recorded yet today.');
                     $('tlStrip').innerHTML = '';
                     $('tlLegend').innerHTML = '';
                     return;
                 }
-                const segs = rows.map((r, i) => ({ r, from: +new Date(r.at), to: i + 1 < rows.length ? +new Date(rows[i + 1].at) : nowMs }));
+                const segs = rows.map((r, i) => ({ r, from: +new Date(r.at), to: i + 1 < rows.length ? +new Date(rows[i + 1].at) : dayEnd }));
                 $('tlStrip').innerHTML = segs.map((g) => `<i style="flex:${Math.max(1, g.to - g.from)};background:var(--${COLOUR[g.r.kind] || 'surface-high'})" title="${esc(g.r.text)} · ${dur(g.to - g.from)}"></i>`).join('')
-                    + `<i style="flex:${Math.max(0, dayStart + DAY - nowMs)};background:transparent;min-width:0"></i>`;
-                // what the colours are, with how long each took today
+                    + `<i style="flex:${Math.max(0, dayStart + DAY - dayEnd)};background:transparent;min-width:0"></i>`;
+                // what the colours are, with how long each took that day
                 const LABEL = { coding: 'coding', pushing: 'coding', working: 'coding', music: 'music', watching: 'watching', playing: 'playing', online: 'around', browsing: 'around', busy: 'around', asleep: 'asleep' };
                 const sums = {};
                 segs.forEach((g) => { const l = LABEL[g.r.kind]; if (l) { const o = sums[l] || (sums[l] = { ms: 0, colour: COLOUR[g.r.kind] }); o.ms += g.to - g.from; } });
                 $('tlLegend').innerHTML = Object.entries(sums).sort((a, b) => b[1].ms - a[1].ms).slice(0, 5).map(([l, o]) => `<span><i style="background:var(--${o.colour})"></i>${l} ${dur(o.ms)}</span>`).join('');
-                $('tlStrip').setAttribute('aria-label', 'Today in colour: ' + segs.map((g) => g.r.text + ' ' + dur(g.to - g.from)).join(', '));
-                // the last few changes; the newest says "now"
+                $('tlStrip').setAttribute('aria-label', (past ? 'That day in colour: ' : 'Today in colour: ') + segs.map((g) => g.r.text + ' ' + dur(g.to - g.from)).join(', '));
+                // every change of the day; today's newest says "now"
                 list.innerHTML = segs.slice(-60).map((g) => {
-                    const isNow = g === segs[segs.length - 1];
+                    const isNow = !past && g === segs[segs.length - 1];
                     const sub = g.r.kind === 'music' && g.r.detail ? 'by ' + g.r.detail : g.r.kind === 'coding' && g.r.detail ? g.r.detail : dur(g.to - g.from) + (isNow ? ' so far' : '');
                     return `<li><div class="tl-row${isNow ? ' now' : ''}"><span class="ms">${esc(g.r.icon)}</span><div><b>${esc(g.r.text)}</b><small>${esc(sub)}</small></div><time>${isNow ? 'now' : clock(g.from)}</time></div></li>`;
                 }).join('');
-                // the newest is at the bottom: show it, unless someone has scrolled up to read earlier ones
-                if (wasAtBottom) list.scrollTop = list.scrollHeight;
+                // today: the newest is at the bottom, so show it unless someone has scrolled up; an earlier day starts from its morning
+                if (past) list.scrollTop = 0;
+                else if (wasAtBottom) list.scrollTop = list.scrollHeight;
             } catch (e) {
-                list.innerHTML = '<li><div class="tl-row"><span class="ms">history</span><div><b>the diary is napping</b></div></div></li>';
+                if (mine !== painting) return;
+                list.innerHTML = emptyRow('the diary is napping');
             }
         }
+        const step = (by) => { back = Math.max(0, Math.min(oldest, back + by)); delete $('tlList').dataset.seen; paint(); };
+        $('tlPrev').addEventListener('click', () => step(1));
+        $('tlNext').addEventListener('click', () => step(-1));
         paint();
-        setInterval(() => { if (!document.hidden) paint(); }, 5 * 60 * 1000);
+        setInterval(() => { if (!document.hidden && back === 0) paint(); }, 5 * 60 * 1000); // an earlier day is finished, so only today refreshes
     })();
 
     // ---------- snapshot: the sky, my time, the weather, the song and Discord as one story-sized picture ----------

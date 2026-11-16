@@ -35,6 +35,11 @@ async function guess(): Promise<Guess> {
   const status = p ? p.discord_status : 'offline'
   const hour = new Date(Date.now() + 5.5 * 3600000).getUTCHours() // IST
 
+  if (game && /claude[_ ]?code/i.test(game.name)) {
+    const ws = /workspace:\s*(.+)/i.exec(game.state || '')
+    const w = ws ? ws[1].trim() : null
+    return { kind: 'coding', icon: 'code', text: 'coding with claude code' + (w ? ' on ' + w : ''), detail: game.name, key: 'coding:' + (w || '') }
+  }
   if (game && EDITORS.test(game.name)) {
     const ws = /workspace:\s*(.+)/i.exec(game.state || '')
     const w = ws ? ws[1].trim() : null
