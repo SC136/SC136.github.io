@@ -1733,14 +1733,14 @@
         <div class="hero-backdrop" aria-hidden="true"></div>
         <!-- My avatars from around the internet: a different one on every visit and every tap -->
         <button class="avatar-btn" id="avatarBtn" type="button" aria-label="Show another avatar"
-                data-avatars="assets/avatars/github.webp assets/avatars/cat.webp assets/avatars/white-hair.webp assets/avatars/steam.webp assets/avatars/backloggd.webp assets/avatars/confused.webp assets/avatars/teary.webp">
+                data-avatars="assets/avatars/github.webp assets/avatars/cat.webp assets/avatars/white-hair.webp assets/avatars/steam.webp assets/avatars/backloggd.webp assets/avatars/confused.webp assets/avatars/teary.webp assets/avatars/gta-six.webp">
             <img id="avatarImg" alt="Swar's avatar" width="460" height="460">
             <script>
                 (function () {
                     var list = document.getElementById('avatarBtn').dataset.avatars.split(' ');
                     var last = -1;
                     try { var saved = localStorage.getItem('sc136-avatar'); if (saved !== null) last = +saved; } catch (e) {}
-                    var pick = Math.floor(Math.random() * (list.length - 1));
+                    var pick = Math.floor(Math.random() * (last >= 0 ? list.length - 1 : list.length));
                     if (pick >= last && last >= 0) pick++; // never the same one twice in a row
                     if (pick >= list.length) pick = 0;
                     try { localStorage.setItem('sc136-avatar', pick); } catch (e) {}
@@ -2632,6 +2632,11 @@
                 <p class="tip-title">shinpei ajiro</p>
                 <p class="tip-line"><span class="ms">live_tv</span>summer time rendering</p>
                 <p class="tip-line"><span class="ms">favorite</span>looping to save hitogashima</p>${chips('instagram', 'anime', 'str')}` },
+        { src: 'assets/avatars/gta-six.webp', alt: 'Toji Fushiguro from Jujutsu Kaisen against a GTA VI sunset', glow: '#dd8e86',
+            tip: `<p class="tip-meta" style="margin-bottom: 2px;">avatar</p>
+                <p class="tip-title">toji fushiguro</p>
+                <p class="tip-line"><span class="ms">live_tv</span>jujutsu kaisen</p>
+                <p class="tip-line"><span class="ms">sports_esports</span>gta vi background</p>` },
     ];
         avatarImg.addEventListener('error', () => { if (avatarImg.src !== AVATARS[0].src) avatarImg.src = AVATARS[0].src; });
     AVATARS.forEach((a) => warm(a.src));
