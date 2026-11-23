@@ -1862,7 +1862,7 @@
             </div>
             <p class="subhead">current favourite</p>
             <div class="fav-song" data-brand="spotify">
-                <iframe src="https://open.spotify.com/embed/track/0zlZVdP0ddhqjaGcDVd8oo?utm_source=generator&amp;theme=0" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="My current favourite song on Spotify"></iframe>
+                <iframe src="https://open.spotify.com/embed/track/4HCOHRCSQelz2GPX8iTamO?utm_source=generator&amp;theme=0" height="152" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="My current favourite song on Spotify"></iframe>
             </div>
             <div class="card-actions">
                 <a data-brand="spotify" class="btn" href="https://open.spotify.com/user/vxsgbx1d31s54nju55e60oz7n" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-spotify"></i>Spotify</a>
@@ -2391,7 +2391,7 @@
         if (game && ANIME_SITES.test(game.name)) return ['live_tv', 'watching ' + game.name];
         if (game && /anilist/i.test(game.name)) return ['travel_explore', 'browsing ' + game.name.toLowerCase() + (song ? ' to ' + song.artist : '')];
         if (game && /notion|obsidian|figma|photoshop|illustrator|blender|fusion|kicad|premiere|davinci|after effects|word|excel|powerpoint/i.test(game.name)) return ['edit_note', 'working in ' + game.name + (song ? ' to ' + song.artist : '') + rain];
-        if (game && game.type === 3) return ['live_tv', 'watching ' + (game.details || game.name)];
+        if (game && game.type === 3) return ['live_tv', 'watching ' + (game.details || game.name).replace(/^watching\s+/i, '')];
         if (game) return ['sports_esports', 'playing ' + game.name + (song ? ' to ' + song.artist : '') + rain];
         if (song) return ['headphones', `listening to ${song.name} by ${song.artist}` + rain];
         if (NOW.push && Date.now() - NOW.push.at < 45 * 60000) return ['commit', 'just pushed some code to ' + NOW.push.name];

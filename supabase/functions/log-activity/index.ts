@@ -54,7 +54,7 @@ async function guess(): Promise<Guess> {
   if (game && /anilist/i.test(game.name)) return { kind: 'browsing', icon: 'travel_explore', text: 'browsing ' + String(game.name).toLowerCase(), detail: null, key: 'browsing:anilist' }
   if (game && game.type === 3) {
     const what = game.details || game.name
-    return { kind: 'watching', icon: 'live_tv', text: 'watching ' + what, detail: null, key: 'watching:' + what }
+    return { kind: 'watching', icon: 'live_tv', text: 'watching ' + what.replace(/^watching\s+/i, ''), detail: null, key: 'watching:' + what }
   }
   if (game) return { kind: 'playing', icon: 'sports_esports', text: 'playing ' + game.name, detail: null, key: 'playing:' + game.name }
   if (song) return { kind: 'music', icon: 'headphones', text: 'listening to ' + song.name, detail: song.artist, key: 'music' }
